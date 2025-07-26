@@ -223,15 +223,47 @@ uint8 generateWinningNumbers(uint64 drawTick) {
 }`}</pre>
             </div>
 
-            <h4>3.3.3 Audit Trail</h4>
+            <h4>3.3.3 Blockchain-Based Data Storage</h4>
             <p>
-              All lottery operations maintain comprehensive audit trails including:
+              Unlike traditional systems that rely on centralized databases, our lottery engine stores all data directly on the Qubic blockchain:
             </p>
             <ul>
-              <li>Complete transaction history</li>
-              <li>Wallet bet count verification</li>
-              <li>Random number generation proofs</li>
-              <li>Prize distribution records</li>
+              <li><strong>Transaction History:</strong> All bets permanently recorded in blockchain transactions</li>
+              <li><strong>Wallet Bet Counts:</strong> Smart contract state tracks bet limits on-chain</li>
+              <li><strong>Draw Results:</strong> Winning numbers and random seeds stored immutably</li>
+              <li><strong>Prize Distribution:</strong> Automatic payouts executed via smart contract logic</li>
+              <li><strong>Audit Trail:</strong> Complete transparency through public blockchain records</li>
+            </ul>
+            
+            <h4>3.3.4 On-Chain vs Off-Chain Architecture</h4>
+            <div className="bg-slate-900 text-slate-300 p-4 rounded-lg font-mono text-sm overflow-x-auto">
+              <pre>{`// Production: On-chain data storage in smart contract state
+struct LotteryState {
+    // All bet data stored on blockchain
+    Bet activeBets[MAX_BETS];
+    uint8 walletBetCounts[MAX_WALLETS][MAX_DRAWS];
+    DrawResult completedDraws[MAX_HISTORY];
+    
+    // No external database required
+    // All persistence handled by Qubic blockchain
+};
+
+// Demo Architecture (Current Implementation)
+// Uses PostgreSQL to simulate blockchain storage
+// for grant proposal demonstration purposes`}</pre>
+            </div>
+            
+            <h4>3.3.5 Demo vs Production Implementation</h4>
+            <p>
+              This grant proposal includes a functional demonstration using traditional web infrastructure 
+              to simulate the blockchain experience:
+            </p>
+            <ul>
+              <li><strong>Demo Database:</strong> PostgreSQL simulates on-chain storage for demonstration</li>
+              <li><strong>Production Target:</strong> All data stored directly in Qubic smart contract state</li>
+              <li><strong>API Layer:</strong> Demo REST API will be replaced by direct blockchain interaction</li>
+              <li><strong>Transaction Flow:</strong> Demo transactions simulate actual blockchain operations</li>
+              <li><strong>Smart Contract Logic:</strong> Identical anti-exploit logic in both demo and production</li>
             </ul>
           </CardContent>
         </Card>

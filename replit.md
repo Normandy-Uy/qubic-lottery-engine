@@ -26,12 +26,12 @@ Preferred communication style: Simple, everyday language.
 - **Session Management**: PostgreSQL-based sessions with connect-pg-simple
 - **Development Storage**: In-memory storage implementation for demo purposes
 
-### Database Schema
-The system uses four main tables:
-- `users`: Basic user authentication (username/password)
-- `lottery_bets`: Individual lottery tickets with wallet address, selected numbers, and draw tick
-- `lottery_draws`: Draw information including winning numbers and jackpot amounts
-- `wallet_bet_counts`: Anti-exploit tracking limiting 5 bets per wallet per draw
+### Data Storage Architecture
+In production, all data is stored directly on the Qubic blockchain:
+- **Smart Contract State**: Stores all bet data, wallet counts, and draw results on-chain
+- **Blockchain Transactions**: Each bet is a permanent blockchain transaction
+- **No External Database**: All persistence handled by Qubic's native storage
+- **Demo Database**: Current implementation uses PostgreSQL for demonstration purposes only
 
 ## Key Components
 
@@ -60,10 +60,10 @@ The system uses four main tables:
 
 1. **User Interaction**: Users select numbers and place single bets or add to batch through the React frontend
 2. **API Communication**: TanStack Query manages API calls to Express backend
-3. **Validation Layer**: Server validates bet limits, number selections, and wallet constraints
-4. **Database Operations**: Drizzle ORM performs type-safe database transactions
-5. **Real-time Updates**: Query invalidation ensures UI reflects latest state
-6. **Anti-Exploit Checks**: System enforces 5-bet limit per wallet per draw
+3. **Validation Layer**: Smart contract validates bet limits, number selections, and wallet constraints
+4. **Blockchain Operations**: All data stored directly on Qubic blockchain (demo uses PostgreSQL)
+5. **Real-time Updates**: Query invalidation ensures UI reflects latest blockchain state
+6. **Anti-Exploit Checks**: Smart contract enforces 5-bet limit per wallet per draw on-chain
 7. **Random Number Generation**: Qubic Random Number Smart Contract provides provably fair winning numbers
 
 ## External Dependencies
@@ -118,5 +118,6 @@ The lottery engine is designed for deployment to Qubic blockchain:
 - **Single Bet Functionality**: Enabled individual bet submission alongside existing batch processing
 - **Smart Contract Enhancement**: Updated C++ code to include random number generation and draw functionality
 - **Documentation Updates**: Enhanced whitepaper with detailed Qubic Random Number Smart Contract technical specifications
+- **Architecture Clarification**: Updated documentation to clarify that production uses blockchain as database, current demo uses PostgreSQL for demonstration purposes
 
 This architecture demonstrates advanced blockchain application development while maintaining compatibility with traditional web infrastructure during the development and demonstration phase.

@@ -63,6 +63,7 @@ export default function Overview() {
                 <li>• Feeless transactions</li>
                 <li>• Instant finality</li>
                 <li>• Native C++ smart contracts</li>
+                <li>• On-chain data storage (no external database)</li>
               </ul>
             </CardContent>
           </Card>
