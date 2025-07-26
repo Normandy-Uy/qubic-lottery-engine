@@ -25,8 +25,8 @@ export default function Home() {
             </h1>
             
             <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Demonstrating innovative smart contract security through a 5/50 lottery engine with 
-              wallet-based bet limitations, Qubic Random Number Smart Contract integration, and single/batch transaction optimization on the world's fastest blockchain.
+              A revolutionary blockchain lottery engine designed for government charity initiatives, creating transparent and corruption-resistant funding for poverty alleviation, education, and healthcare. 
+              Aligned with Sergey Ivancheglo's vision of technology serving humanity.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -101,24 +101,24 @@ export default function Home() {
             <Card>
               <CardContent className="p-6">
                 <h3 className="text-lg font-semibold mb-4 text-slate-900">
-                  🎯 Project Highlights
+                  🎯 Charitable Mission Highlights
                 </h3>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center space-x-2">
                     <span className="text-green-500">✓</span>
-                    <span>Revolutionary anti-exploit mechanics</span>
+                    <span>Transparent charity fundraising</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <span className="text-green-500">✓</span>
-                    <span>Batch transaction optimization</span>
+                    <span>Poverty alleviation support</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <span className="text-green-500">✓</span>
-                    <span>Professional grant proposal</span>
+                    <span>Qubic Foundation ethics alignment</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <span className="text-green-500">✓</span>
-                    <span>Real-time demo functionality</span>
+                    <span>Global social impact potential</span>
                   </div>
                 </div>
               </CardContent>

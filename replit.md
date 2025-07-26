@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project demonstrates an innovative lottery engine built on the Qubic blockchain, designed to prevent common exploitation vulnerabilities while maintaining exceptional user experience. The engine implements a 5/50 lottery game with advanced anti-exploit mechanisms including wallet-based bet limitations, Qubic Random Number Smart Contract integration for provably fair draws, and both single bet and batch transaction optimization.
+This project demonstrates an innovative charitable lottery engine built on the Qubic blockchain, designed primarily for government charity initiatives and aligned with the ethical philosophy of Sergey Ivancheglo (ComefromBehind) and the Qubic Foundation. The engine implements a 5/50 lottery game with advanced anti-exploit mechanisms including wallet-based bet limitations, Qubic Random Number Smart Contract integration for provably fair draws, and both single bet and batch transaction optimization. The primary purpose is to create transparent, corruption-resistant funding mechanisms for poverty alleviation, education, healthcare, and social welfare programs worldwide.
 
 ## User Preferences
 
@@ -121,5 +121,8 @@ The lottery engine is designed for deployment to Qubic blockchain:
 - **Architecture Clarification**: Updated documentation to clarify that production uses blockchain as database, current demo uses PostgreSQL for demonstration purposes
 - **Blockchain History Integration**: Added comprehensive blockchain data fetching to display historical draws, winners, and transaction history
 - **Historical Data Display**: Created dedicated blockchain history component showing past lottery results fetched from on-chain data
+- **Charitable Mission Integration**: Added comprehensive mission, vision, and goals sections emphasizing the lottery engine's purpose for government charity initiatives
+- **Founder Philosophy Alignment**: Integrated references to Sergey Ivancheglo (ComefromBehind) and Qubic Foundation's ethical commitment to technology for social good
+- **Social Impact Focus**: Updated all documentation to emphasize poverty alleviation, education, healthcare, and transparent charitable fundraising goals
 
 This architecture demonstrates advanced blockchain application development while maintaining compatibility with traditional web infrastructure during the development and demonstration phase.

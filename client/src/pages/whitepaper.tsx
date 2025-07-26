@@ -11,10 +11,10 @@ export default function WhitePaper() {
             📄 Technical White Paper
           </Badge>
           <h1 className="text-4xl font-bold text-slate-900 mb-4">
-            Anti-Exploit Lottery Engine on Qubic
+            Charitable Lottery Engine for Global Good
           </h1>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            A comprehensive technical specification for implementing fair, secure, and efficient lottery mechanics using Qubic's advanced blockchain infrastructure and Random Number Smart Contract.
+            A comprehensive technical specification for implementing transparent, corruption-resistant lottery mechanics for government charity initiatives, using Qubic's advanced blockchain infrastructure and Random Number Smart Contract.
           </p>
         </div>
 
@@ -25,11 +25,11 @@ export default function WhitePaper() {
           </CardHeader>
           <CardContent className="prose prose-slate max-w-none">
             <p>
-              This white paper presents a revolutionary lottery engine designed to eliminate common exploitation vulnerabilities 
-              found in traditional blockchain lottery implementations. By leveraging Qubic's unique technical capabilities, 
-              including native C++ smart contract execution, Qubic Random Number Smart Contract for provably fair draws, 
-              and 15.5M TPS performance, we demonstrate how advanced anti-exploit mechanisms can be implemented at the 
-              protocol level while maintaining exceptional user experience.
+              This white paper presents a revolutionary charitable lottery engine designed to create transparent, corruption-resistant 
+              funding mechanisms for government charity initiatives worldwide. Aligned with the ethical philosophy of Sergey Ivancheglo 
+              (ComefromBehind) and the Qubic Foundation, this system leverages Qubic's unique technical capabilities to eliminate 
+              exploitation vulnerabilities while enabling meaningful social impact through poverty alleviation, education, 
+              and healthcare funding programs.
             </p>
           </CardContent>
         </Card>

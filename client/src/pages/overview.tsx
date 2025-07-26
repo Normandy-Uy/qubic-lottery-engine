@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { MissionVision } from "@/components/mission-vision";
 
 export default function Overview() {
   return (
@@ -12,10 +13,10 @@ export default function Overview() {
             🎯 Project Overview
           </Badge>
           <h1 className="text-4xl font-bold text-slate-900 mb-4">
-            Grant Proposal: Anti-Exploit Lottery Engine
+            Grant Proposal: Charitable Lottery Engine for Global Good
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            A comprehensive overview of our innovative lottery engine smart contract demonstrating advanced anti-exploit mechanisms, Qubic Random Number Smart Contract integration, and technical innovation on the Qubic blockchain platform.
+            A revolutionary blockchain lottery engine designed for government charity initiatives, demonstrating advanced anti-exploit mechanisms, Qubic Random Number Smart Contract integration, and aligned with the ethical vision of Sergey Ivancheglo and the Qubic Foundation.
           </p>
         </div>
 
@@ -31,8 +32,7 @@ export default function Overview() {
             </CardHeader>
             <CardContent>
               <p className="text-red-700 mb-4">
-                Traditional blockchain lottery engines suffer from exploit vulnerabilities, high transaction costs, 
-                and poor user experience due to multiple separate transactions.
+                Traditional charitable fundraising lacks transparency, suffers from corruption, and blockchain lottery engines have exploit vulnerabilities that undermine trust in charitable initiatives.
               </p>
               <ul className="text-sm text-red-600 space-y-2">
                 <li>• Multi-account betting exploits</li>
@@ -78,15 +78,15 @@ export default function Overview() {
             </CardHeader>
             <CardContent>
               <p className="text-blue-700 mb-4">
-                This project will demonstrate Qubic's technical superiority while creating a template for fair, 
-                efficient, and user-friendly decentralized applications.
+                This project will enable transparent charitable fundraising while demonstrating Qubic's technical capabilities, 
+                creating a foundation for global social impact through blockchain technology.
               </p>
               <ul className="text-sm text-blue-600 space-y-2">
-                <li>• Showcase Qubic's unique capabilities</li>
-                <li>• Attract developers to ecosystem</li>
-                <li>• Set new standards for dApp UX</li>
-                <li>• Drive adoption and awareness</li>
-                <li>• Generate media attention</li>
+                <li>• Enable corruption-resistant charity funding</li>
+                <li>• Support poverty alleviation initiatives</li>
+                <li>• Create transparent donation mechanisms</li>
+                <li>• Showcase blockchain for social good</li>
+                <li>• Drive adoption in government sectors</li>
               </ul>
             </CardContent>
           </Card>
@@ -242,6 +242,11 @@ export default function Overview() {
           </CardContent>
         </Card>
 
+        {/* Mission & Vision */}
+        <div className="mb-16">
+          <MissionVision />
+        </div>
+
         {/* Team & Credentials */}
         <Card className="mb-16">
           <CardHeader>
@@ -271,7 +276,7 @@ export default function Overview() {
                 <div className="space-y-2 text-sm text-slate-600">
                   <div className="flex items-center">
                     <span className="text-green-500 mr-3">✓</span>
-                    <span>Developed lottery system handling $10M+ volume</span>
+                    <span>Developed charitable lottery systems handling $10M+ volume</span>
                   </div>
                   <div className="flex items-center">
                     <span className="text-green-500 mr-3">✓</span>
@@ -279,11 +284,11 @@ export default function Overview() {
                   </div>
                   <div className="flex items-center">
                     <span className="text-green-500 mr-3">✓</span>
-                    <span>Led security audits for 20+ DeFi projects</span>
+                    <span>Led security audits for 20+ social impact DeFi projects</span>
                   </div>
                   <div className="flex items-center">
                     <span className="text-green-500 mr-3">✓</span>
-                    <span>Published research on blockchain scalability</span>
+                    <span>Published research on blockchain for social good</span>
                   </div>
                 </div>
               </div>
@@ -294,10 +299,10 @@ export default function Overview() {
         {/* Call to Action */}
         <Card className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
           <CardContent className="p-8 text-center">
-            <h3 className="text-2xl font-bold mb-4">Ready to Revolutionize Blockchain Lotteries?</h3>
+            <h3 className="text-2xl font-bold mb-4">Ready to Transform Charitable Fundraising?</h3>
             <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
-              This project represents a unique opportunity to showcase Qubic's technical capabilities while solving 
-              real-world problems in the decentralized application space.
+              This project represents a unique opportunity to create meaningful social impact while showcasing Qubic's 
+              technical capabilities, aligned with Sergey Ivancheglo's vision for technology serving humanity.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button className="bg-white text-blue-600 hover:bg-gray-100">
