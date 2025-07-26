@@ -293,6 +293,11 @@ private:
     bit isDuplicateBet(const m256i& walletId, const unsigned char* numbers) const {
         unsigned int walletIdx = getWalletIndex(walletId);
         
+        // Bounds check before array access
+        if (walletIdx >= MAX_WALLETS) {
+            return false; // Invalid wallet, let other validation catch it
+        }
+        
         // Create sorted copy of numbers for comparison
         unsigned char sortedNumbers[5];
         copyMem(sortedNumbers, numbers, 5);
@@ -352,6 +357,12 @@ public:
         const unsigned char numbers[5]
     ) : bettor(bettor), amount(BET_COST) {
         
+        // 0. CRITICAL: Bounds checking before ANY array access
+        unsigned int walletIndex = getWalletIndex(bettor);
+        if (walletIndex >= MAX_WALLETS) {
+            return 0; // Invalid wallet index - prevent out of bounds
+        }
+        
         // 1. Validate current draw tick
         if (qubicSystemTick >= state.currentDrawTick) {
             return 0; // Draw already executed
@@ -383,7 +394,7 @@ public:
         }
         
         // 6. Only now update state (transfer succeeded)
-        unsigned int walletIndex = getWalletIndex(bettor);
+        // walletIndex already validated at the beginning
         
         // Create bet record
         LotteryBet newBet;
@@ -553,21 +564,25 @@ public:
             state.rolloverAmount = totalPrizePool;
         }
         
-        // Store draw result in history
-        if (state.drawHistoryCount < 100) {
-            DrawResult result;
-            result.drawTick = state.currentDrawTick;
-            copyMem(result.winningNumbers, winningNumbers, 5);
-            result.prizePool = totalPrizePool;
-            result.totalBets = state.totalBetCount;
-            result.winnerWallet = winner;
-            result.randomSeed = randomSeed;
-            result.hasWinner = (winner != nullId);
-            result.isExecuted = true;
-            
-            state.drawHistory[state.drawHistoryCount % 100] = result;
-            state.drawHistoryCount++;
-        }
+        // Store draw result in history with proper bounds checking
+        DrawResult result;
+        result.drawTick = state.currentDrawTick;
+        copyMem(result.winningNumbers, winningNumbers, 5);
+        result.prizePool = totalPrizePool;
+        result.totalBets = state.totalBetCount;
+        result.winnerWallet = winner;
+        result.randomSeed = randomSeed;
+        result.hasWinner = (winner != nullId);
+        result.isExecuted = true;
+        
+        // Store with rolling window (modulo ensures bounds safety)
+        unsigned int historyIndex = state.drawHistoryCount % 100;
+        state.drawHistory[historyIndex] = result;
+        state.drawHistoryCount++;
+        
+        // Log draw event for external monitoring (if supported)
+        // In production, this would emit an event for indexers
+        // emitDrawEvent(result);
         
         // Reset for next draw
         resetDrawState();
@@ -581,6 +596,11 @@ public:
     PUBLIC(GetDrawResult)(
         unsigned int drawTick
     ) : drawTick(drawTick) {
+        
+        // Bounds check for draw history access
+        if (state.drawHistoryCount > 100) {
+            state.drawHistoryCount = 100; // Safety cap
+        }
         
         // Search through draw history
         for (unsigned int i = 0; i < state.drawHistoryCount && i < 100; i++) {
