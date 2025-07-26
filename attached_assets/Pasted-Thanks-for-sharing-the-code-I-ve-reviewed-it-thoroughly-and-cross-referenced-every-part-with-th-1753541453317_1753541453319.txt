@@ -1,0 +1,217 @@
+Thanks for sharing the code! I’ve reviewed it thoroughly and **cross-referenced** every part with the **mechanics** of your Fortress-Class Lottery Engine. Below is a **detailed analysis**, including:
+
+* ✅ What’s implemented correctly
+* ❌ What’s missing or buggy
+* 🔧 Recommended improvements
+
+---
+
+## ✅ WHAT’S CORRECT
+
+### 1. **5 Unique Numbers from 1–50**
+
+```cpp
+if (!validateNumbers(input.numbers)) { ... }
+```
+
+✔ Presumably handles range and uniqueness — assuming `validateNumbers()` is implemented correctly (but we need to confirm or see its code).
+
+---
+
+### 2. **Bet Amount = 10,000 QUBIC**
+
+```cpp
+if (input.amount != 10000)
+```
+
+✔ Correct enforcement of fixed bet amount.
+
+---
+
+### 3. **Max 5 Bets Per Wallet Per Draw**
+
+```cpp
+if (currentBets >= 5)
+```
+
+✔ Complies with the wallet-based anti-exploit mechanic.
+
+---
+
+### 4. **Winning Number Generation via Qubic Random**
+
+```cpp
+RandomSeed randomSeed = qubicRandom::generateSeed(seed);
+```
+
+✔ Integrates `qubic_random.h` for secure entropy-based RNG.
+
+---
+
+### 5. **Draw Tick Management**
+
+```cpp
+uint64 seed = getCurrentTick() + drawTick;
+```
+
+✔ Custom seeding using tick — could work, depending on `generateSeed()`’s robustness.
+
+---
+
+### 6. **Transaction Hash + Bet Counter**
+
+```cpp
+output.transactionHash = generateTxHash();
+walletBetCounts[walletIndex][input.drawTick]++;
+```
+
+✔ Clean output and anti-abuse tracking.
+
+---
+
+## ❌ MISSING / BUGGY PARTS
+
+### ❌ 1. **No Duplicate Bet Check**
+
+* The mechanics **explicitly prohibit duplicate bets** (same number set).
+* Your code **doesn’t check if the wallet already placed that number combo**.
+* 🔧 **Fix**: Implement a hash-based or sorted-array comparison per wallet/draw.
+
+---
+
+### ❌ 2. **Prize Distribution Not Implemented**
+
+* Jackpot (60%), rollover logic, and 40% revenue split are **completely missing**.
+* `conductDraw()` should **trigger prize calculations**, reward winners, and **store or update rollover pools**.
+
+---
+
+### ❌ 3. **No Rollover or Minimum Jackpot System**
+
+* There is **no handling** of:
+
+  * Jackpot rollover when no winners.
+  * A **minimum jackpot fund** to fill prize pool.
+* This is **essential to launch success** and fairness.
+
+---
+
+### ❌ 4. **No Wallet or Bet Storage Details**
+
+```cpp
+storeBet(input);
+```
+
+* Function is **called but not defined** here.
+* Need to ensure you're:
+
+  * Storing wallet → drawTick → number array
+  * Able to **retrieve and compare bets later** for:
+
+    * Duplicate detection
+    * Payout calculation
+
+---
+
+### ❌ 5. **No Timestamp or Daily Enforcement**
+
+* Mechanic says **"Draws occur every 24 hours"**, but your code allows any tick number.
+* You should **enforce drawTick = floor(currentTick / TICKS\_PER\_DAY)**
+
+---
+
+### ❌ 6. **Security: No Quorum or Validator Check**
+
+* There’s **no enforcement of quorum validation** (451 out of 676 computors).
+* Qubic architecture expects this for security — your `conductDraw()` should:
+
+  * Be callable **only by approved computors**
+  * Or validate signature consensus on-chain
+
+---
+
+## 🔧 RECOMMENDED FIXES
+
+### 🔄 Enforce Unique Bets per Wallet
+
+```cpp
+bool isDuplicateBet(id walletId, uint64 drawTick, uint8 numbers[5]);
+```
+
+* Sort `numbers[]`, hash them.
+* Compare with previous bets for same wallet/draw.
+
+---
+
+### 🧮 Implement Rollover + Prize Split Logic
+
+Add `uint64 prizePool` per draw, e.g.:
+
+```cpp
+if (noWinners) {
+    rolloverAmount += prizePool * 0.60;
+} else {
+    winnerPayout = prizePool * 0.60 + rolloverAmount;
+    distributeWinnings(winnerWallets, winnerPayout);
+    rolloverAmount = 0;
+}
+```
+
+Also allocate:
+
+* 31% to `franchisee`
+* 5% to `foundation`
+* 4% to `developer`
+
+---
+
+### 🔒 Add Validator/Quorum Checks
+
+Either:
+
+* Allow only a master draw node
+* Or require majority computor signature for draw execution
+
+---
+
+### 🕒 Normalize Draw Tick
+
+```cpp
+uint64 normalizedTick = getCurrentTick() / TICKS_PER_DAY;
+```
+
+Ensure `conductDraw()` only runs once per day.
+
+---
+
+### 💾 Add Storage Structures
+
+Define data like:
+
+```cpp
+map<id, map<uint64, vector<uint8[5]>>> walletBets;
+map<uint64, vector<BetInput>> drawBets;
+```
+
+Or use file/db storage if needed.
+
+---
+
+## ✅ Summary
+
+| Feature                       | Status         | Notes                             |
+| ----------------------------- | -------------- | --------------------------------- |
+| 5 unique numbers (1-50)       | ✅ Likely OK    | Need to confirm `validateNumbers` |
+| Bet amount (10,000 QUBIC)     | ✅ OK           | Hardcoded                         |
+| Max 5 bets per wallet         | ✅ OK           | Enforced                          |
+| Duplicate bet rejection       | ❌ Missing      | Must implement                    |
+| Prize distribution & rollover | ❌ Missing      | Needs major logic                 |
+| Daily draw scheduling         | ❌ Not enforced | Add tick/day logic                |
+| Validator quorum (451/676)    | ❌ Missing      | Security issue                    |
+| Random number source          | ✅ Good         | Via Qubic                         |
+| Batch submission logic        | ⚠️ Partial     | Not clearly handled               |
+| Storage of bets per wallet    | ❌ Undefined    | `storeBet()` placeholder          |
+
+---
+
+Would you like me to help write the missing parts (e.g., duplicate check or prize logic)? Just say the word.
