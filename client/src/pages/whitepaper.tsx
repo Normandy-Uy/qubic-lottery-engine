@@ -149,66 +149,85 @@ export default function WhitePaper() {
             <h4>3.2.1 Core Data Structures</h4>
             <div className="bg-slate-900 text-slate-300 p-4 rounded-lg font-mono text-sm overflow-x-auto">
               <pre>{`#pragma once
-#include "qubic.h"
+#include "qubic_core.h"
+#include "qubic_contracts.h"
 
-#define MAX_BETS_PER_WALLET 5
-#define LOTTERY_NUMBERS_COUNT 5
-#define MAX_NUMBER 50
-#define MIN_NUMBER 1
-#define BET_COST 10000000000ULL  // 10,000 QUBIC
+// Contract constants
+static constexpr unsigned int MAX_BETS_PER_WALLET = 5;
+static constexpr unsigned int LOTTERY_NUMBERS_COUNT = 5;
+static constexpr unsigned int MAX_NUMBER = 50;
+static constexpr unsigned int MIN_NUMBER = 1;
+static constexpr unsigned long long BET_COST = 10000000000ULL;  // 10,000 QUBIC
+static constexpr unsigned int DRAW_INTERVAL = 202781; // ~24 hours in ticks
 
+// Lottery bet structure
 struct LotteryBet {
-    id walletId;                    // Qubic wallet identifier
-    uint8 numbers[LOTTERY_NUMBERS_COUNT]; // Selected numbers (1-50)
-    uint64 amount;                  // Bet amount in QUBIC units
-    uint64 drawTick;               // Target draw tick
-    uint64 timestamp;              // Bet placement time
-    uint64 betHash;                // Unique bet identifier
-};
+    m256i walletId;                           // Qubic wallet public key
+    unsigned char numbers[5];                 // Selected numbers (1-50)
+    unsigned long long amount;                // Bet amount in QUBIC units
+    unsigned int drawTick;                    // Target draw tick
+    unsigned int timestamp;                   // Bet placement tick
+    array<unsigned char, 32> betHash;         // Unique bet identifier
+} PACKED;
 
+// Draw result structure
 struct DrawResult {
-    uint64 drawTick;               // Draw execution tick
-    uint8 winningNumbers[LOTTERY_NUMBERS_COUNT]; // Winning combination
-    uint64 totalPayout;            // Total jackpot amount
-    uint64 totalBets;              // Number of participating bets
-    id winnerWallet;               // Jackpot winner (if any)
-    uint64 randomSeed;             // Qubic Random Number Contract seed
-};
+    unsigned int drawTick;                    // Draw execution tick
+    unsigned char winningNumbers[5];          // Winning combination
+    unsigned long long prizePool;             // Total prize pool
+    unsigned int totalBets;                   // Number of participating bets
+    m256i winnerWallet;                       // Jackpot winner public key
+    array<unsigned char, 32> randomSeed;      // Random seed from oracle
+    bit hasWinner;                            // Whether draw had winner
+} PACKED;
 
+// Per-wallet statistics
 struct WalletStats {
-    uint8 betCount;                // Current draw bet count
-    uint64 totalWagered;           // Lifetime wagered amount
-    uint64 totalWinnings;          // Lifetime winnings
-    uint64 lastBetTick;            // Last bet placement tick
-};`}</pre>
+    unsigned char betCount;                   // Current draw bet count
+    unsigned long long totalWagered;          // Lifetime wagered amount
+    unsigned long long totalWinnings;         // Lifetime winnings
+    unsigned int lastBetTick;                 // Last bet placement tick
+} PACKED;`}</pre>
             </div>
 
             <h4>3.2.2 Fortress-Class Validation Logic</h4>
             <div className="bg-slate-900 text-slate-300 p-4 rounded-lg font-mono text-sm overflow-x-auto">
-              <pre>{`class QubicLotteryContract {
-private:
-    static constexpr uint64 WALLET_COUNT = 676;  // Max Qubic wallets
-    WalletStats walletStats[WALLET_COUNT];
-    LotteryBet currentDrawBets[WALLET_COUNT * MAX_BETS_PER_WALLET];
-    uint64 currentDrawTick;
-    uint64 totalBetCount;
-    uint64 currentDrawPrizePool;     // 60% of current draw bets
-    uint64 rolloverAmount;           // Prize pool rollover from previous draws
-    uint64 minimumJackpotAmount;     // Guaranteed minimum jackpot
-    uint64 minimumJackpotUsed;       // Amount used from minimum jackpot fund
-    id QUBIC_FOUNDATION_WALLET;     // 5% revenue destination
-    id DEVELOPER_WALLET;            // 4% revenue destination  
-    id FRANCHISEE_WALLET;           // 31% revenue destination
-    id MINIMUM_JACKPOT_WALLET;      // Minimum jackpot fund source
+              <pre>{`// Qubic Lottery Smart Contract
+struct QUBIC_LOTTERY_CONTRACT_STATE : public ContractState {
+    // State variables (persistent across ticks)
+    array<LotteryBet, 16380> currentDrawBets;      // Max 3276 wallets × 5 bets
+    array<WalletStats, 65536> walletStats;         // Stats by wallet index
+    unsigned int currentDrawTick;                   // Current draw execution tick
+    unsigned int totalBetCount;                     // Total bets in current draw
+    unsigned long long currentDrawPrizePool;        // 60% of current draw bets
+    unsigned long long rolloverAmount;              // Prize pool rollover
+    unsigned long long minimumJackpotAmount;        // Guaranteed minimum
+    unsigned long long minimumJackpotUsed;          // Amount used from fund
+    m256i QUBIC_FOUNDATION_WALLET;                 // 5% revenue destination
+    m256i DEVELOPER_WALLET;                        // 4% revenue destination  
+    m256i FRANCHISEE_WALLET;                       // 31% revenue destination
+    m256i MINIMUM_JACKPOT_WALLET;                  // Minimum jackpot fund
+    array<unsigned char, 32> lastRandomSeed;        // Last random seed used
+} PACKED;
 
-    // Fortress-class exploit prevention
-    bool validateBetLimits(const id& walletId) {
-        uint32 walletIndex = getWalletIndex(walletId);
-        return walletStats[walletIndex].betCount < MAX_BETS_PER_WALLET;
+struct QubicLotteryContract : public Contract<QUBIC_LOTTERY_CONTRACT_STATE> {
+private:
+
+    // Get wallet index from public key
+    inline unsigned int getWalletIndex(const m256i& publicKey) const {
+        // Use first 16 bits of public key as index
+        return *((unsigned short*)&publicKey) % 65536;
     }
 
-    bool validateNumbers(const uint8* numbers) {
-        // Check for duplicates and valid range
+    // Validate bet limits per wallet
+    inline bit validateBetLimits(const m256i& walletId) const {
+        unsigned int index = getWalletIndex(walletId);
+        return state.walletStats[index].betCount < MAX_BETS_PER_WALLET;
+    }
+
+    // Validate selected numbers
+    bit validateNumbers(const unsigned char* numbers) const {
+        // Check valid range and no duplicates
         for (int i = 0; i < LOTTERY_NUMBERS_COUNT; i++) {
             if (numbers[i] < MIN_NUMBER || numbers[i] > MAX_NUMBER) {
                 return false;
@@ -222,128 +241,239 @@ private:
         return true;
     }
 
-    uint64 generateBetHash(const LotteryBet& bet) {
-        // Create unique bet identifier using Qubic's hash function
-        return computeHash(bet.walletId, bet.drawTick, bet.timestamp);
+    // Generate unique bet hash
+    void generateBetHash(LotteryBet& bet) const {
+        // Combine bet data for hashing
+        unsigned char data[320];
+        copyMem(data, &bet.walletId, 32);
+        copyMem(data + 32, &bet.drawTick, 4);
+        copyMem(data + 36, &bet.timestamp, 4);
+        copyMem(data + 40, bet.numbers, 5);
+        
+        // Generate SHA256 hash
+        KangarooTwelve(data, 45, bet.betHash.data(), 32);
     }
 
 public:
-    // Main bet placement function with fortress-class security
-    bool placeBet(const id& walletId, const uint8* numbers, uint64 amount) {
+    // Contract initialization
+    void Initialize() {
+        state.currentDrawTick = qubicSystemTick + DRAW_INTERVAL;
+        state.totalBetCount = 0;
+        state.currentDrawPrizePool = 0;
+        state.rolloverAmount = 0;
+        state.minimumJackpotAmount = 100000000000000ULL; // 100M QUBIC minimum
+        
+        // Initialize wallet addresses (set by contract deployer)
+        // These would be passed as constructor parameters in production
+    }
+
+    // PUBLIC: Place lottery bet (main entry point)
+    PUBLIC(PlaceBet)(
+        const m256i& bettor,
+        const unsigned char numbers[5]
+    ) : bettor(bettor), amount(BET_COST) {
+        
         // Validate current draw tick
-        if (tick() >= currentDrawTick) {
-            return false; // Draw already executed
+        if (qubicSystemTick >= state.currentDrawTick) {
+            return 0; // Draw already executed
         }
         
         // Fortress-class validation checks
-        if (!validateBetLimits(walletId) || 
+        if (!validateBetLimits(bettor) || 
             !validateNumbers(numbers) || 
-            amount != BET_COST) {
-            return false;
+            bettor.getBalance() < BET_COST) {
+            return 0;
         }
         
-        uint32 walletIndex = getWalletIndex(walletId);
+        unsigned int walletIndex = getWalletIndex(bettor);
         
         // Create bet record
         LotteryBet newBet;
-        newBet.walletId = walletId;
-        copyMemory(newBet.numbers, numbers, LOTTERY_NUMBERS_COUNT);
-        newBet.amount = amount;
-        newBet.drawTick = currentDrawTick;
-        newBet.timestamp = tick();
-        newBet.betHash = generateBetHash(newBet);
+        newBet.walletId = bettor;
+        copyMem(newBet.numbers, numbers, LOTTERY_NUMBERS_COUNT);
+        newBet.amount = BET_COST;
+        newBet.drawTick = state.currentDrawTick;
+        newBet.timestamp = qubicSystemTick;
+        generateBetHash(newBet);
         
         // Store bet and update counters
-        currentDrawBets[totalBetCount] = newBet;
-        totalBetCount++;
-        walletStats[walletIndex].betCount++;
-        walletStats[walletIndex].totalWagered += amount;
-        walletStats[walletIndex].lastBetTick = tick();
+        state.currentDrawBets[state.totalBetCount] = newBet;
+        state.totalBetCount++;
+        state.walletStats[walletIndex].betCount++;
+        state.walletStats[walletIndex].totalWagered += BET_COST;
+        state.walletStats[walletIndex].lastBetTick = qubicSystemTick;
         
         // Add to prize pool (60% to current draw prize pool)
-        uint64 prizePoolContribution = (amount * 60) / 100;
-        currentDrawPrizePool += prizePoolContribution;
+        unsigned long long prizePoolContribution = (BET_COST * 60) / 100;
+        state.currentDrawPrizePool += prizePoolContribution;
         
-        return true;
+        // Transfer bet amount from bettor
+        transfer(bettor, contractAddress, BET_COST);
+        
+        return 1; // Success
     }
 };`}</pre>
             </div>
 
             <h4>3.2.3 Qubic Random Number Integration</h4>
             <div className="bg-slate-900 text-slate-300 p-4 rounded-lg font-mono text-sm overflow-x-auto">
-              <pre>{`    // Integration with Qubic Random Number Smart Contract
-    void executeDraw() {
-        if (tick() < currentDrawTick || totalBetCount == 0) {
-            return; // Not time for draw or no bets
+              <pre>{`    // PUBLIC: Execute lottery draw (called by anyone when tick expires)
+    PUBLIC(ExecuteDraw)() {
+        if (qubicSystemTick < state.currentDrawTick || state.totalBetCount == 0) {
+            return 0; // Not time for draw or no bets
         }
         
         DrawResult result;
-        result.drawTick = currentDrawTick;
-        result.totalBets = totalBetCount;
-        result.totalPayout = jackpotPool;
+        result.drawTick = state.currentDrawTick;
+        result.totalBets = state.totalBetCount;
         
-        // Request random numbers from Qubic Random Number Contract
-        uint64 randomSeed = getRandomNumber(currentDrawTick);
-        result.randomSeed = randomSeed;
+        // Request random numbers from Qubic Oracle
+        RequestContractFunction(RANDOM_CONTRACT_INDEX, 1, state.currentDrawTick);
         
-        // Generate winning numbers using provably fair algorithm
-        generateWinningNumbers(randomSeed, result.winningNumbers);
+        // In production, this would be split into two functions:
+        // 1. ExecuteDraw (requests random)
+        // 2. ProcessDrawResult (receives random and processes)
+        
+        return 1;
+    }
+
+    // PUBLIC: Process draw result after random number received
+    PUBLIC(ProcessDrawResult)(
+        const array<unsigned char, 32>& randomSeed
+    ) : randomSeed(randomSeed) {
+        
+        // Verify this is for current draw
+        if (state.lastRandomSeed == randomSeed) {
+            return 0; // Already processed
+        }
+        
+        state.lastRandomSeed = randomSeed;
+        
+        // Generate winning numbers
+        unsigned char winningNumbers[5];
+        generateWinningNumbers(randomSeed, winningNumbers);
         
         // Calculate total prize pool (60% current + rollover)
-        uint64 totalPrizePool = currentDrawPrizePool + rolloverAmount;
+        unsigned long long totalPrizePool = state.currentDrawPrizePool + state.rolloverAmount;
         
         // Check minimum jackpot requirement
-        if (totalPrizePool < minimumJackpotAmount) {
-            uint64 shortfall = minimumJackpotAmount - totalPrizePool;
-            totalPrizePool = minimumJackpotAmount;
-            minimumJackpotUsed += shortfall;
-            transfer(MINIMUM_JACKPOT_WALLET, shortfall); // Use minimum jackpot fund
+        if (totalPrizePool < state.minimumJackpotAmount) {
+            unsigned long long shortfall = state.minimumJackpotAmount - totalPrizePool;
+            totalPrizePool = state.minimumJackpotAmount;
+            state.minimumJackpotUsed += shortfall;
+            
+            // Transfer from minimum jackpot fund
+            transfer(state.MINIMUM_JACKPOT_WALLET, contractAddress, shortfall);
         }
         
-        // Find winners and distribute prize pool
-        id winner = findWinner(result.winningNumbers);
-        if (!(winner == NULL_ID)) {
-            result.winnerWallet = winner;
-            transfer(winner, totalPrizePool);
-            rolloverAmount = 0; // Reset rollover
+        // Find winner(s)
+        m256i winner = findWinner(winningNumbers);
+        m256i nullId;
+        setZero(nullId);
+        
+        if (winner != nullId) {
+            // Transfer prize to winner
+            transfer(contractAddress, winner, totalPrizePool);
+            state.rolloverAmount = 0;
         } else {
-            // No winner - rollover prize pool to next draw
-            rolloverAmount = totalPrizePool;
+            // No winner - rollover to next draw
+            state.rolloverAmount = totalPrizePool;
         }
         
-        // Revenue distribution (5% Qubic Foundation, 4% Developer, 31% Franchisee)
-        uint64 totalRevenue = totalBetCount * BET_COST;
-        uint64 qubicFoundationShare = (totalRevenue * 5) / 100;
-        uint64 developerShare = (totalRevenue * 4) / 100;
-        uint64 franchiseeShare = (totalRevenue * 31) / 100;
+        // Revenue distribution (40% total)
+        unsigned long long totalRevenue = state.totalBetCount * BET_COST;
+        unsigned long long qubicShare = (totalRevenue * 5) / 100;
+        unsigned long long devShare = (totalRevenue * 4) / 100;
+        unsigned long long franchiseeShare = (totalRevenue * 31) / 100;
         
-        transfer(QUBIC_FOUNDATION_WALLET, qubicFoundationShare);
-        transfer(DEVELOPER_WALLET, developerShare);
-        transfer(FRANCHISEE_WALLET, franchiseeShare);
+        transfer(contractAddress, state.QUBIC_FOUNDATION_WALLET, qubicShare);
+        transfer(contractAddress, state.DEVELOPER_WALLET, devShare);
+        transfer(contractAddress, state.FRANCHISEE_WALLET, franchiseeShare);
         
         // Reset for next draw
         resetDrawState();
-        currentDrawTick = tick() + DRAW_INTERVAL;
+        state.currentDrawTick = qubicSystemTick + DRAW_INTERVAL;
+        
+        return 1;
     }
 
 private:
-    void generateWinningNumbers(uint64 seed, uint8* winningNumbers) {
-        // Use Qubic's hardware random number generator with seed
+    // Generate winning numbers from random seed
+    void generateWinningNumbers(const array<unsigned char, 32>& seed, unsigned char* numbers) {
+        array<unsigned char, 32> workingSeed = seed;
+        
         for (int i = 0; i < LOTTERY_NUMBERS_COUNT; i++) {
-            seed = hashFunction(seed + i);
-            winningNumbers[i] = (seed % MAX_NUMBER) + 1;
+            // Hash the seed for next number
+            KangarooTwelve(workingSeed.data(), 32, workingSeed.data(), 32);
             
-            // Ensure no duplicates
+            // Generate number in range 1-50
+            unsigned int num = (*((unsigned int*)workingSeed.data()) % MAX_NUMBER) + 1;
+            
+            // Check for duplicates
+            bit isDuplicate = false;
             for (int j = 0; j < i; j++) {
-                if (winningNumbers[i] == winningNumbers[j]) {
-                    i--; // Regenerate this number
+                if (numbers[j] == num) {
+                    isDuplicate = true;
+                    i--; // Retry this position
                     break;
                 }
             }
+            
+            if (!isDuplicate) {
+                numbers[i] = (unsigned char)num;
+            }
         }
         
-        // Sort winning numbers for consistency
-        quickSort(winningNumbers, LOTTERY_NUMBERS_COUNT);
+        // Sort numbers (simple bubble sort for 5 elements)
+        for (int i = 0; i < LOTTERY_NUMBERS_COUNT - 1; i++) {
+            for (int j = 0; j < LOTTERY_NUMBERS_COUNT - i - 1; j++) {
+                if (numbers[j] > numbers[j + 1]) {
+                    unsigned char temp = numbers[j];
+                    numbers[j] = numbers[j + 1];
+                    numbers[j + 1] = temp;
+                }
+            }
+        }
+    }
+    
+    // Find winner by matching numbers
+    m256i findWinner(const unsigned char* winningNumbers) {
+        for (unsigned int i = 0; i < state.totalBetCount; i++) {
+            bit allMatch = true;
+            for (int j = 0; j < LOTTERY_NUMBERS_COUNT; j++) {
+                bit found = false;
+                for (int k = 0; k < LOTTERY_NUMBERS_COUNT; k++) {
+                    if (state.currentDrawBets[i].numbers[k] == winningNumbers[j]) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    allMatch = false;
+                    break;
+                }
+            }
+            
+            if (allMatch) {
+                return state.currentDrawBets[i].walletId;
+            }
+        }
+        
+        // No winner found
+        m256i nullId;
+        setZero(nullId);
+        return nullId;
+    }
+    
+    // Reset state for next draw
+    void resetDrawState() {
+        state.totalBetCount = 0;
+        state.currentDrawPrizePool = 0;
+        
+        // Clear bet counts for all wallets
+        for (int i = 0; i < 65536; i++) {
+            state.walletStats[i].betCount = 0;
+        }
     }
 };`}</pre>
             </div>
