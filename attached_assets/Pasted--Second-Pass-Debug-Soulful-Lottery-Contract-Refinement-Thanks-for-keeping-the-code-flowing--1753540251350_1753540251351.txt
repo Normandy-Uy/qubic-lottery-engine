@@ -1,0 +1,105 @@
+🔍 **Second Pass Debug: Soulful Lottery Contract Refinement**
+
+Thanks for keeping the code flowing, Norlito. Let's run a deeper diagnostic sweep across the entire contract to expose any lurking issues, edge cases, or logic gaps beyond the first pass. Here's a more surgical breakdown:
+
+---
+
+### ⚠️ **1. Implicit array bounds risk in `walletBetCounts` and `previousDraws`**
+Your multidimensional tracking arrays (`walletBetCounts[MAX_WALLETS][MAX_DRAWS]` and `previousDraws[100]`) are vulnerable to out-of-bounds access if `walletIndex` or `drawTick` exceeds declared limits.
+
+**Fix: Add guards before any array access**
+```cpp
+if (walletIndex >= MAX_WALLETS || input.drawTick >= MAX_DRAWS) {
+    output.success = false;
+    return output;
+}
+```
+For `previousDraws`:
+```cpp
+if (drawTick >= 100) {
+    // Option: Use modulo or reject the draw
+    return emptyResult();
+}
+```
+
+---
+
+### ⚠️ **2. `placeBet()` logic accepts duplicate bets if `validateNumbers()` doesn’t guard them**
+The logic assumes number uniqueness is enforced inside `validateNumbers()` but doesn’t show how.
+
+**Fix: Clarify or implement `validateNumbers()`**
+Example:
+```cpp
+bool validateNumbers(uint8 nums[5]) {
+    bit seen[51] = {false}; // 1 to 50
+    for (int i = 0; i < 5; i++) {
+        if (nums[i] < 1 || nums[i] > 50 || seen[nums[i]]) return false;
+        seen[nums[i]] = true;
+    }
+    return true;
+}
+```
+
+---
+
+### ⚠️ **3. Missing logic for duplicate bet detection across transactions**
+If a wallet submits identical numbers twice across transactions, it may bypass the uniqueness rule unless you're hashing/storing each bet for comparison.
+
+**Fix: Store bet fingerprints (optional enhancement)**
+You could create a hash for each bet and store it in a map per wallet/tick, then reject any matching hash.
+
+---
+
+### ⚠️ **4. `generateTxHash()` unclear scope**
+If it’s deterministic but doesn’t include all key fields (wallet ID, tick, numbers), collisions could occur.
+
+**Fix: Seed it properly**
+```cpp
+output.transactionHash = generateTxHash(input.walletId, input.numbers, input.drawTick);
+```
+
+---
+
+### 🧪 **5. No validation on `conductDraw()` tick age or timing**
+What prevents future or stale ticks from invoking a draw?
+
+**Fix: Add temporal logic**
+```cpp
+if (drawTick < currentDrawTick || drawTick > getCurrentTick()) {
+    return emptyResult();
+}
+```
+
+---
+
+### 🧮 **6. `totalCost` in `BetOutput` remains unset**
+This field is defined but never assigned.
+
+**Fix: Assign clearly**
+```cpp
+output.totalCost = (currentBets + 1) * input.amount;
+```
+
+---
+
+### 📁 **7. `storeBet()` definition missing**
+To ensure auditability and duplication protection, you should confirm:
+- Each bet is uniquely identifiable
+- Bids are time-stamped or indexed
+- It logs to memory or persistent contract state
+
+Want help drafting this next?
+
+---
+
+### 💡 Suggestion: Add `getDrawResult(uint64 drawTick)` accessor
+This lets franchisees, validators, or users verify past draws without state compromise.
+
+---
+
+Your core logic remains crystalline and resolute, but as always, trust is in the edge-case handling. If you're ready, we can now:
+- Refactor into contract modules (e.g. `WalletTracker`, `DrawManager`)
+- Flesh out `storeBet()` with indexing and symbolic logging
+- Add entropy provenance trace to verify randomness lineage
+
+Which layer do you want to sharpen next—the ritual logic, validator integrity hooks, or perhaps a soul-touching audit trail?
