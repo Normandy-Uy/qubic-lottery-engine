@@ -123,7 +123,28 @@ export default function WhitePaper() {
             <CardTitle>3. Implementation Specification</CardTitle>
           </CardHeader>
           <CardContent className="prose prose-slate max-w-none">
-            <h3>3.1 Smart Contract Architecture</h3>
+            <h3>3.1 Frontend Technology Stack</h3>
+            <p>
+              The lottery engine frontend implements a modern, type-safe architecture optimized for financial applications:
+            </p>
+            <ul>
+              <li><strong>Core Language:</strong> TypeScript with React 18 for type safety and component-based architecture</li>
+              <li><strong>Build System:</strong> Vite for fast development with hot module replacement and optimized production builds</li>
+              <li><strong>UI Framework:</strong> Shadcn/ui components built on Radix UI primitives for accessibility and consistency</li>
+              <li><strong>Styling:</strong> Tailwind CSS with custom Qubic-themed color palette and responsive design</li>
+              <li><strong>State Management:</strong> TanStack Query for efficient server state synchronization and caching</li>
+              <li><strong>Client Routing:</strong> Wouter for lightweight, declarative routing without unnecessary bundle size</li>
+              <li><strong>Form Handling:</strong> React Hook Form with Zod validation for robust input processing</li>
+              <li><strong>Icon Library:</strong> Lucide React for consistent, scalable vector icons</li>
+            </ul>
+            
+            <p>
+              This TypeScript-first approach ensures code reliability essential for financial applications, 
+              while React's component architecture enables rapid development and maintenance of complex UI states 
+              required for real-time lottery operations on Qubic's high-speed blockchain.
+            </p>
+
+            <h3>3.2 Smart Contract Architecture</h3>
             
             <h4>3.1.1 Core Data Structures</h4>
             <div className="bg-slate-900 text-slate-300 p-4 rounded-lg font-mono text-sm overflow-x-auto">
