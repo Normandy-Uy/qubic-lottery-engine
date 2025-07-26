@@ -107,8 +107,8 @@ export default function Home() {
                 commitment to creating transparent, corruption-resistant systems for global good.
               </p>
               <p className="text-slate-600 text-sm">
-                "Technology should not consume resources meaninglessly, but should channel them 
-                toward advancing human civilization and alleviating suffering." - Sergey Ivancheglo
+                "Technology shouldn't consume resources meaninglessly but should channel them 
+                towards advancing the human civilization, and alleviating suffering." - Sergey Ivancheglo
               </p>
             </div>
             <div className="lg:w-1/3 flex justify-center">
