@@ -11,7 +11,7 @@ export default function WhitePaper() {
             📄 Technical White Paper
           </Badge>
           <h1 className="text-4xl font-bold text-slate-900 mb-4">
-            Charitable Lottery Engine for Global Good
+            Fortress-Class Charitable Lottery Engine
           </h1>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
             A comprehensive technical specification for implementing transparent, corruption-resistant lottery mechanics for government charity initiatives, using Qubic's advanced blockchain infrastructure and Random Number Smart Contract.
@@ -25,9 +25,10 @@ export default function WhitePaper() {
           </CardHeader>
           <CardContent className="prose prose-slate max-w-none">
             <p>
-              This white paper presents a revolutionary charitable lottery engine designed to create transparent, corruption-resistant 
-              funding mechanisms for government charity initiatives worldwide. Aligned with the ethical philosophy of Sergey Ivancheglo 
-              (ComefromBehind) and the Qubic Foundation, this system leverages Qubic's unique technical capabilities to eliminate 
+              This white paper presents a revolutionary fortress-class charitable lottery engine designed to create transparent, corruption-resistant 
+              funding mechanisms for government charity initiatives worldwide. Featuring a comprehensive franchisee management system 
+              with guaranteed minimum jackpots, this platform is aligned with the ethical philosophy of Sergey Ivancheglo 
+              (ComefromBehind) and the Qubic Foundation, leveraging Qubic's unique technical capabilities to eliminate 
               exploitation vulnerabilities while enabling meaningful social impact through poverty alleviation, education, 
               and healthcare funding programs.
             </p>
@@ -66,9 +67,9 @@ export default function WhitePaper() {
             <CardTitle>2. Technical Solution</CardTitle>
           </CardHeader>
           <CardContent className="prose prose-slate max-w-none">
-            <h3>2.1 Anti-Exploit Architecture</h3>
+            <h3>2.1 Fortress-Class Security Architecture</h3>
             <p>
-              Our solution implements a multi-layered anti-exploit architecture:
+              Our solution implements a multi-layered fortress-class security architecture with exploit-resistant design:
             </p>
             
             <h4>2.1.1 Wallet-Based Bet Limitations</h4>
@@ -169,9 +170,70 @@ struct BetOutput {
 }`}</pre>
             </div>
 
-            <h3>3.2 Game Mechanics</h3>
+            <h3>3.2 Franchisee Management System</h3>
             
-            <h4>3.2.1 Number Selection</h4>
+            <h4>3.2.1 Franchisee Interface Architecture</h4>
+            <p>
+              The lottery engine includes a comprehensive franchisee management interface designed for government 
+              charity organizations and licensed operators. This separate administrative system provides:
+            </p>
+            <ul>
+              <li><strong>Minimum Jackpot Configuration:</strong> Variable minimum guaranteed jackpot amounts</li>
+              <li><strong>Lottery Initialization:</strong> Setup and configuration tools for new lottery instances</li>
+              <li><strong>Revenue Distribution Settings:</strong> Customizable charity fund allocation percentages</li>
+              <li><strong>Draw Scheduling:</strong> Flexible draw timing and frequency configuration</li>
+              <li><strong>Reporting Dashboard:</strong> Real-time analytics and charitable impact metrics</li>
+            </ul>
+
+            <h4>3.2.2 Guaranteed Minimum Jackpot System</h4>
+            <p>
+              To ensure lottery attractiveness during initial launch phases, franchisees can configure guaranteed minimum jackpots:
+            </p>
+            
+            <div className="bg-slate-900 text-slate-300 p-4 rounded-lg font-mono text-sm overflow-x-auto">
+              <pre>{`struct FranchiseeConfig {
+    id franchiseeId;              // Unique franchisee identifier
+    uint64 minimumJackpot;        // Guaranteed minimum jackpot amount
+    uint8 charityPercentage;      // Percentage allocated to charity (0-100)
+    uint64 drawFrequency;         // Time between draws in ticks
+    id charityWalletId;           // Destination wallet for charity funds
+    bit isActive;                 // Franchisee operational status
+};
+
+struct JackpotState {
+    uint64 currentPool;           // Current accumulated jackpot
+    uint64 guaranteedMinimum;     // Franchisee-set minimum jackpot
+    uint64 charityContribution;   // Funds allocated to charity
+    uint64 nextDrawTick;          // Scheduled next draw time
+};`}</pre>
+            </div>
+
+            <h4>3.2.3 Minimum Jackpot Implementation</h4>
+            <p>
+              When starting a new lottery or during low-participation periods, the guaranteed minimum jackpot 
+              ensures player engagement and charitable fund availability:
+            </p>
+            
+            <div className="bg-slate-900 text-slate-300 p-4 rounded-lg font-mono text-sm overflow-x-auto">
+              <pre>{`uint64 calculateDrawJackpot(id franchiseeId) {
+    FranchiseeConfig config = getFranchiseeConfig(franchiseeId);
+    JackpotState jackpot = getCurrentJackpot(franchiseeId);
+    
+    // Ensure minimum jackpot is always available
+    if (jackpot.currentPool < config.minimumJackpot) {
+        // Franchisee covers the difference
+        uint64 shortfall = config.minimumJackpot - jackpot.currentPool;
+        transferFromFranchisee(franchiseeId, shortfall);
+        jackpot.currentPool = config.minimumJackpot;
+    }
+    
+    return jackpot.currentPool;
+}`}</pre>
+            </div>
+
+            <h3>3.3 Game Mechanics</h3>
+            
+            <h4>3.3.1 Number Selection</h4>
             <ul>
               <li>Players select 5 unique numbers from 1 to 50</li>
               <li>Each bet costs 10,000 QUBIC (~$0.022 USD)</li>
@@ -179,17 +241,17 @@ struct BetOutput {
               <li>Numbers must be unique within each bet</li>
             </ul>
 
-            <h4>3.2.2 Draw Mechanism</h4>
+            <h4>3.3.2 Draw Mechanism</h4>
             <ul>
-              <li>Draws occur every 24 hours at predetermined ticks</li>
-              <li>Winning numbers generated using verifiable randomness</li>
+              <li>Draws occur at franchisee-configured intervals (default: 24 hours)</li>
+              <li>Winning numbers generated using Qubic Random Number Smart Contract</li>
               <li>Multiple prize tiers based on matching numbers</li>
-              <li>Automatic distribution to winning wallets</li>
+              <li>Automatic distribution to winning wallets and charity funds</li>
             </ul>
 
-            <h3>3.3 Security Considerations</h3>
+            <h3>3.4 Security Considerations</h3>
             
-            <h4>3.3.1 Qubic Random Number Smart Contract Integration</h4>
+            <h4>3.4.1 Qubic Random Number Smart Contract Integration</h4>
             <p>
               Our lottery engine leverages Qubic's native Random Number Smart Contract for provably fair number generation:
             </p>
@@ -201,7 +263,7 @@ struct BetOutput {
               <li><strong>Hardware-Based Seeds:</strong> Utilizes Qubic's hardware random number generators for initial entropy</li>
             </ul>
             
-            <h4>3.3.2 Random Number Contract Integration</h4>
+            <h4>3.4.2 Random Number Contract Integration</h4>
             <div className="bg-slate-900 text-slate-300 p-4 rounded-lg font-mono text-sm overflow-x-auto">
               <pre>{`// Integration with Qubic Random Number Smart Contract
 #include "qubic_random.h"

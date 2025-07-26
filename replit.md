@@ -1,8 +1,8 @@
-# Qubic Anti-Exploit Lottery Engine
+# Qubic Fortress-Class Lottery Engine
 
 ## Overview
 
-This project demonstrates an innovative charitable lottery engine built on the Qubic blockchain, designed primarily for government charity initiatives and aligned with the ethical philosophy of Sergey Ivancheglo (ComefromBehind) and the Qubic Foundation. The engine implements a 5/50 lottery game with advanced anti-exploit mechanisms including wallet-based bet limitations, Qubic Random Number Smart Contract integration for provably fair draws, and both single bet and batch transaction optimization. The primary purpose is to create transparent, corruption-resistant funding mechanisms for poverty alleviation, education, healthcare, and social welfare programs worldwide.
+This project demonstrates an innovative fortress-class charitable lottery engine built on the Qubic blockchain, designed primarily for government charity initiatives and aligned with the ethical philosophy of Sergey Ivancheglo (ComefromBehind) and the Qubic Foundation. The engine implements a 5/50 lottery game with fortress-class security architecture including wallet-based bet limitations, Qubic Random Number Smart Contract integration for provably fair draws, and both single bet and batch transaction optimization. Features a comprehensive franchisee management system with guaranteed minimum jackpot functionality. The primary purpose is to create transparent, corruption-resistant funding mechanisms for poverty alleviation, education, healthcare, and social welfare programs worldwide.
 
 ## User Preferences
 
@@ -35,11 +35,13 @@ In production, all data is stored directly on the Qubic blockchain:
 
 ## Key Components
 
-### Anti-Exploit Mechanisms
+### Fortress-Class Security Mechanisms
 - **Wallet Bet Limiting**: Maximum 5 bets per wallet address per lottery draw
 - **Draw Tick Validation**: Each bet is tied to a specific draw tick preventing cross-draw exploitation
 - **Qubic Random Number Smart Contract**: Integration with Qubic's native random number generator for provably fair draws
 - **Smart Contract Implementation**: Complete C++ smart contract logic for Qubic blockchain deployment
+- **Franchisee Management System**: Separate administrative interface for government charity organizations
+- **Guaranteed Minimum Jackpots**: Variable minimum jackpot amounts to ensure lottery attractiveness during launch phases
 
 ### Lottery Engine Logic
 - **5/50 Format**: Players select 5 unique numbers from 1-50
@@ -124,5 +126,8 @@ The lottery engine is designed for deployment to Qubic blockchain:
 - **Charitable Mission Integration**: Added comprehensive mission, vision, and goals sections emphasizing the lottery engine's purpose for government charity initiatives
 - **Founder Philosophy Alignment**: Integrated references to Sergey Ivancheglo (ComefromBehind) and Qubic Foundation's ethical commitment to technology for social good
 - **Social Impact Focus**: Updated all documentation to emphasize poverty alleviation, education, healthcare, and transparent charitable fundraising goals
+- **Fortress-Class Terminology**: Updated from "Anti-Exploit" to "Fortress-Class" security architecture throughout the project
+- **Franchisee Management System**: Added comprehensive franchisee interface documentation with guaranteed minimum jackpot functionality
+- **Administrative Interface**: Documented separate franchisee management system for government charity organizations and licensed operators
 
 This architecture demonstrates advanced blockchain application development while maintaining compatibility with traditional web infrastructure during the development and demonstration phase.

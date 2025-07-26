@@ -18,7 +18,7 @@ export default function Home() {
             </Badge>
             
             <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-              Anti-Exploit Lottery Engine
+              Fortress-Class Lottery Engine
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-yellow-400">
                 on Qubic
               </span>

@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MissionVision } from "@/components/mission-vision";
+import { FranchiseeInterface } from "@/components/franchisee-interface";
 
 export default function Overview() {
   return (
@@ -13,10 +14,10 @@ export default function Overview() {
             🎯 Project Overview
           </Badge>
           <h1 className="text-4xl font-bold text-slate-900 mb-4">
-            Grant Proposal: Charitable Lottery Engine for Global Good
+            Grant Proposal: Fortress-Class Charitable Lottery Engine
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            A revolutionary blockchain lottery engine designed for government charity initiatives, demonstrating advanced anti-exploit mechanisms, Qubic Random Number Smart Contract integration, and aligned with the ethical vision of Sergey Ivancheglo and the Qubic Foundation.
+            A revolutionary blockchain lottery engine designed for government charity initiatives, featuring fortress-class security architecture, Qubic Random Number Smart Contract integration, and franchisee management system aligned with the ethical vision of Sergey Ivancheglo and the Qubic Foundation.
           </p>
         </div>
 
@@ -54,11 +55,12 @@ export default function Overview() {
             </CardHeader>
             <CardContent>
               <p className="text-green-700 mb-4">
-                A revolutionary lottery engine with built-in anti-exploit mechanisms, Qubic Random Number Smart Contract integration, 
-                batch transaction optimization, and seamless user experience on the world's fastest blockchain.
+                A revolutionary fortress-class lottery engine with built-in exploit-resistant mechanisms, Qubic Random Number Smart Contract integration, 
+                franchisee management system, and seamless user experience on the world's fastest blockchain.
               </p>
               <ul className="text-sm text-green-600 space-y-2">
-                <li>• Wallet-based bet limitations</li>
+                <li>• Fortress-class exploit-resistant architecture</li>
+                <li>• Franchisee management with minimum jackpots</li>
                 <li>• Batch transaction processing</li>
                 <li>• Feeless transactions</li>
                 <li>• Instant finality</li>
@@ -245,6 +247,11 @@ export default function Overview() {
         {/* Mission & Vision */}
         <div className="mb-16">
           <MissionVision />
+        </div>
+
+        {/* Franchisee Management Interface */}
+        <div className="mb-16">
+          <FranchiseeInterface />
         </div>
 
         {/* Team & Credentials */}
