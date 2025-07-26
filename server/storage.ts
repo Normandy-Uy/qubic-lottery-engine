@@ -40,7 +40,16 @@ export class MemStorage implements IStorage {
       id: randomUUID(),
       drawTick: this.currentDrawTick,
       winningNumbers: [7, 15, 22, 37, 43],
-      jackpotAmount: 2500000000, // 2.5B QUBIC
+      prizePool: 1500000000000, // 1.5M QUBIC (60% of total collected)
+      rolloverAmount: 0,
+      totalBets: 250, // 250 tickets sold
+      totalRevenue: 2500000000000, // 2.5M QUBIC total revenue (250 × 10,000)
+      minimumJackpotUsed: 0,
+      qubicFoundationShare: 125000000000, // 5% = 125K QUBIC
+      developerShare: 100000000000, // 4% = 100K QUBIC
+      franchiseeShare: 775000000000, // 31% = 775K QUBIC
+      hasWinner: false,
+      winnerWallet: null,
       isActive: true,
       createdAt: new Date(),
     };
@@ -54,7 +63,7 @@ export class MemStorage implements IStorage {
         id: randomUUID(),
         walletAddress: "FKJH...8NK2",
         selectedNumbers: [3, 17, 29, 41, 48],
-        amount: 10000,
+        amount: 10000000000, // 10,000 QUBIC
         drawTick: this.currentDrawTick - 1,
         createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000),
         transactionHash: "0xabc123",
@@ -63,7 +72,7 @@ export class MemStorage implements IStorage {
         id: randomUUID(),
         walletAddress: "MQPL...7XR9",
         selectedNumbers: [5, 12, 33, 44, 50],
-        amount: 10000,
+        amount: 10000000000, // 10,000 QUBIC
         drawTick: this.currentDrawTick - 2,
         createdAt: new Date(Date.now() - 48 * 60 * 60 * 1000),
         transactionHash: "0xdef456",
@@ -72,7 +81,7 @@ export class MemStorage implements IStorage {
         id: randomUUID(),
         walletAddress: "BWQT...4ML5",
         selectedNumbers: [8, 21, 35, 39, 47],
-        amount: 10000,
+        amount: 10000000000, // 10,000 QUBIC
         drawTick: this.currentDrawTick - 3,
         createdAt: new Date(Date.now() - 72 * 60 * 60 * 1000),
         transactionHash: "0xghi789",
@@ -106,7 +115,7 @@ export class MemStorage implements IStorage {
     const lotteryBet: LotteryBet = {
       ...bet,
       id,
-      amount: bet.amount || 10000,
+      amount: bet.amount || 10000000000,
       createdAt: new Date(),
       transactionHash: `0x${randomUUID().replace(/-/g, '')}`,
     };
@@ -131,6 +140,15 @@ export class MemStorage implements IStorage {
     const lotteryDraw: LotteryDraw = {
       ...draw,
       id,
+      rolloverAmount: draw.rolloverAmount ?? 0,
+      totalBets: draw.totalBets ?? 0,
+      totalRevenue: draw.totalRevenue ?? 0,
+      minimumJackpotUsed: draw.minimumJackpotUsed ?? 0,
+      qubicFoundationShare: draw.qubicFoundationShare ?? 0,
+      developerShare: draw.developerShare ?? 0,
+      franchiseeShare: draw.franchiseeShare ?? 0,
+      hasWinner: draw.hasWinner ?? false,
+      winnerWallet: draw.winnerWallet ?? null,
       isActive: draw.isActive ?? true,
       createdAt: new Date(),
     };
@@ -166,7 +184,8 @@ export class MemStorage implements IStorage {
 
   async getCurrentJackpot(): Promise<number> {
     const currentDraw = await this.getCurrentDraw();
-    return currentDraw?.jackpotAmount || 2500000000;
+    // Return current prize pool (60% of collected + any rollover)
+    return currentDraw ? (currentDraw.prizePool + currentDraw.rolloverAmount) : 2500000000;
   }
 }
 

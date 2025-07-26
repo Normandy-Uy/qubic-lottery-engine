@@ -12,8 +12,8 @@ export const users = pgTable("users", {
 export const lotteryBets = pgTable("lottery_bets", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   walletAddress: text("wallet_address").notNull(),
-  selectedNumbers: jsonb("selected_numbers").notNull(), // Array of 5 numbers
-  amount: integer("amount").notNull().default(10000), // QUBIC amount
+  selectedNumbers: jsonb("selected_numbers").notNull(), // Array of 5 numbers (1-50)
+  amount: integer("amount").notNull().default(10000000000), // 10,000 QUBIC in base units
   drawTick: integer("draw_tick").notNull(),
   createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
   transactionHash: text("transaction_hash"),
@@ -22,8 +22,17 @@ export const lotteryBets = pgTable("lottery_bets", {
 export const lotteryDraws = pgTable("lottery_draws", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   drawTick: integer("draw_tick").notNull().unique(),
-  winningNumbers: jsonb("winning_numbers").notNull(), // Array of 5 numbers
-  jackpotAmount: integer("jackpot_amount").notNull(),
+  winningNumbers: jsonb("winning_numbers").notNull(), // Array of 5 numbers (1-50)
+  prizePool: integer("prize_pool").notNull(), // 60% of total bets
+  rolloverAmount: integer("rollover_amount").notNull().default(0), // Previous draw rollover
+  totalBets: integer("total_bets").notNull().default(0), // Number of tickets sold
+  totalRevenue: integer("total_revenue").notNull().default(0), // Total bet amount collected
+  minimumJackpotUsed: integer("minimum_jackpot_used").notNull().default(0), // Amount from minimum jackpot fund
+  qubicFoundationShare: integer("qubic_foundation_share").notNull().default(0), // 5% of revenue
+  developerShare: integer("developer_share").notNull().default(0), // 4% of revenue  
+  franchiseeShare: integer("franchisee_share").notNull().default(0), // 31% of revenue
+  hasWinner: boolean("has_winner").default(false),
+  winnerWallet: text("winner_wallet"),
   isActive: boolean("is_active").default(true),
   createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
 });

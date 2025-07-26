@@ -192,7 +192,14 @@ private:
     LotteryBet currentDrawBets[WALLET_COUNT * MAX_BETS_PER_WALLET];
     uint64 currentDrawTick;
     uint64 totalBetCount;
-    uint64 jackpotPool;
+    uint64 currentDrawPrizePool;     // 60% of current draw bets
+    uint64 rolloverAmount;           // Prize pool rollover from previous draws
+    uint64 minimumJackpotAmount;     // Guaranteed minimum jackpot
+    uint64 minimumJackpotUsed;       // Amount used from minimum jackpot fund
+    id QUBIC_FOUNDATION_WALLET;     // 5% revenue destination
+    id DEVELOPER_WALLET;            // 4% revenue destination  
+    id FRANCHISEE_WALLET;           // 31% revenue destination
+    id MINIMUM_JACKPOT_WALLET;      // Minimum jackpot fund source
 
     // Fortress-class exploit prevention
     bool validateBetLimits(const id& walletId) {
@@ -253,8 +260,9 @@ public:
         walletStats[walletIndex].totalWagered += amount;
         walletStats[walletIndex].lastBetTick = tick();
         
-        // Add to jackpot pool (91% to jackpot, 9% to revenue distribution)
-        jackpotPool += (amount * 91) / 100;
+        // Add to prize pool (60% to current draw prize pool)
+        uint64 prizePoolContribution = (amount * 60) / 100;
+        currentDrawPrizePool += prizePoolContribution;
         
         return true;
     }
@@ -281,20 +289,37 @@ public:
         // Generate winning numbers using provably fair algorithm
         generateWinningNumbers(randomSeed, result.winningNumbers);
         
-        // Find winners and distribute jackpot
+        // Calculate total prize pool (60% current + rollover)
+        uint64 totalPrizePool = currentDrawPrizePool + rolloverAmount;
+        
+        // Check minimum jackpot requirement
+        if (totalPrizePool < minimumJackpotAmount) {
+            uint64 shortfall = minimumJackpotAmount - totalPrizePool;
+            totalPrizePool = minimumJackpotAmount;
+            minimumJackpotUsed += shortfall;
+            transfer(MINIMUM_JACKPOT_WALLET, shortfall); // Use minimum jackpot fund
+        }
+        
+        // Find winners and distribute prize pool
         id winner = findWinner(result.winningNumbers);
         if (!(winner == NULL_ID)) {
             result.winnerWallet = winner;
-            transfer(winner, jackpotPool);
+            transfer(winner, totalPrizePool);
+            rolloverAmount = 0; // Reset rollover
+        } else {
+            // No winner - rollover prize pool to next draw
+            rolloverAmount = totalPrizePool;
         }
         
-        // Revenue distribution (5% Qubic Foundation, 4% Developer)
+        // Revenue distribution (5% Qubic Foundation, 4% Developer, 31% Franchisee)
         uint64 totalRevenue = totalBetCount * BET_COST;
         uint64 qubicFoundationShare = (totalRevenue * 5) / 100;
         uint64 developerShare = (totalRevenue * 4) / 100;
+        uint64 franchiseeShare = (totalRevenue * 31) / 100;
         
         transfer(QUBIC_FOUNDATION_WALLET, qubicFoundationShare);
         transfer(DEVELOPER_WALLET, developerShare);
+        transfer(FRANCHISEE_WALLET, franchiseeShare);
         
         // Reset for next draw
         resetDrawState();
