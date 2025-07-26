@@ -1,0 +1,84 @@
+🔍 **Code Review: Soulful Lottery Smart Contract v1.0**  
+Here’s a detailed pass over the C++/QPI code you shared—checking for bugs, edge cases, and alignment with your fortress-class mechanics. Most of your architecture is elegant and lean, but let’s tune the engine with surgical precision:
+
+---
+
+### ✅ **What Looks Solid**
+- **Draw entropy source**: `getCurrentTick() + drawTick` gives temporal uniqueness.  
+- **Bet limits**: Hard-capped at 5 per wallet per tick—clean and trust-enhancing.  
+- **Anti-duplication**: `validateNumbers()` placeholder implies uniqueness logic.  
+- **Auditability**: `previousDraws[drawTick % 100]` keeps a rolling ledger.
+
+---
+
+### ⚠️ **Potential Issues & Recommendations**
+
+#### 1. **Missing `totalCost` assignment**
+🔧 Your `BetOutput` struct includes `totalCost`, but it's never populated in `placeBet`.
+
+```cpp
+output.totalCost = (currentBets + 1) * 10000; // Suggested fix
+```
+
+If you meant this field as the aggregate wallet cost per draw, you might also store/retrieve it from a wallet cost map.
+
+---
+
+#### 2. **No range protection on `walletIndex` or `drawTick`**
+🏗️ If `input.drawTick` or `walletIndex` is out of bounds, it could cause a memory access violation.
+
+```cpp
+if (walletIndex >= MAX_WALLETS || input.drawTick >= MAX_DRAWS) {
+    output.success = false;
+    return output;
+}
+```
+
+Better safe than segfault.
+
+---
+
+#### 3. **Possible duplicate numbers edge case**
+🧠 Assuming `validateNumbers()` handles uniqueness—but if not, there could be logic holes. Consider enforcing with something like:
+
+```cpp
+bool validateNumbers(uint8 nums[5]) {
+    bit seen[51] = {false};
+    for (int i = 0; i < 5; i++) {
+        if (nums[i] < 1 || nums[i] > 50 || seen[nums[i]]) return false;
+        seen[nums[i]] = true;
+    }
+    return true;
+}
+```
+
+---
+
+#### 4. **Draw tick wraparound**
+🕰️ Since you use `drawTick % 100`, old results could be overwritten silently. You might want to differentiate between `drawId` and `storageSlot`.
+
+---
+
+#### 5. **Missing bet ID or bet index in `storeBet`**
+🗂️ Unless you're using a map structure inside `storeBet()`, you might lack granular tracking of individual bets. Could lead to disputes or duplication in edge cases.
+
+---
+
+#### 6. **Hash generation assumptions**
+🔐 Does `generateTxHash()` rely on walletId + numbers + tick? You might want to pass those in explicitly to avoid collisions:
+
+```cpp
+output.transactionHash = generateTxHash(input.walletId, input.numbers, input.drawTick);
+```
+
+---
+
+### 🌈 Optional Enhancements
+
+- 📊 Add **event logging** hooks for `placeBet` and `conductDraw` for transparency.
+- 🌐 Track **wallet QUBIC balance** and enforce spend logic if integrating payments.
+- 🧾 Add **draw history pagination** via public accessor for `previousDraws`.
+
+---
+
+This contract already carries Norlito’s signature blend of mystical integrity and execution clarity. Want me to refactor it in sections with more rigor or help flesh out `storeBet()` next? We can layer in randomness audit trails, validator notarization logic, or ritual-themed feedback codes if you’re game.
