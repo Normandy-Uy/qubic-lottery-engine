@@ -146,49 +146,181 @@ export default function WhitePaper() {
 
             <h3>3.2 Smart Contract Architecture</h3>
             
-            <h4>3.1.1 Core Data Structures</h4>
+            <h4>3.2.1 Core Data Structures</h4>
             <div className="bg-slate-900 text-slate-300 p-4 rounded-lg font-mono text-sm overflow-x-auto">
-              <pre>{`struct BetInput {
-    id walletId;           // Unique wallet identifier
-    uint8 numbers[5];      // Selected lottery numbers (1-50)
-    uint64 amount;         // Bet amount in QUBIC
-    uint64 drawTick;       // Target draw cycle
+              <pre>{`#pragma once
+#include "qubic.h"
+
+#define MAX_BETS_PER_WALLET 5
+#define LOTTERY_NUMBERS_COUNT 5
+#define MAX_NUMBER 50
+#define MIN_NUMBER 1
+#define BET_COST 10000000000ULL  // 10,000 QUBIC
+
+struct LotteryBet {
+    id walletId;                    // Qubic wallet identifier
+    uint8 numbers[LOTTERY_NUMBERS_COUNT]; // Selected numbers (1-50)
+    uint64 amount;                  // Bet amount in QUBIC units
+    uint64 drawTick;               // Target draw tick
+    uint64 timestamp;              // Bet placement time
+    uint64 betHash;                // Unique bet identifier
 };
 
-struct BetOutput {
-    bit success;           // Transaction success status
-    uint8 betCount;        // Current wallet bet count
-    uint64 totalCost;      // Total transaction cost
-    id transactionHash;    // Unique transaction identifier
+struct DrawResult {
+    uint64 drawTick;               // Draw execution tick
+    uint8 winningNumbers[LOTTERY_NUMBERS_COUNT]; // Winning combination
+    uint64 totalPayout;            // Total jackpot amount
+    uint64 totalBets;              // Number of participating bets
+    id winnerWallet;               // Jackpot winner (if any)
+    uint64 randomSeed;             // Qubic Random Number Contract seed
+};
+
+struct WalletStats {
+    uint8 betCount;                // Current draw bet count
+    uint64 totalWagered;           // Lifetime wagered amount
+    uint64 totalWinnings;          // Lifetime winnings
+    uint64 lastBetTick;            // Last bet placement tick
 };`}</pre>
             </div>
 
-            <h4>3.1.2 Anti-Exploit Logic</h4>
+            <h4>3.2.2 Fortress-Class Validation Logic</h4>
             <div className="bg-slate-900 text-slate-300 p-4 rounded-lg font-mono text-sm overflow-x-auto">
-              <pre>{`BetOutput placeBet(BetInput input) {
-    BetOutput output;
-    
-    // Validate wallet bet limit
-    uint8 currentBets = walletBetCounts[getWalletIndex(input.walletId)];
-    if (currentBets >= MAX_BETS_PER_WALLET) {
-        output.success = false;
-        return output;
+              <pre>{`class QubicLotteryContract {
+private:
+    static constexpr uint64 WALLET_COUNT = 676;  // Max Qubic wallets
+    WalletStats walletStats[WALLET_COUNT];
+    LotteryBet currentDrawBets[WALLET_COUNT * MAX_BETS_PER_WALLET];
+    uint64 currentDrawTick;
+    uint64 totalBetCount;
+    uint64 jackpotPool;
+
+    // Fortress-class exploit prevention
+    bool validateBetLimits(const id& walletId) {
+        uint32 walletIndex = getWalletIndex(walletId);
+        return walletStats[walletIndex].betCount < MAX_BETS_PER_WALLET;
     }
-    
-    // Validate bet amount and numbers
-    if (!validateBetAmount(input.amount) || !validateNumbers(input.numbers)) {
-        output.success = false;
-        return output;
+
+    bool validateNumbers(const uint8* numbers) {
+        // Check for duplicates and valid range
+        for (int i = 0; i < LOTTERY_NUMBERS_COUNT; i++) {
+            if (numbers[i] < MIN_NUMBER || numbers[i] > MAX_NUMBER) {
+                return false;
+            }
+            for (int j = i + 1; j < LOTTERY_NUMBERS_COUNT; j++) {
+                if (numbers[i] == numbers[j]) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
-    
-    // Process bet and update counters
-    processBet(input);
-    walletBetCounts[getWalletIndex(input.walletId)]++;
-    
-    output.success = true;
-    output.betCount = currentBets + 1;
-    return output;
-}`}</pre>
+
+    uint64 generateBetHash(const LotteryBet& bet) {
+        // Create unique bet identifier using Qubic's hash function
+        return computeHash(bet.walletId, bet.drawTick, bet.timestamp);
+    }
+
+public:
+    // Main bet placement function with fortress-class security
+    bool placeBet(const id& walletId, const uint8* numbers, uint64 amount) {
+        // Validate current draw tick
+        if (tick() >= currentDrawTick) {
+            return false; // Draw already executed
+        }
+        
+        // Fortress-class validation checks
+        if (!validateBetLimits(walletId) || 
+            !validateNumbers(numbers) || 
+            amount != BET_COST) {
+            return false;
+        }
+        
+        uint32 walletIndex = getWalletIndex(walletId);
+        
+        // Create bet record
+        LotteryBet newBet;
+        newBet.walletId = walletId;
+        copyMemory(newBet.numbers, numbers, LOTTERY_NUMBERS_COUNT);
+        newBet.amount = amount;
+        newBet.drawTick = currentDrawTick;
+        newBet.timestamp = tick();
+        newBet.betHash = generateBetHash(newBet);
+        
+        // Store bet and update counters
+        currentDrawBets[totalBetCount] = newBet;
+        totalBetCount++;
+        walletStats[walletIndex].betCount++;
+        walletStats[walletIndex].totalWagered += amount;
+        walletStats[walletIndex].lastBetTick = tick();
+        
+        // Add to jackpot pool (91% to jackpot, 9% to revenue distribution)
+        jackpotPool += (amount * 91) / 100;
+        
+        return true;
+    }
+};`}</pre>
+            </div>
+
+            <h4>3.2.3 Qubic Random Number Integration</h4>
+            <div className="bg-slate-900 text-slate-300 p-4 rounded-lg font-mono text-sm overflow-x-auto">
+              <pre>{`    // Integration with Qubic Random Number Smart Contract
+    void executeDraw() {
+        if (tick() < currentDrawTick || totalBetCount == 0) {
+            return; // Not time for draw or no bets
+        }
+        
+        DrawResult result;
+        result.drawTick = currentDrawTick;
+        result.totalBets = totalBetCount;
+        result.totalPayout = jackpotPool;
+        
+        // Request random numbers from Qubic Random Number Contract
+        uint64 randomSeed = getRandomNumber(currentDrawTick);
+        result.randomSeed = randomSeed;
+        
+        // Generate winning numbers using provably fair algorithm
+        generateWinningNumbers(randomSeed, result.winningNumbers);
+        
+        // Find winners and distribute jackpot
+        id winner = findWinner(result.winningNumbers);
+        if (!(winner == NULL_ID)) {
+            result.winnerWallet = winner;
+            transfer(winner, jackpotPool);
+        }
+        
+        // Revenue distribution (5% Qubic Foundation, 4% Developer)
+        uint64 totalRevenue = totalBetCount * BET_COST;
+        uint64 qubicFoundationShare = (totalRevenue * 5) / 100;
+        uint64 developerShare = (totalRevenue * 4) / 100;
+        
+        transfer(QUBIC_FOUNDATION_WALLET, qubicFoundationShare);
+        transfer(DEVELOPER_WALLET, developerShare);
+        
+        // Reset for next draw
+        resetDrawState();
+        currentDrawTick = tick() + DRAW_INTERVAL;
+    }
+
+private:
+    void generateWinningNumbers(uint64 seed, uint8* winningNumbers) {
+        // Use Qubic's hardware random number generator with seed
+        for (int i = 0; i < LOTTERY_NUMBERS_COUNT; i++) {
+            seed = hashFunction(seed + i);
+            winningNumbers[i] = (seed % MAX_NUMBER) + 1;
+            
+            // Ensure no duplicates
+            for (int j = 0; j < i; j++) {
+                if (winningNumbers[i] == winningNumbers[j]) {
+                    i--; // Regenerate this number
+                    break;
+                }
+            }
+        }
+        
+        // Sort winning numbers for consistency
+        quickSort(winningNumbers, LOTTERY_NUMBERS_COUNT);
+    }
+};`}</pre>
             </div>
 
             <h3>3.2 Franchisee Management System</h3>
