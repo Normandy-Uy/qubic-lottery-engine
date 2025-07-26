@@ -98,12 +98,12 @@ export default function Home() {
                 Come-From-Beyond Sergey Ivancheglo
               </h2>
               <h3 className="text-xl text-purple-600 font-semibold mb-4">
-                The Crypto Messiah Preserving the World's Energy
+                The Crypto Messiah Preserving the World's Energy Wasted on Crypto Mining into AI Training and Meaningful Computation
               </h3>
               <p className="text-slate-700 leading-relaxed mb-4">
                 Sergey Ivancheglo, known as "Come-From-Beyond," is the visionary founder of Qubic who 
-                revolutionized blockchain technology by channeling the world's energy wastage into AI 
-                and meaningful computation. His philosophy of technology serving humanity drives our 
+                revolutionized blockchain technology by channeling the world's energy wasted on crypto mining into AI 
+                training and meaningful computation. His philosophy of technology serving humanity drives our 
                 commitment to creating transparent, corruption-resistant systems for global good.
               </p>
               <p className="text-slate-600 text-sm">
