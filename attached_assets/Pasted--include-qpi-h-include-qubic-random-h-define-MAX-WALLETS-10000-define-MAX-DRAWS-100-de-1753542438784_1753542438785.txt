@@ -1,0 +1,194 @@
+#include "qpi.h"
+#include "qubic_random.h"
+
+#define MAX_WALLETS 10000
+#define MAX_DRAWS 100
+#define MAX_BETS_PER_WALLET 5
+#define MIN_NUMBER 1
+#define MAX_NUMBER 50
+#define TICKET_PRICE 10000
+#define NUMBERS_PER_BET 5
+#define RESULT_HISTORY 100
+
+struct BetInput {
+    id walletId;
+    uint8 numbers[NUMBERS_PER_BET];
+    uint64 amount;
+    uint64 drawTick;
+};
+
+struct BetOutput {
+    bit success;
+    uint8 betCount;
+    uint64 totalCost;
+    id transactionHash;
+};
+
+struct DrawResult {
+    uint8 winningNumbers[NUMBERS_PER_BET];
+    uint64 drawTick;
+    uint64 randomSeed;
+};
+
+struct BetRecord {
+    id walletId;
+    uint8 numbers[NUMBERS_PER_BET];
+};
+
+private:
+    uint8 walletBetCounts[MAX_WALLETS][MAX_DRAWS];
+    BetRecord storedBets[MAX_DRAWS][MAX_WALLETS * MAX_BETS_PER_WALLET];
+    uint32 storedBetCount[MAX_DRAWS];
+
+    uint64 totalBetAmount[MAX_DRAWS];
+    uint64 rolloverAmount = 0;
+
+    DrawResult previousDraws[RESULT_HISTORY];
+
+public:
+    REGISTER_USER_FUNCTION(placeBet, 1);
+    REGISTER_USER_FUNCTION(conductDraw, 2);
+
+    BetOutput placeBet(BetInput input) {
+        BetOutput output;
+        output.success = false;
+        output.totalCost = 0;
+
+        uint64 currentTick = getCurrentTick();
+        uint64 expectedDrawTick = currentTick / TICKS_PER_DAY;
+        if (input.drawTick != expectedDrawTick) return output;
+
+        if (input.amount != TICKET_PRICE) return output;
+        if (!validateNumbers(input.numbers)) return output;
+
+        uint32 walletIndex = getWalletIndex(input.walletId);
+        uint8 currentBets = walletBetCounts[walletIndex][input.drawTick];
+        if (currentBets >= MAX_BETS_PER_WALLET) return output;
+
+        if (isDuplicateBet(input.walletId, input.drawTick, input.numbers)) return output;
+
+        // Store bet
+        BetRecord newBet;
+        newBet.walletId = input.walletId;
+        for (int i = 0; i < NUMBERS_PER_BET; i++) {
+            newBet.numbers[i] = input.numbers[i];
+        }
+
+        storedBets[input.drawTick][storedBetCount[input.drawTick]++] = newBet;
+        walletBetCounts[walletIndex][input.drawTick]++;
+        totalBetAmount[input.drawTick] += input.amount;
+
+        output.success = true;
+        output.betCount = currentBets + 1;
+        output.totalCost = TICKET_PRICE;
+        output.transactionHash = generateTxHash();
+        return output;
+    }
+
+    DrawResult conductDraw(uint64 drawTick) {
+        DrawResult result;
+        result.drawTick = drawTick;
+
+        uint64 currentTick = getCurrentTick();
+        uint64 expectedTick = currentTick / TICKS_PER_DAY;
+        if (drawTick != expectedTick) return result;
+
+        // Generate secure random seed
+        uint64 seed = currentTick + drawTick;
+        RandomSeed randomSeed = qubicRandom::generateSeed(seed);
+        result.randomSeed = seed;
+
+        // Generate 5 unique winning numbers
+        for (int i = 0; i < NUMBERS_PER_BET; i++) {
+            result.winningNumbers[i] = qubicRandom::getNumber(randomSeed, MIN_NUMBER, MAX_NUMBER, i);
+        }
+
+        // Prize computation
+        uint64 totalPool = totalBetAmount[drawTick];
+        uint64 jackpot = (totalPool * 60) / 100 + rolloverAmount;
+
+        bool hasWinner = false;
+
+        for (uint32 i = 0; i < storedBetCount[drawTick]; i++) {
+            BetRecord bet = storedBets[drawTick][i];
+            if (matchesWinning(bet.numbers, result.winningNumbers)) {
+                distributeJackpot(bet.walletId, jackpot);
+                hasWinner = true;
+            }
+        }
+
+        // Handle rollover
+        if (!hasWinner) {
+            rolloverAmount += (totalPool * 60) / 100;
+        } else {
+            rolloverAmount = 0;
+        }
+
+        // Distribute other portions
+        distributeRevenue(totalPool);
+
+        // Store draw result
+        previousDraws[drawTick % RESULT_HISTORY] = result;
+
+        return result;
+    }
+
+    bool validateNumbers(uint8 numbers[NUMBERS_PER_BET]) {
+        bool seen[MAX_NUMBER + 1] = {false};
+        for (int i = 0; i < NUMBERS_PER_BET; i++) {
+            if (numbers[i] < MIN_NUMBER || numbers[i] > MAX_NUMBER) return false;
+            if (seen[numbers[i]]) return false;
+            seen[numbers[i]] = true;
+        }
+        return true;
+    }
+
+    bool matchesWinning(uint8 a[NUMBERS_PER_BET], uint8 b[NUMBERS_PER_BET]) {
+        int matchCount = 0;
+        for (int i = 0; i < NUMBERS_PER_BET; i++) {
+            for (int j = 0; j < NUMBERS_PER_BET; j++) {
+                if (a[i] == b[j]) {
+                    matchCount++;
+                    break;
+                }
+            }
+        }
+        return matchCount == NUMBERS_PER_BET;
+    }
+
+    bool isDuplicateBet(id walletId, uint64 drawTick, uint8 numbers[NUMBERS_PER_BET]) {
+        for (uint32 i = 0; i < storedBetCount[drawTick]; i++) {
+            BetRecord bet = storedBets[drawTick][i];
+            if (bet.walletId == walletId && arraysMatch(bet.numbers, numbers)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool arraysMatch(uint8 a[NUMBERS_PER_BET], uint8 b[NUMBERS_PER_BET]) {
+        uint8 count[51] = {0};
+        for (int i = 0; i < NUMBERS_PER_BET; i++) {
+            count[a[i]]++;
+            count[b[i]]--;
+        }
+        for (int i = 1; i <= 50; i++) {
+            if (count[i] != 0) return false;
+        }
+        return true;
+    }
+
+    void distributeJackpot(id winner, uint64 amount) {
+        // Dummy implementation
+        sendFunds(winner, amount);
+    }
+
+    void distributeRevenue(uint64 total) {
+        uint64 toFranchise = (total * 31) / 100;
+        uint64 toFoundation = (total * 5) / 100;
+        uint64 toDev = (total * 4) / 100;
+
+        sendFunds(getFranchiseWallet(), toFranchise);
+        sendFunds(getFoundationWallet(), toFoundation);
+        sendFunds(getDevWallet(), toDev);
+    }

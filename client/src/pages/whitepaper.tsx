@@ -223,6 +223,18 @@ struct PrizeDistribution {
     unsigned long long franchiseeFee;         // 31% to franchisee
     unsigned long long foundationFee;         // 5% to foundation
     unsigned long long developerFee;          // 4% to developer
+} PACKED;
+
+// Bet output structure for API responses
+struct BetOutput {
+    bit success;                              // Whether bet was placed
+    unsigned char betCount;                   // Total bets for this wallet
+    unsigned long long totalCost;             // Total amount paid
+    array<unsigned char, 32> transactionHash; // Unique transaction ID
+} PACKED;
+
+// Historical draw results (last 100 draws)
+static constexpr unsigned int RESULT_HISTORY = 100;
     unsigned int winnerCount;                 // Number of winners
 } PACKED;
 
@@ -262,6 +274,8 @@ struct QUBIC_LOTTERY_CONTRACT_STATE : public ContractState {
     array<ValidatorSignature, 676> drawSignatures;  // Validator signatures for draw
     unsigned int signatureCount;                    // Number of collected signatures
     unsigned int lastNormalizedDrawTick;            // Last daily draw tick (normalized)
+    array<DrawResult, RESULT_HISTORY> previousDraws; // Last 100 draw results
+    unsigned int historyIndex;                      // Circular buffer index
 } PACKED;
 
 struct QubicLotteryContract : public Contract<QUBIC_LOTTERY_CONTRACT_STATE> {
@@ -367,6 +381,21 @@ private:
             }
         }
     }
+    
+    // Generate transaction hash for bet tracking
+    array<unsigned char, 32> generateTransactionHash(const LotteryBet& bet) const {
+        unsigned char data[80];
+        copyMem(data, &bet.walletId, 32);
+        copyMem(data + 32, &bet.drawTick, 4);
+        copyMem(data + 36, &bet.timestamp, 4);
+        copyMem(data + 40, bet.numbers, 5);
+        copyMem(data + 45, &bet.amount, 8);
+        copyMem(data + 53, &qubicSystemTick, 4);
+        
+        array<unsigned char, 32> hash;
+        KangarooTwelve(data, 57, hash.data(), 32);
+        return hash;
+    }
 
 public:
     // Contract initialization
@@ -385,11 +414,11 @@ public:
         // These would be passed as constructor parameters in production
     }
 
-    // PUBLIC: Place lottery bet (main entry point)
+    // PUBLIC: Place lottery bet (returns structured output)
     PUBLIC(PlaceBet)(
         const m256i& bettor,
         const unsigned char numbers[5]
-    ) : bettor(bettor), amount(BET_COST) {
+    ) : bettor(bettor) {
         
         // 0. CRITICAL: Bounds checking before ANY array access
         unsigned int walletIndex = getWalletIndex(bettor);
@@ -444,6 +473,9 @@ public:
         newBet.timestamp = qubicSystemTick;
         generateBetHash(newBet);
         
+        // Generate transaction hash for tracking
+        array<unsigned char, 32> txHash = generateTransactionHash(newBet);
+        
         // Store bet with bounds checking already done
         state.currentDrawBets[state.totalBetCount] = newBet;
         state.betWalletIndex[state.totalBetCount] = walletIndex; // Track for duplicate check
@@ -456,7 +488,14 @@ public:
         unsigned long long prizePoolContribution = (BET_COST * 60) / 100;
         state.currentDrawPrizePool += prizePoolContribution;
         
-        return 1; // Success
+        // Return structured output
+        BetOutput output;
+        output.success = true;
+        output.betCount = state.walletStats[walletIndex].betCount;
+        output.totalCost = BET_COST;
+        output.transactionHash = txHash;
+        
+        return output; // Success with details
     }
     
     // PUBLIC: Batch bet submission (up to 5 bets)
@@ -756,6 +795,21 @@ public:
         // In production, this would emit an event for indexers
         // emitDrawEvent(result);
         
+        // Store draw result in history
+        DrawResult drawResult;
+        drawResult.drawTick = state.currentDrawTick;
+        copyMem(drawResult.winningNumbers, winningNumbers, LOTTERY_NUMBERS_COUNT);
+        drawResult.prizePool = totalPrizePool;
+        drawResult.totalBets = state.totalBetCount;
+        drawResult.randomSeed = randomSeed;
+        drawResult.hasWinner = (winnerCount > 0);
+        drawResult.winnerCount = winnerCount;
+        drawResult.isExecuted = true;
+        
+        // Store in circular buffer
+        state.previousDraws[state.historyIndex % RESULT_HISTORY] = drawResult;
+        state.historyIndex++;
+        
         // Reset for next draw
         resetDrawState();
         
@@ -830,28 +884,34 @@ private:
         }
     }
     
-    // Find all winners by matching numbers
+    // Find all winners using count-based matching (more efficient)
     unsigned int findAllWinners(const unsigned char* winningNumbers, array<m256i, MAX_TOTAL_BETS>& winners) {
         unsigned int winnerCount = 0;
         
+        // Create count array for winning numbers
+        unsigned char winCount[51] = {0};
+        for (int i = 0; i < LOTTERY_NUMBERS_COUNT; i++) {
+            winCount[winningNumbers[i]]++;
+        }
+        
         // Check each bet for matching numbers
         for (unsigned int i = 0; i < state.totalBetCount; i++) {
-            bit allMatch = true;
+            // Count-based array matching (more elegant than nested loops)
+            unsigned char betCount[51] = {0};
             for (int j = 0; j < LOTTERY_NUMBERS_COUNT; j++) {
-                bit found = false;
-                for (int k = 0; k < LOTTERY_NUMBERS_COUNT; k++) {
-                    if (state.currentDrawBets[i].numbers[k] == winningNumbers[j]) {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    allMatch = false;
+                betCount[state.currentDrawBets[i].numbers[j]]++;
+            }
+            
+            // Check if arrays match
+            bit match = true;
+            for (int k = 1; k <= MAX_NUMBER; k++) {
+                if (betCount[k] != winCount[k]) {
+                    match = false;
                     break;
                 }
             }
             
-            if (allMatch && winnerCount < MAX_TOTAL_BETS) {
+            if (match && winnerCount < MAX_TOTAL_BETS) {
                 winners[winnerCount++] = state.currentDrawBets[i].walletId;
             }
         }
