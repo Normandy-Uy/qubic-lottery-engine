@@ -111,7 +111,8 @@ export default function Timeline() {
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
             Our comprehensive roadmap from initial development to global deployment of the 
-            Fortress-Class Charitable Lottery Engine on Qubic blockchain.
+            Fortress-Class Charitable Lottery Engine on Qubic's revolutionary 15.5M TPS blockchain, 
+            designed to demonstrate to the world why Qubic is the ideal platform for real-time lottery operations.
           </p>
         </div>
 

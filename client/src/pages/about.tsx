@@ -33,7 +33,9 @@ export default function About() {
               <p className="text-base text-blue-200 mb-6 max-w-4xl mx-auto">
                 The VPX Team is also actively developing an Alibaba-like e-commerce platform 
                 serving Vietnam, Philippines, and Southeast Asia sourcing markets, bringing 
-                innovative blockchain solutions to regional commerce and supply chain management.
+                innovative blockchain solutions to regional commerce and supply chain management. 
+                Both projects leverage Qubic's 15.5M TPS capability to demonstrate the platform's 
+                unmatched speed for real-world applications.
               </p>
               <div className="flex justify-center items-center gap-2">
                 <Users className="h-6 w-6" />

@@ -15,7 +15,7 @@ export default function Mechanics() {
             Fortress-Class Security Architecture
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            Detailed explanation of how our fortress-class lottery engine prevents exploitation while maintaining fairness and efficiency through advanced blockchain mechanics, franchisee management, and Qubic Random Number Smart Contract integration.
+            Detailed explanation of how our fortress-class lottery engine prevents exploitation while maintaining fairness and efficiency through advanced blockchain mechanics, franchisee management, and Qubic Random Number Smart Contract integration. Built on Qubic's revolutionary 15.5M TPS blockchain to showcase unprecedented speed capabilities for real-time lottery operations worldwide.
           </p>
         </div>
 

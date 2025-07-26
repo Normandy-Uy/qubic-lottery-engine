@@ -31,9 +31,9 @@ export default function Proposal() {
           <CardContent className="space-y-4">
             <p className="text-slate-700">
               The Qubic Fortress-Class Charitable Lottery Engine represents a revolutionary approach to transparent, 
-              corruption-resistant fundraising for government charity initiatives. Built on Qubic's 15.5M TPS blockchain, 
-              this system eliminates traditional charity funding bottlenecks while ensuring complete transparency and 
-              accountability in fund distribution.
+              corruption-resistant fundraising for government charity initiatives. Built on Qubic's unprecedented 15.5M TPS blockchain, 
+              this system eliminates traditional charity funding bottlenecks while demonstrating to the world why Qubic is the 
+              ideal platform for high-volume lottery operations requiring instant transaction processing and real-time revenue distribution.
             </p>
             <p className="text-slate-700">
               Aligned with Sergey Ivancheglo's philosophy of channeling technology toward meaningful human advancement, 
@@ -188,9 +188,10 @@ export default function Proposal() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-slate-700">
-              Three-tier architecture leveraging Qubic's native capabilities: Blockchain serves as the primary database 
-              storing all bet data, draw results, and revenue distributions. Application layer provides user interface 
-              and franchisee management. Integration layer connects frontend to blockchain through optimized API calls.
+              Three-tier architecture leveraging Qubic's revolutionary 15.5M TPS capabilities: Blockchain serves as the primary database 
+              storing all bet data, draw results, and revenue distributions with instant finality. This project specifically showcases 
+              Qubic's unmatched speed to the world, proving that lottery operations requiring thousands of simultaneous bets, 
+              real-time draws, and instant payouts are only possible on Qubic's high-performance infrastructure.
             </p>
             <div className="bg-slate-50 p-4 rounded-lg">
               <h4 className="font-semibold text-slate-900 mb-2">Key Technologies</h4>

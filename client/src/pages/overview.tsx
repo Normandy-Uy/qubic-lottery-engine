@@ -17,7 +17,7 @@ export default function Overview() {
             Grant Proposal: Fortress-Class Charitable Lottery Engine
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            A revolutionary blockchain lottery engine designed for government charity initiatives, featuring fortress-class security architecture, Qubic Random Number Smart Contract integration, and franchisee management system aligned with the ethical vision of Sergey Ivancheglo and the Qubic Foundation.
+            A revolutionary blockchain lottery engine designed for government charity initiatives, featuring fortress-class security architecture, Qubic Random Number Smart Contract integration, and franchisee management system aligned with the ethical vision of Sergey Ivancheglo and the Qubic Foundation. Built on Qubic's unprecedented 15.5M TPS blockchain to demonstrate to the world why high-speed infrastructure is essential for real-time lottery operations and instant charitable fund distribution.
           </p>
         </div>
 

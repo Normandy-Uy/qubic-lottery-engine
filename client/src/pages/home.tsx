@@ -27,7 +27,7 @@ export default function Home() {
             
             <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
               A revolutionary blockchain lottery engine designed for government charity initiatives, creating transparent and corruption-resistant funding for poverty alleviation, education, and healthcare. 
-              Aligned with Sergey Ivancheglo's vision of technology serving humanity.
+              Built on Qubic's unmatched 15.5M TPS blockchain to demonstrate to the world why high-speed infrastructure is essential for global-scale charitable impact.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
