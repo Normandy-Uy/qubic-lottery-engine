@@ -12,10 +12,10 @@ export default function Mechanics() {
             ⚙️ System Mechanics
           </Badge>
           <h1 className="text-4xl font-bold text-slate-900 mb-4">
-            Anti-Exploit Lottery Mechanics
+            Anti-Exploit Lottery Engine Mechanics
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            Detailed explanation of how our innovative lottery system prevents exploitation while maintaining fairness and efficiency through advanced blockchain mechanics.
+            Detailed explanation of how our innovative lottery engine prevents exploitation while maintaining fairness and efficiency through advanced blockchain mechanics and Qubic Random Number Smart Contract integration.
           </p>
         </div>
 

@@ -11,10 +11,10 @@ export default function WhitePaper() {
             📄 Technical White Paper
           </Badge>
           <h1 className="text-4xl font-bold text-slate-900 mb-4">
-            Anti-Exploit Lottery System on Qubic
+            Anti-Exploit Lottery Engine on Qubic
           </h1>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            A comprehensive technical specification for implementing fair, secure, and efficient lottery mechanics using Qubic's advanced blockchain infrastructure.
+            A comprehensive technical specification for implementing fair, secure, and efficient lottery mechanics using Qubic's advanced blockchain infrastructure and Random Number Smart Contract.
           </p>
         </div>
 
@@ -25,10 +25,11 @@ export default function WhitePaper() {
           </CardHeader>
           <CardContent className="prose prose-slate max-w-none">
             <p>
-              This white paper presents a revolutionary lottery system designed to eliminate common exploitation vulnerabilities 
+              This white paper presents a revolutionary lottery engine designed to eliminate common exploitation vulnerabilities 
               found in traditional blockchain lottery implementations. By leveraging Qubic's unique technical capabilities, 
-              including native C++ smart contract execution and 15.5M TPS performance, we demonstrate how advanced anti-exploit 
-              mechanisms can be implemented at the protocol level while maintaining exceptional user experience.
+              including native C++ smart contract execution, Qubic Random Number Smart Contract for provably fair draws, 
+              and 15.5M TPS performance, we demonstrate how advanced anti-exploit mechanisms can be implemented at the 
+              protocol level while maintaining exceptional user experience.
             </p>
           </CardContent>
         </Card>
@@ -39,9 +40,9 @@ export default function WhitePaper() {
             <CardTitle>1. Problem Statement</CardTitle>
           </CardHeader>
           <CardContent className="prose prose-slate max-w-none">
-            <h3>1.1 Current Blockchain Lottery Limitations</h3>
+            <h3>1.1 Current Blockchain Lottery Engine Limitations</h3>
             <p>
-              Existing blockchain lottery systems suffer from several critical vulnerabilities:
+              Existing blockchain lottery engines suffer from several critical vulnerabilities:
             </p>
             <ul>
               <li><strong>Multi-account exploitation:</strong> Users can create multiple wallets to bypass betting limits</li>
@@ -54,7 +55,7 @@ export default function WhitePaper() {
             <h3>1.2 Market Opportunity</h3>
             <p>
               The global online lottery market is valued at over $8 billion annually, with blockchain-based solutions representing 
-              a rapidly growing segment. However, technical limitations have prevented widespread adoption of decentralized lottery systems.
+              a rapidly growing segment. However, technical limitations have prevented widespread adoption of decentralized lottery engines.
             </p>
           </CardContent>
         </Card>
@@ -188,18 +189,41 @@ struct BetOutput {
 
             <h3>3.3 Security Considerations</h3>
             
-            <h4>3.3.1 Randomness Generation</h4>
+            <h4>3.3.1 Qubic Random Number Smart Contract Integration</h4>
             <p>
-              Winning numbers are generated using a combination of:
+              Our lottery engine leverages Qubic's native Random Number Smart Contract for provably fair number generation:
             </p>
             <ul>
-              <li>Block hash entropy from multiple Computors</li>
-              <li>Verifiable Delay Functions (VDFs)</li>
-              <li>Hardware random number generators</li>
-              <li>Multi-party computation protocols</li>
+              <li><strong>Deterministic Randomness:</strong> Uses Qubic's built-in random number generator with verifiable seeds</li>
+              <li><strong>Multi-Computor Validation:</strong> Random numbers validated by 451+ Computors ensuring fairness</li>
+              <li><strong>Cryptographic Proofs:</strong> Each draw includes cryptographic proof of randomness integrity</li>
+              <li><strong>Replay Protection:</strong> Unique entropy per draw prevents manipulation attempts</li>
+              <li><strong>Hardware-Based Seeds:</strong> Utilizes Qubic's hardware random number generators for initial entropy</li>
             </ul>
+            
+            <h4>3.3.2 Random Number Contract Integration</h4>
+            <div className="bg-slate-900 text-slate-300 p-4 rounded-lg font-mono text-sm overflow-x-auto">
+              <pre>{`// Integration with Qubic Random Number Smart Contract
+#include "qubic_random.h"
 
-            <h4>3.3.2 Audit Trail</h4>
+uint8 generateWinningNumbers(uint64 drawTick) {
+    uint8 winningNumbers[5];
+    uint64 seed = getCurrentTick() + drawTick;
+    
+    // Call Qubic Random Number Smart Contract
+    RandomSeed randomSeed = qubicRandom::generateSeed(seed);
+    
+    for (int i = 0; i < 5; i++) {
+        winningNumbers[i] = qubicRandom::getNumber(
+            randomSeed, 1, 50, i
+        );
+    }
+    
+    return winningNumbers;
+}`}</pre>
+            </div>
+
+            <h4>3.3.3 Audit Trail</h4>
             <p>
               All lottery operations maintain comprehensive audit trails including:
             </p>

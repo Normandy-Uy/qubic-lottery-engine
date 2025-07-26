@@ -12,11 +12,10 @@ export default function Overview() {
             🎯 Project Overview
           </Badge>
           <h1 className="text-4xl font-bold text-slate-900 mb-4">
-            Grant Proposal: Anti-Exploit Lottery System
+            Grant Proposal: Anti-Exploit Lottery Engine
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            A comprehensive overview of our innovative lottery smart contract demonstrating advanced anti-exploit mechanisms 
-            and technical innovation on the Qubic blockchain platform.
+            A comprehensive overview of our innovative lottery engine smart contract demonstrating advanced anti-exploit mechanisms, Qubic Random Number Smart Contract integration, and technical innovation on the Qubic blockchain platform.
           </p>
         </div>
 
@@ -32,7 +31,7 @@ export default function Overview() {
             </CardHeader>
             <CardContent>
               <p className="text-red-700 mb-4">
-                Traditional blockchain lotteries suffer from exploit vulnerabilities, high transaction costs, 
+                Traditional blockchain lottery engines suffer from exploit vulnerabilities, high transaction costs, 
                 and poor user experience due to multiple separate transactions.
               </p>
               <ul className="text-sm text-red-600 space-y-2">
@@ -55,8 +54,8 @@ export default function Overview() {
             </CardHeader>
             <CardContent>
               <p className="text-green-700 mb-4">
-                A revolutionary lottery system with built-in anti-exploit mechanisms, batch transaction optimization, 
-                and seamless user experience on the world's fastest blockchain.
+                A revolutionary lottery engine with built-in anti-exploit mechanisms, Qubic Random Number Smart Contract integration, 
+                batch transaction optimization, and seamless user experience on the world's fastest blockchain.
               </p>
               <ul className="text-sm text-green-600 space-y-2">
                 <li>• Wallet-based bet limitations</li>

@@ -83,6 +83,16 @@ export function LotterySimulator() {
     }
   };
 
+  const handleSendSingleBet = () => {
+    if (selectedNumbers.length === 5) {
+      const betData: BetData = {
+        selectedNumbers: [...selectedNumbers].sort((a, b) => a - b),
+        amount: 10000,
+      };
+      placeBetMutation.mutate(betData);
+    }
+  };
+
   const handleSendAllBets = () => {
     if (pendingBets.length > 0) {
       batchBetsMutation.mutate(pendingBets);
@@ -103,10 +113,10 @@ export function LotterySimulator() {
     <div className="space-y-6">
       <div className="text-center">
         <h2 className="text-3xl font-bold text-slate-900 mb-4">
-          Interactive Lottery Demonstration
+          Interactive Lottery Engine Demonstration
         </h2>
         <p className="text-slate-600 text-lg">
-          Experience our anti-exploit lottery system with wallet-based bet limitations
+          Experience our anti-exploit lottery engine with Qubic Random Number Smart Contract and wallet-based bet limitations
         </p>
       </div>
 
@@ -206,7 +216,20 @@ export function LotterySimulator() {
               )}
 
               {/* Action Buttons */}
-              <div className="flex space-x-4 pt-4 border-t">
+              <div className="flex flex-wrap gap-3 pt-4 border-t">
+                <Button
+                  onClick={handleSendSingleBet}
+                  disabled={
+                    selectedNumbers.length !== 5 || 
+                    !canAddMoreBets ||
+                    placeBetMutation.isPending
+                  }
+                  className="bg-blue-600 hover:bg-blue-700"
+                >
+                  <Send className="h-4 w-4 mr-2" />
+                  Send Single Bet
+                </Button>
+                
                 <Button
                   onClick={handleAddBet}
                   disabled={
@@ -214,10 +237,10 @@ export function LotterySimulator() {
                     !canAddMoreBets ||
                     placeBetMutation.isPending
                   }
-                  className="flex-1"
+                  variant="outline"
                 >
                   <Plus className="h-4 w-4 mr-2" />
-                  Add Bet
+                  Add to Batch
                 </Button>
                 
                 <Button
@@ -229,7 +252,7 @@ export function LotterySimulator() {
                   className="bg-green-600 hover:bg-green-700"
                 >
                   <Send className="h-4 w-4 mr-2" />
-                  Send All Bets ({pendingBets.length})
+                  Send Batch ({pendingBets.length})
                 </Button>
                 
                 <Button
@@ -238,7 +261,7 @@ export function LotterySimulator() {
                   disabled={placeBetMutation.isPending || batchBetsMutation.isPending}
                 >
                   <RotateCcw className="h-4 w-4 mr-2" />
-                  Play Again
+                  Reset
                 </Button>
               </div>
 

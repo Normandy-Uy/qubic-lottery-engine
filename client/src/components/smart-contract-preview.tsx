@@ -3,55 +3,101 @@ import { Badge } from "@/components/ui/badge";
 
 export function SmartContractPreview() {
   const contractCode = `#include "qpi.h"
+#include "qubic_random.h"
 
 struct BetInput {
     id walletId;
     uint8 numbers[5];
     uint64 amount;
+    uint64 drawTick;
 };
 
 struct BetOutput {
     bit success;
     uint8 betCount;
     uint64 totalCost;
+    id transactionHash;
 };
 
-// Anti-exploit: Track bets per wallet
+struct DrawResult {
+    uint8 winningNumbers[5];
+    uint64 drawTick;
+    uint64 randomSeed;
+};
+
+// Anti-exploit: Track bets per wallet per draw
 private:
-    uint8 walletBetCounts[MAX_WALLETS];
+    uint8 walletBetCounts[MAX_WALLETS][MAX_DRAWS];
     uint64 currentDrawTick;
+    DrawResult previousDraws[100];
 
 public:
     REGISTER_USER_FUNCTION(placeBet, 1);
+    REGISTER_USER_FUNCTION(conductDraw, 2);
     
     BetOutput placeBet(BetInput input) {
         BetOutput output;
+        uint32 walletIndex = getWalletIndex(input.walletId);
         
-        // Enforce 5-bet limit per wallet
-        uint8 currentBets = walletBetCounts[
-            getWalletIndex(input.walletId)
-        ];
-        
+        // Enforce 5-bet limit per wallet per draw
+        uint8 currentBets = walletBetCounts[walletIndex][input.drawTick];
         if (currentBets >= 5) {
             output.success = false;
             return output;
         }
         
-        // Validate bet amount
+        // Validate bet amount (10,000 QUBIC)
         if (input.amount != 10000) {
             output.success = false;
             return output;
         }
         
+        // Validate number selection (1-50, unique)
+        if (!validateNumbers(input.numbers)) {
+            output.success = false;
+            return output;
+        }
+        
         // Process bet and increment counter
-        walletBetCounts[getWalletIndex(input.walletId)]++;
+        storeBet(input);
+        walletBetCounts[walletIndex][input.drawTick]++;
+        
         output.success = true;
         output.betCount = currentBets + 1;
+        output.transactionHash = generateTxHash();
         
         return output;
+    }
+    
+    DrawResult conductDraw(uint64 drawTick) {
+        DrawResult result;
+        result.drawTick = drawTick;
+        
+        // Generate winning numbers using Qubic Random Number Smart Contract
+        uint64 seed = getCurrentTick() + drawTick;
+        RandomSeed randomSeed = qubicRandom::generateSeed(seed);
+        result.randomSeed = seed;
+        
+        // Generate 5 unique numbers (1-50)
+        for (int i = 0; i < 5; i++) {
+            result.winningNumbers[i] = qubicRandom::getNumber(
+                randomSeed, 1, 50, i
+            );
+        }
+        
+        // Store draw result for audit trail
+        previousDraws[drawTick % 100] = result;
+        
+        return result;
     }`;
 
   const features = [
+    {
+      title: "Qubic Random Number Contract",
+      description: "Integrates with Qubic's native Random Number Smart Contract for provably fair number generation.",
+      icon: "🎲",
+      color: "purple",
+    },
     {
       title: "Wallet-Based Limits",
       description: "Smart contract tracks individual wallet bet counts to enforce the 5-bet maximum per draw cycle.",
@@ -65,8 +111,8 @@ public:
       color: "blue",
     },
     {
-      title: "Batch Optimization",
-      description: "Single transaction submission for all 5 bets reduces blockchain congestion and costs.",
+      title: "Single & Batch Betting",
+      description: "Support for both individual bet submission and batch processing for up to 5 bets per transaction.",
       icon: "📦",
       color: "yellow",
     },

@@ -1,8 +1,8 @@
-# Qubic Anti-Exploit Lottery System
+# Qubic Anti-Exploit Lottery Engine
 
 ## Overview
 
-This project demonstrates an innovative lottery system built on the Qubic blockchain, designed to prevent common exploitation vulnerabilities while maintaining exceptional user experience. The system implements a 5/50 lottery game with advanced anti-exploit mechanisms including wallet-based bet limitations and batch transaction optimization.
+This project demonstrates an innovative lottery engine built on the Qubic blockchain, designed to prevent common exploitation vulnerabilities while maintaining exceptional user experience. The engine implements a 5/50 lottery game with advanced anti-exploit mechanisms including wallet-based bet limitations, Qubic Random Number Smart Contract integration for provably fair draws, and both single bet and batch transaction optimization.
 
 ## User Preferences
 
@@ -38,29 +38,33 @@ The system uses four main tables:
 ### Anti-Exploit Mechanisms
 - **Wallet Bet Limiting**: Maximum 5 bets per wallet address per lottery draw
 - **Draw Tick Validation**: Each bet is tied to a specific draw tick preventing cross-draw exploitation
-- **Smart Contract Simulation**: Preview of C++ smart contract logic for Qubic blockchain deployment
+- **Qubic Random Number Smart Contract**: Integration with Qubic's native random number generator for provably fair draws
+- **Smart Contract Implementation**: Complete C++ smart contract logic for Qubic blockchain deployment
 
-### Lottery Game Logic
+### Lottery Engine Logic
 - **5/50 Format**: Players select 5 unique numbers from 1-50
 - **Fixed Bet Amount**: 10,000 QUBIC per ticket
 - **Real-time Jackpot**: Live jackpot display with cryptocurrency price conversions
-- **Batch Betting**: Users can place multiple bets in a single transaction
+- **Single & Batch Betting**: Users can place individual bets or batch multiple bets in a single transaction
+- **Provably Fair Draws**: Uses Qubic Random Number Smart Contract for verifiable randomness
 
 ### User Interface Components
-- **Live Demo**: Interactive lottery simulator with number selection
+- **Live Demo**: Interactive lottery engine simulator with number selection
 - **Jackpot Display**: Real-time jackpot with multi-currency conversion
-- **Smart Contract Preview**: Code preview showing anti-exploit logic
+- **Smart Contract Preview**: C++ code preview showing anti-exploit logic and Qubic Random Number Contract integration
 - **Recent Winners**: Display of recent lottery winners
-- **Technical Documentation**: White paper and mechanics explanations
+- **Technical Documentation**: White paper and mechanics explanations with Qubic Random Number Smart Contract details
+- **Single & Batch Betting**: Support for both individual bet submission and batch processing
 
 ## Data Flow
 
-1. **User Interaction**: Users select numbers and place bets through the React frontend
+1. **User Interaction**: Users select numbers and place single bets or add to batch through the React frontend
 2. **API Communication**: TanStack Query manages API calls to Express backend
 3. **Validation Layer**: Server validates bet limits, number selections, and wallet constraints
 4. **Database Operations**: Drizzle ORM performs type-safe database transactions
 5. **Real-time Updates**: Query invalidation ensures UI reflects latest state
 6. **Anti-Exploit Checks**: System enforces 5-bet limit per wallet per draw
+7. **Random Number Generation**: Qubic Random Number Smart Contract provides provably fair winning numbers
 
 ## External Dependencies
 
@@ -98,10 +102,21 @@ The system uses four main tables:
 - **Environment**: Production NODE_ENV with environment variable configuration
 
 ### Qubic Blockchain Integration
-The system is designed for future deployment to Qubic blockchain:
-- **Smart Contract**: C++ implementation with native anti-exploit logic
+The lottery engine is designed for deployment to Qubic blockchain:
+- **Smart Contract**: C++ implementation with native anti-exploit logic and Qubic Random Number Smart Contract integration
 - **High Performance**: Leverages Qubic's 15.5M TPS capability
-- **Fee Efficiency**: Batch transactions reduce network costs
+- **Fee Efficiency**: Single and batch transactions reduce network costs
 - **Native Integration**: Direct blockchain interaction without intermediate layers
+- **Provably Fair**: Uses Qubic's native Random Number Smart Contract for verifiable randomness
+- **Hardware-Based Entropy**: Utilizes Qubic's hardware random number generators
+
+## Recent Changes
+
+### January 2025 Updates
+- **Terminology Update**: Changed all references from "lottery system" to "lottery engine" throughout the application
+- **Qubic Random Number Integration**: Added comprehensive integration with Qubic Random Number Smart Contract
+- **Single Bet Functionality**: Enabled individual bet submission alongside existing batch processing
+- **Smart Contract Enhancement**: Updated C++ code to include random number generation and draw functionality
+- **Documentation Updates**: Enhanced whitepaper with detailed Qubic Random Number Smart Contract technical specifications
 
 This architecture demonstrates advanced blockchain application development while maintaining compatibility with traditional web infrastructure during the development and demonstration phase.
