@@ -5,6 +5,7 @@ export function Navigation() {
   const [location] = useLocation();
 
   const navItems = [
+    { href: "/proposal", label: "Project Proposal", icon: "📋" },
     { href: "/", label: "Live Demo", icon: "🎮" },
     { href: "/whitepaper", label: "White Paper", icon: "📄" },
     { href: "/overview", label: "Project Overview", icon: "🎯" },

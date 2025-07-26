@@ -134,5 +134,6 @@ The lottery engine is designed for deployment to Qubic blockchain:
 - **Sergey Ivancheglo Integration**: Added "The Crypto Messiah" image and description on main page highlighting his vision of channeling energy wastage to AI
 - **VPX Team About Page**: Created comprehensive About page featuring Norlito, Shalom, Elijohn, and Jeson Sepulvida with team roles and technology stack, including mention of their Alibaba-like e-commerce platform for Vietnam, Philippines, and Southeast Asia sourcing
 - **Project Timeline**: Implemented detailed Timeline page with 5-phase development roadmap from testnet to global deployment (Jan-Dec 2025)
+- **Project Proposal**: Created comprehensive grant proposal page following formal guidelines with 11 required sections (introduction, business need, model, features, components, architecture, user journey, scope/timeline, milestones, payment terms, team composition) under 2500 words
 
 This architecture demonstrates advanced blockchain application development while maintaining compatibility with traditional web infrastructure during the development and demonstration phase.
