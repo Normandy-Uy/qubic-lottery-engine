@@ -5,6 +5,7 @@ import { RecentWinners } from "@/components/recent-winners";
 import { BlockchainHistory } from "@/components/blockchain-history";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import cryptoMessiahImage from "@assets/crypto messiah_1753492387344.png";
 
 export default function Home() {
   return (
@@ -80,6 +81,47 @@ export default function Home() {
             <div className="text-center">
               <div className="text-3xl font-bold text-purple-600 mb-2">15.5M</div>
               <div className="text-slate-600">TPS Capability</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Sergey Ivancheglo Section */}
+      <section className="py-12 bg-gradient-to-r from-purple-50 to-blue-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+            <div className="lg:w-2/3">
+              <Badge className="bg-purple-100 text-purple-800 border-purple-300 mb-4">
+                🌟 Visionary Leadership
+              </Badge>
+              <h2 className="text-3xl font-bold text-slate-900 mb-4">
+                Come-from-Behind Sergey Ivancheglo
+              </h2>
+              <h3 className="text-xl text-purple-600 font-semibold mb-4">
+                The Crypto Messiah Preserving the World's Energy
+              </h3>
+              <p className="text-slate-700 leading-relaxed mb-4">
+                Sergey Ivancheglo, known as "Come-from-Behind," is the visionary founder of Qubic who 
+                revolutionized blockchain technology by channeling the world's energy wastage into AI 
+                and meaningful computation. His philosophy of technology serving humanity drives our 
+                commitment to creating transparent, corruption-resistant systems for global good.
+              </p>
+              <p className="text-slate-600 text-sm">
+                "Technology should not consume resources meaninglessly, but should channel them 
+                toward advancing human civilization and alleviating suffering." - Sergey Ivancheglo
+              </p>
+            </div>
+            <div className="lg:w-1/3 flex justify-center">
+              <div className="relative">
+                <img 
+                  src={cryptoMessiahImage} 
+                  alt="Sergey Ivancheglo - The Crypto Messiah"
+                  className="w-64 h-80 object-cover rounded-xl shadow-2xl border-4 border-purple-200"
+                />
+                <div className="absolute -bottom-2 -right-2 bg-purple-600 text-white px-3 py-1 rounded-lg text-sm font-bold">
+                  The Crypto Messiah
+                </div>
+              </div>
             </div>
           </div>
         </div>
