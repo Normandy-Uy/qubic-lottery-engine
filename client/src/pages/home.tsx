@@ -118,9 +118,6 @@ export default function Home() {
                   alt="Sergey Ivancheglo - The Crypto Messiah"
                   className="w-64 h-80 object-cover rounded-xl shadow-2xl border-4 border-purple-200"
                 />
-                <div className="absolute -bottom-2 -right-2 bg-purple-600 text-white px-3 py-1 rounded-lg text-sm font-bold">
-                  The Crypto Messiah
-                </div>
               </div>
             </div>
           </div>
