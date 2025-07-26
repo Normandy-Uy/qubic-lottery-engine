@@ -124,7 +124,7 @@ The lottery engine is designed for deployment to Qubic blockchain:
 - **Blockchain History Integration**: Added comprehensive blockchain data fetching to display historical draws, winners, and transaction history
 - **Historical Data Display**: Created dedicated blockchain history component showing past lottery results fetched from on-chain data
 - **Charitable Mission Integration**: Added comprehensive mission, vision, and goals sections emphasizing the lottery engine's purpose for government charity initiatives
-- **Founder Philosophy Alignment**: Integrated references to Sergey Ivancheglo (ComefromBehind) and Qubic Foundation's ethical commitment to technology for social good
+- **Founder Philosophy Alignment**: Integrated references to Sergey Ivancheglo (Come-From-Beyond) and Qubic Foundation's ethical commitment to technology for social good
 - **Social Impact Focus**: Updated all documentation to emphasize poverty alleviation, education, healthcare, and transparent charitable fundraising goals
 - **Fortress-Class Terminology**: Updated from "Anti-Exploit" to "Fortress-Class" security architecture throughout the project
 - **Franchisee Management System**: Added comprehensive franchisee interface documentation with guaranteed minimum jackpot functionality
