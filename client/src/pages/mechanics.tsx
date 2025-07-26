@@ -77,44 +77,41 @@ export default function Mechanics() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-3">
-                <div className="flex justify-between items-center p-3 bg-gold-50 rounded-lg border border-gold-200">
+                <div className="flex justify-between items-center p-4 bg-gold-50 rounded-lg border border-gold-200">
                   <div>
                     <div className="font-semibold text-gold-800">Jackpot (5 matches)</div>
-                    <div className="text-sm text-gold-600">50% of prize pool</div>
+                    <div className="text-sm text-gold-600">60% of total bets + rollover</div>
+                    <div className="text-xs text-gold-500 mt-1">Winner takes entire prize pool</div>
                   </div>
-                  <div className="text-2xl">🥇</div>
+                  <div className="text-3xl">🏆</div>
                 </div>
                 
-                <div className="flex justify-between items-center p-3 bg-silver-50 rounded-lg border border-gray-200">
-                  <div>
-                    <div className="font-semibold text-gray-800">Second Prize (4 matches)</div>
-                    <div className="text-sm text-gray-600">30% of prize pool</div>
+                <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                  <h4 className="font-semibold text-slate-800 mb-3">Revenue Distribution (40% of total bets)</h4>
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-slate-600">Franchisee (Charity Organization)</span>
+                      <span className="font-semibold text-slate-800">31%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-slate-600">Qubic Foundation</span>
+                      <span className="font-semibold text-blue-800">5%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-slate-600">Developer</span>
+                      <span className="font-semibold text-purple-800">4%</span>
+                    </div>
                   </div>
-                  <div className="text-2xl">🥈</div>
-                </div>
-                
-                <div className="flex justify-between items-center p-3 bg-bronze-50 rounded-lg border border-orange-200">
-                  <div>
-                    <div className="font-semibold text-orange-800">Third Prize (3 matches)</div>
-                    <div className="text-sm text-orange-600">15% of prize pool</div>
-                  </div>
-                  <div className="text-2xl">🥉</div>
-                </div>
-
-                <div className="flex justify-between items-center p-3 bg-slate-50 rounded-lg border border-slate-200">
-                  <div>
-                    <div className="font-semibold text-slate-800">Development Fund</div>
-                    <div className="text-sm text-slate-600">3% of prize pool</div>
-                  </div>
-                  <div className="text-xl">🔧</div>
                 </div>
 
-                <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg border border-blue-200">
-                  <div>
-                    <div className="font-semibold text-blue-800">Qubic Ecosystem</div>
-                    <div className="text-sm text-blue-600">2% of prize pool</div>
-                  </div>
-                  <div className="text-xl">🌐</div>
+                <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
+                  <h4 className="font-semibold text-amber-800 mb-2">Rollover System</h4>
+                  <ul className="text-sm text-amber-700 space-y-1">
+                    <li>• No winner: 60% rolls over to next draw</li>
+                    <li>• Minimum jackpot fund covers shortfalls</li>
+                    <li>• Only used when rollover + current &lt; minimum</li>
+                    <li>• Guarantees attractive jackpots during launch</li>
+                  </ul>
                 </div>
               </div>
             </CardContent>
