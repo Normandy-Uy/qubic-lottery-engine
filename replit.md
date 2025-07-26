@@ -129,5 +129,7 @@ The lottery engine is designed for deployment to Qubic blockchain:
 - **Fortress-Class Terminology**: Updated from "Anti-Exploit" to "Fortress-Class" security architecture throughout the project
 - **Franchisee Management System**: Added comprehensive franchisee interface documentation with guaranteed minimum jackpot functionality
 - **Administrative Interface**: Documented separate franchisee management system for government charity organizations and licensed operators
+- **Revenue Distribution System**: Added comprehensive wallet-based revenue sharing (5% Qubic Foundation, 4% Developer, 91% Franchisee)
+- **Financial Risk Documentation**: Detailed franchisee financial risk model where franchisees cover minimum jackpot shortfalls and may incur losses during low-participation periods
 
 This architecture demonstrates advanced blockchain application development while maintaining compatibility with traditional web infrastructure during the development and demonstration phase.

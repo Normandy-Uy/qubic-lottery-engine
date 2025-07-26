@@ -197,39 +197,100 @@ struct BetOutput {
     uint8 charityPercentage;      // Percentage allocated to charity (0-100)
     uint64 drawFrequency;         // Time between draws in ticks
     id charityWalletId;           // Destination wallet for charity funds
+    id qubicFoundationWallet;     // 5% Qubic Foundation share
+    id developerWallet;           // 4% Developer share
+    id franchiseeWallet;          // Franchisee revenue wallet
     bit isActive;                 // Franchisee operational status
 };
 
+struct RevenueDistribution {
+    uint64 totalRevenue;          // Total ticket sales revenue
+    uint64 qubicFoundationShare;  // 5% to Qubic Foundation
+    uint64 developerShare;        // 4% to Developer
+    uint64 franchiseeShare;       // 91% to Franchisee (before minimum jackpot)
+    uint64 actualJackpot;         // Final jackpot amount
+    uint64 franchiseeDeficit;     // Amount franchisee must cover if sales < minimum
+};
+
 struct JackpotState {
-    uint64 currentPool;           // Current accumulated jackpot
+    uint64 currentPool;           // Current accumulated jackpot from sales
     uint64 guaranteedMinimum;     // Franchisee-set minimum jackpot
     uint64 charityContribution;   // Funds allocated to charity
     uint64 nextDrawTick;          // Scheduled next draw time
+    uint64 franchiseeInvestment;  // Amount franchisee invested to meet minimum
 };`}</pre>
             </div>
 
-            <h4>3.2.3 Minimum Jackpot Implementation</h4>
+            <h4>3.2.3 Revenue Distribution System</h4>
             <p>
-              When starting a new lottery or during low-participation periods, the guaranteed minimum jackpot 
-              ensures player engagement and charitable fund availability:
+              All ticket sales revenue is automatically distributed to designated wallets according to the established revenue sharing model:
             </p>
             
             <div className="bg-slate-900 text-slate-300 p-4 rounded-lg font-mono text-sm overflow-x-auto">
-              <pre>{`uint64 calculateDrawJackpot(id franchiseeId) {
-    FranchiseeConfig config = getFranchiseeConfig(franchiseeId);
-    JackpotState jackpot = getCurrentJackpot(franchiseeId);
+              <pre>{`RevenueDistribution distributeTicketRevenue(uint64 totalSales) {
+    RevenueDistribution distribution;
+    distribution.totalRevenue = totalSales;
     
-    // Ensure minimum jackpot is always available
-    if (jackpot.currentPool < config.minimumJackpot) {
-        // Franchisee covers the difference
-        uint64 shortfall = config.minimumJackpot - jackpot.currentPool;
-        transferFromFranchisee(franchiseeId, shortfall);
-        jackpot.currentPool = config.minimumJackpot;
-    }
+    // Calculate fixed percentage distributions
+    distribution.qubicFoundationShare = (totalSales * 5) / 100;  // 5%
+    distribution.developerShare = (totalSales * 4) / 100;        // 4%
+    distribution.franchiseeShare = (totalSales * 91) / 100;      // 91%
     
-    return jackpot.currentPool;
+    // Transfer to respective wallets
+    transfer(qubicFoundationWallet, distribution.qubicFoundationShare);
+    transfer(developerWallet, distribution.developerShare);
+    transfer(franchiseeWallet, distribution.franchiseeShare);
+    
+    return distribution;
 }`}</pre>
             </div>
+
+            <h4>3.2.4 Minimum Jackpot Implementation with Franchisee Risk</h4>
+            <p>
+              The minimum jackpot system requires franchisee financial commitment, particularly during launch phases 
+              when ticket sales may not cover the guaranteed minimum. This creates potential financial risk for the franchisee:
+            </p>
+            
+            <div className="bg-slate-900 text-slate-300 p-4 rounded-lg font-mono text-sm overflow-x-auto">
+              <pre>{`uint64 calculateFinalJackpot(id franchiseeId, uint64 ticketSales) {
+    FranchiseeConfig config = getFranchiseeConfig(franchiseeId);
+    
+    // Distribute revenue first
+    RevenueDistribution revenue = distributeTicketRevenue(ticketSales);
+    
+    // Calculate available jackpot from franchisee share
+    uint64 availableJackpot = revenue.franchiseeShare;
+    
+    // Check if minimum jackpot requirement is met
+    if (availableJackpot < config.minimumJackpot) {
+        // Franchisee must cover the shortfall (financial risk)
+        uint64 shortfall = config.minimumJackpot - availableJackpot;
+        
+        // Deduct from franchisee's wallet to meet minimum
+        transfer(franchiseeWallet, jackpotPool, shortfall);
+        
+        // Record franchisee investment/loss
+        recordFranchiseeInvestment(franchiseeId, shortfall);
+        
+        return config.minimumJackpot;
+    }
+    
+    return availableJackpot;
+}`}</pre>
+            </div>
+
+            <h4>3.2.5 Franchisee Financial Risk Management</h4>
+            <p>
+              The franchisee bears financial responsibility for maintaining minimum jackpots, which can result in losses 
+              during periods of low participation:
+            </p>
+            <ul>
+              <li><strong>Revenue Coverage:</strong> Franchisee receives 91% of ticket sales to cover minimum jackpot</li>
+              <li><strong>Shortfall Risk:</strong> When sales are insufficient, franchisee must invest additional funds</li>
+              <li><strong>Loss Accounting:</strong> Franchisee investments are tracked as operational expenses</li>
+              <li><strong>Break-even Point:</strong> Franchisee profits only when sales exceed minimum jackpot requirements</li>
+              <li><strong>Market Risk:</strong> New lotteries face higher risk due to low initial participation</li>
+            </ul>
 
             <h3>3.3 Game Mechanics</h3>
             

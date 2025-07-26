@@ -65,6 +65,38 @@ export function FranchiseeInterface() {
                   />
                 </div>
 
+                <Separator className="my-4" />
+                
+                <div>
+                  <Label className="text-sm font-medium">Revenue Distribution Wallets</Label>
+                  <div className="space-y-2 mt-2">
+                    <div className="text-xs">
+                      <span className="text-slate-600">Qubic Foundation (5%):</span>
+                      <Input 
+                        value="QUBIC_FOUNDATION_WALLET_123456789"
+                        readOnly
+                        className="bg-blue-50 text-xs mt-1"
+                      />
+                    </div>
+                    <div className="text-xs">
+                      <span className="text-slate-600">Developer (4%):</span>
+                      <Input 
+                        value="DEVELOPER_WALLET_987654321ABCDEF"
+                        readOnly
+                        className="bg-purple-50 text-xs mt-1"
+                      />
+                    </div>
+                    <div className="text-xs">
+                      <span className="text-slate-600">Franchisee (91%):</span>
+                      <Input 
+                        value="FRANCHISEE_WALLET_456789123GHIJKL"
+                        readOnly
+                        className="bg-green-50 text-xs mt-1"
+                      />
+                    </div>
+                  </div>
+                </div>
+
                 <div>
                   <Label htmlFor="charity-percentage">Charity Allocation (%)</Label>
                   <Input 
@@ -184,7 +216,7 @@ export function FranchiseeInterface() {
                   </div>
 
                   <div className="p-4 bg-slate-50 rounded-lg">
-                    <h4 className="font-semibold mb-2">Current Configuration</h4>
+                    <h4 className="font-semibold mb-2">Revenue Distribution Model</h4>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
                         <span>Minimum Jackpot:</span>
@@ -194,10 +226,25 @@ export function FranchiseeInterface() {
                         <span>USD Equivalent:</span>
                         <span className="font-medium">${(parseInt(minimumJackpot) * 0.0022).toFixed(0)}</span>
                       </div>
+                      <Separator className="my-2" />
+                      <div className="text-xs text-slate-600 mb-1">Revenue Sharing (per ticket sale):</div>
                       <div className="flex justify-between">
-                        <span>Charity Portion ({charityPercentage}%):</span>
-                        <span className="font-medium text-green-600">
-                          {(parseInt(minimumJackpot) * parseInt(charityPercentage) / 100).toLocaleString()} QUBIC
+                        <span>Qubic Foundation (5%):</span>
+                        <span className="font-medium text-blue-600">500 QUBIC</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Developer (4%):</span>
+                        <span className="font-medium text-purple-600">400 QUBIC</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Franchisee (91%):</span>
+                        <span className="font-medium text-green-600">9,100 QUBIC</span>
+                      </div>
+                      <Separator className="my-2" />
+                      <div className="flex justify-between">
+                        <span>Break-even Point:</span>
+                        <span className="font-medium text-orange-600">
+                          {Math.ceil(parseInt(minimumJackpot) / 9100).toLocaleString()} tickets
                         </span>
                       </div>
                     </div>
@@ -214,6 +261,16 @@ export function FranchiseeInterface() {
   currentPool = minimumJackpot;
 }`}</pre>
                     </div>
+                  </div>
+
+                  <div className="p-4 bg-amber-50 rounded-lg border border-amber-200">
+                    <h4 className="font-semibold text-amber-800 mb-2">Financial Risk Warning</h4>
+                    <ul className="text-sm text-amber-700 space-y-1">
+                      <li>• Franchisee covers shortfall when sales &lt; minimum jackpot</li>
+                      <li>• Potential losses during low-participation periods</li>
+                      <li>• Break-even requires sufficient ticket sales</li>
+                      <li>• New lotteries face higher initial risk</li>
+                    </ul>
                   </div>
 
                   <div className="p-4 bg-green-50 rounded-lg border border-green-200">
@@ -244,31 +301,39 @@ export function FranchiseeInterface() {
           <div className="grid md:grid-cols-3 gap-6">
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium">Total Revenue (30 days)</CardTitle>
+                <CardTitle className="text-sm font-medium">Total Ticket Sales (30 days)</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">12.4M QUBIC</div>
-                <p className="text-xs text-slate-500">+15% from last month</p>
+                <p className="text-xs text-slate-500">1,240 tickets sold</p>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium">Charity Funds Raised</CardTitle>
+                <CardTitle className="text-sm font-medium">Franchisee Revenue (91%)</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-green-600">7.44M QUBIC</div>
-                <p className="text-xs text-slate-500">60% of total revenue</p>
+                <div className="text-2xl font-bold text-green-600">11.28M QUBIC</div>
+                <p className="text-xs text-slate-500">Before minimum jackpot coverage</p>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium">Active Players</CardTitle>
+                <CardTitle className="text-sm font-medium">Foundation & Developer</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">15,623</div>
-                <p className="text-xs text-slate-500">+8% this week</p>
+                <div className="text-sm space-y-1">
+                  <div className="flex justify-between">
+                    <span>Qubic Foundation (5%):</span>
+                    <span className="font-medium text-blue-600">620K QUBIC</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Developer (4%):</span>
+                    <span className="font-medium text-purple-600">496K QUBIC</span>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -294,11 +359,11 @@ export function FranchiseeInterface() {
 
                 <div>
                   <div className="flex justify-between mb-2">
-                    <span className="text-sm font-medium">Jackpot Coverage Ratio</span>
-                    <span className="text-sm text-slate-500">156% self-funded</span>
+                    <span className="text-sm font-medium">Franchisee Profit Margin</span>
+                    <span className="text-sm text-slate-500">8.2% after minimum jackpot</span>
                   </div>
                   <div className="w-full bg-slate-200 rounded-full h-2">
-                    <div className="bg-green-600 h-2 rounded-full" style={{ width: '100%' }}></div>
+                    <div className="bg-green-600 h-2 rounded-full" style={{ width: '82%' }}></div>
                   </div>
                 </div>
 
