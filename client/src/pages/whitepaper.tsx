@@ -159,6 +159,8 @@ static constexpr unsigned int MAX_NUMBER = 50;
 static constexpr unsigned int MIN_NUMBER = 1;
 static constexpr unsigned long long BET_COST = 10000000000ULL;  // 10,000 QUBIC
 static constexpr unsigned int DRAW_INTERVAL = 202781; // ~24 hours in ticks
+static constexpr unsigned int RANDOM_CONTRACT_INDEX = 2; // Qubic Random Oracle
+static constexpr unsigned int MAX_TOTAL_BETS = 16380; // 3276 wallets × 5 bets
 
 // Lottery bet structure
 struct LotteryBet {
@@ -179,6 +181,7 @@ struct DrawResult {
     m256i winnerWallet;                       // Jackpot winner public key
     array<unsigned char, 32> randomSeed;      // Random seed from oracle
     bit hasWinner;                            // Whether draw had winner
+    bit isExecuted;                           // Draw execution status
 } PACKED;
 
 // Per-wallet statistics
@@ -187,6 +190,14 @@ struct WalletStats {
     unsigned long long totalWagered;          // Lifetime wagered amount
     unsigned long long totalWinnings;         // Lifetime winnings
     unsigned int lastBetTick;                 // Last bet placement tick
+} PACKED;
+
+// Oracle request tracking
+struct OracleRequest {
+    unsigned int drawTick;                    // Draw tick requested
+    unsigned int requestTick;                 // When request was made
+    array<unsigned char, 32> nonce;           // Request nonce
+    bit processed;                            // Whether processed
 } PACKED;`}</pre>
             </div>
 
@@ -208,15 +219,24 @@ struct QUBIC_LOTTERY_CONTRACT_STATE : public ContractState {
     m256i FRANCHISEE_WALLET;                       // 31% revenue destination
     m256i MINIMUM_JACKPOT_WALLET;                  // Minimum jackpot fund
     array<unsigned char, 32> lastRandomSeed;        // Last random seed used
+    array<OracleRequest, 10> pendingRequests;      // Oracle request tracking
+    unsigned int pendingRequestCount;               // Active oracle requests
+    bit drawInProgress;                            // Prevents concurrent draws
 } PACKED;
 
 struct QubicLotteryContract : public Contract<QUBIC_LOTTERY_CONTRACT_STATE> {
 private:
 
-    // Get wallet index from public key
+    // Get wallet index from public key with better distribution
     inline unsigned int getWalletIndex(const m256i& publicKey) const {
-        // Use first 16 bits of public key as index
-        return *((unsigned short*)&publicKey) % 65536;
+        // Use XOR folding for better distribution
+        unsigned int hash = 0;
+        const unsigned int* pkData = (const unsigned int*)&publicKey;
+        for (int i = 0; i < 8; i++) {
+            hash ^= pkData[i];
+        }
+        hash = (hash ^ (hash >> 16)) & 0xFFFF;
+        return hash % 65536;
     }
 
     // Validate bet limits per wallet
@@ -225,33 +245,38 @@ private:
         return state.walletStats[index].betCount < MAX_BETS_PER_WALLET;
     }
 
-    // Validate selected numbers
+    // Validate selected numbers with duplicate check
     bit validateNumbers(const unsigned char* numbers) const {
-        // Check valid range and no duplicates
+        bit seen[51] = {false}; // Track seen numbers (1-50)
+        
         for (int i = 0; i < LOTTERY_NUMBERS_COUNT; i++) {
             if (numbers[i] < MIN_NUMBER || numbers[i] > MAX_NUMBER) {
                 return false;
             }
-            for (int j = i + 1; j < LOTTERY_NUMBERS_COUNT; j++) {
-                if (numbers[i] == numbers[j]) {
-                    return false;
-                }
+            if (seen[numbers[i]]) {
+                return false; // Duplicate found
             }
+            seen[numbers[i]] = true;
         }
         return true;
     }
 
-    // Generate unique bet hash
+    // Generate unique bet hash with all relevant data
     void generateBetHash(LotteryBet& bet) const {
-        // Combine bet data for hashing
-        unsigned char data[320];
+        // Combine all bet data for unique hash
+        unsigned char data[64];
         copyMem(data, &bet.walletId, 32);
         copyMem(data + 32, &bet.drawTick, 4);
         copyMem(data + 36, &bet.timestamp, 4);
         copyMem(data + 40, bet.numbers, 5);
+        copyMem(data + 45, &bet.amount, 8);
         
-        // Generate SHA256 hash
-        KangarooTwelve(data, 45, bet.betHash.data(), 32);
+        // Add entropy from system
+        unsigned int entropy = qubicSystemTick ^ getWalletIndex(bet.walletId);
+        copyMem(data + 53, &entropy, 4);
+        
+        // Generate hash with full data
+        KangarooTwelve(data, 57, bet.betHash.data(), 32);
     }
 
 public:
@@ -273,18 +298,32 @@ public:
         const unsigned char numbers[5]
     ) : bettor(bettor), amount(BET_COST) {
         
-        // Validate current draw tick
+        // 1. Validate current draw tick
         if (qubicSystemTick >= state.currentDrawTick) {
             return 0; // Draw already executed
         }
         
-        // Fortress-class validation checks
-        if (!validateBetLimits(bettor) || 
-            !validateNumbers(numbers) || 
-            bettor.getBalance() < BET_COST) {
+        // 2. Validate bet count limits
+        if (state.totalBetCount >= MAX_TOTAL_BETS) {
+            return 0; // Maximum bets reached
+        }
+        
+        // 3. Fortress-class validation checks
+        if (!validateBetLimits(bettor) || !validateNumbers(numbers)) {
             return 0;
         }
         
+        // 4. Check wallet balance before any state changes
+        if (getBalance(bettor) < BET_COST) {
+            return 0; // Insufficient balance
+        }
+        
+        // 5. Attempt transfer BEFORE any state modifications
+        if (!transfer(bettor, _contractIndex, BET_COST)) {
+            return 0; // Transfer failed - no state changed
+        }
+        
+        // 6. Only now update state (transfer succeeded)
         unsigned int walletIndex = getWalletIndex(bettor);
         
         // Create bet record
@@ -296,7 +335,7 @@ public:
         newBet.timestamp = qubicSystemTick;
         generateBetHash(newBet);
         
-        // Store bet and update counters
+        // Store bet with bounds checking already done
         state.currentDrawBets[state.totalBetCount] = newBet;
         state.totalBetCount++;
         state.walletStats[walletIndex].betCount++;
@@ -307,9 +346,6 @@ public:
         unsigned long long prizePoolContribution = (BET_COST * 60) / 100;
         state.currentDrawPrizePool += prizePoolContribution;
         
-        // Transfer bet amount from bettor
-        transfer(bettor, contractAddress, BET_COST);
-        
         return 1; // Success
     }
 };`}</pre>
@@ -319,34 +355,77 @@ public:
             <div className="bg-slate-900 text-slate-300 p-4 rounded-lg font-mono text-sm overflow-x-auto">
               <pre>{`    // PUBLIC: Execute lottery draw (called by anyone when tick expires)
     PUBLIC(ExecuteDraw)() {
+        // Check draw timing
         if (qubicSystemTick < state.currentDrawTick || state.totalBetCount == 0) {
             return 0; // Not time for draw or no bets
         }
         
-        DrawResult result;
-        result.drawTick = state.currentDrawTick;
-        result.totalBets = state.totalBetCount;
+        // Prevent concurrent draw execution
+        if (state.drawInProgress) {
+            return 0; // Draw already in progress
+        }
+        
+        // Set draw lock
+        state.drawInProgress = true;
+        
+        // Check for existing pending request
+        for (int i = 0; i < state.pendingRequestCount; i++) {
+            if (state.pendingRequests[i].drawTick == state.currentDrawTick && 
+                !state.pendingRequests[i].processed) {
+                return 0; // Request already pending
+            }
+        }
+        
+        // Create oracle request
+        OracleRequest request;
+        request.drawTick = state.currentDrawTick;
+        request.requestTick = qubicSystemTick;
+        request.processed = false;
+        
+        // Generate request nonce
+        unsigned char nonceData[40];
+        copyMem(nonceData, &state.currentDrawTick, 4);
+        copyMem(nonceData + 4, &qubicSystemTick, 4);
+        copyMem(nonceData + 8, &state.totalBetCount, 4);
+        KangarooTwelve(nonceData, 12, request.nonce.data(), 32);
+        
+        // Store request
+        if (state.pendingRequestCount < 10) {
+            state.pendingRequests[state.pendingRequestCount++] = request;
+        }
         
         // Request random numbers from Qubic Oracle
-        RequestContractFunction(RANDOM_CONTRACT_INDEX, 1, state.currentDrawTick);
-        
-        // In production, this would be split into two functions:
-        // 1. ExecuteDraw (requests random)
-        // 2. ProcessDrawResult (receives random and processes)
+        RequestContractFunction(RANDOM_CONTRACT_INDEX, 1, request.nonce);
         
         return 1;
     }
 
     // PUBLIC: Process draw result after random number received
     PUBLIC(ProcessDrawResult)(
+        const array<unsigned char, 32>& nonce,
         const array<unsigned char, 32>& randomSeed
-    ) : randomSeed(randomSeed) {
+    ) : nonce(nonce), randomSeed(randomSeed) {
         
-        // Verify this is for current draw
-        if (state.lastRandomSeed == randomSeed) {
-            return 0; // Already processed
+        // Verify request is valid and pending
+        bit validRequest = false;
+        unsigned int requestIndex = 0;
+        
+        for (unsigned int i = 0; i < state.pendingRequestCount; i++) {
+            if (state.pendingRequests[i].nonce == nonce && 
+                !state.pendingRequests[i].processed &&
+                state.pendingRequests[i].drawTick == state.currentDrawTick) {
+                validRequest = true;
+                requestIndex = i;
+                break;
+            }
         }
         
+        if (!validRequest || !state.drawInProgress) {
+            return 0; // Invalid or unexpected response
+        }
+        
+        // Mark request as processed
+        state.pendingRequests[requestIndex].processed = true;
         state.lastRandomSeed = randomSeed;
         
         // Generate winning numbers
@@ -356,14 +435,34 @@ public:
         // Calculate total prize pool (60% current + rollover)
         unsigned long long totalPrizePool = state.currentDrawPrizePool + state.rolloverAmount;
         
+        // Revenue distribution FIRST (40% total) - ensures funds available
+        unsigned long long totalRevenue = state.totalBetCount * BET_COST;
+        unsigned long long qubicShare = (totalRevenue * 5) / 100;
+        unsigned long long devShare = (totalRevenue * 4) / 100;
+        unsigned long long franchiseeShare = (totalRevenue * 31) / 100;
+        
+        // Execute revenue transfers
+        bit revenueSuccess = true;
+        revenueSuccess &= transfer(_contractIndex, state.QUBIC_FOUNDATION_WALLET, qubicShare);
+        revenueSuccess &= transfer(_contractIndex, state.DEVELOPER_WALLET, devShare);
+        revenueSuccess &= transfer(_contractIndex, state.FRANCHISEE_WALLET, franchiseeShare);
+        
+        if (!revenueSuccess) {
+            // Revenue distribution failed - abort draw
+            state.drawInProgress = false;
+            return 0;
+        }
+        
         // Check minimum jackpot requirement
         if (totalPrizePool < state.minimumJackpotAmount) {
             unsigned long long shortfall = state.minimumJackpotAmount - totalPrizePool;
-            totalPrizePool = state.minimumJackpotAmount;
-            state.minimumJackpotUsed += shortfall;
             
-            // Transfer from minimum jackpot fund
-            transfer(state.MINIMUM_JACKPOT_WALLET, contractAddress, shortfall);
+            // Attempt to get minimum jackpot funds
+            if (transfer(state.MINIMUM_JACKPOT_WALLET, _contractIndex, shortfall)) {
+                totalPrizePool = state.minimumJackpotAmount;
+                state.minimumJackpotUsed += shortfall;
+            }
+            // If transfer fails, use available prize pool
         }
         
         // Find winner(s)
@@ -373,26 +472,21 @@ public:
         
         if (winner != nullId) {
             // Transfer prize to winner
-            transfer(contractAddress, winner, totalPrizePool);
-            state.rolloverAmount = 0;
+            if (transfer(_contractIndex, winner, totalPrizePool)) {
+                state.rolloverAmount = 0;
+            } else {
+                // Transfer failed - rollover the prize
+                state.rolloverAmount = totalPrizePool;
+            }
         } else {
             // No winner - rollover to next draw
             state.rolloverAmount = totalPrizePool;
         }
         
-        // Revenue distribution (40% total)
-        unsigned long long totalRevenue = state.totalBetCount * BET_COST;
-        unsigned long long qubicShare = (totalRevenue * 5) / 100;
-        unsigned long long devShare = (totalRevenue * 4) / 100;
-        unsigned long long franchiseeShare = (totalRevenue * 31) / 100;
-        
-        transfer(contractAddress, state.QUBIC_FOUNDATION_WALLET, qubicShare);
-        transfer(contractAddress, state.DEVELOPER_WALLET, devShare);
-        transfer(contractAddress, state.FRANCHISEE_WALLET, franchiseeShare);
-        
         // Reset for next draw
         resetDrawState();
         state.currentDrawTick = qubicSystemTick + DRAW_INTERVAL;
+        state.drawInProgress = false;
         
         return 1;
     }
