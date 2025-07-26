@@ -132,7 +132,7 @@ The lottery engine is designed for deployment to Qubic blockchain:
 - **Revenue Distribution System**: Added comprehensive wallet-based revenue sharing (5% Qubic Foundation, 4% Developer, 91% Franchisee)
 - **Financial Risk Documentation**: Detailed franchisee financial risk model where franchisees cover minimum jackpot shortfalls and may incur losses during low-participation periods
 - **Sergey Ivancheglo Integration**: Added "The Crypto Messiah" image and description on main page highlighting his vision of channeling energy wastage to AI
-- **VPX Team About Page**: Created comprehensive About page featuring Norlito, Shalom, Elijohn, and Jeson Sepulvida with team roles and technology stack
+- **VPX Team About Page**: Created comprehensive About page featuring Norlito, Shalom, Elijohn, and Jeson Sepulvida with team roles and technology stack, including mention of their Alibaba-like e-commerce platform for Vietnam, Philippines, and Southeast Asia sourcing
 - **Project Timeline**: Implemented detailed Timeline page with 5-phase development roadmap from testnet to global deployment (Jan-Dec 2025)
 
 This architecture demonstrates advanced blockchain application development while maintaining compatibility with traditional web infrastructure during the development and demonstration phase.

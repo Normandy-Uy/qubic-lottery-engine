@@ -25,14 +25,19 @@ export default function About() {
           <CardContent className="p-8">
             <div className="text-center">
               <h2 className="text-3xl font-bold mb-4">VPX Development Team</h2>
-              <p className="text-lg text-blue-100 mb-6 max-w-4xl mx-auto">
+              <p className="text-lg text-blue-100 mb-4 max-w-4xl mx-auto">
                 A passionate group of blockchain developers and social impact advocates, united by 
                 the vision of using Qubic's revolutionary technology to create transparent, 
                 corruption-resistant funding mechanisms for charitable causes worldwide.
               </p>
+              <p className="text-base text-blue-200 mb-6 max-w-4xl mx-auto">
+                The VPX Team is also actively developing an Alibaba-like e-commerce platform 
+                serving Vietnam, Philippines, and Southeast Asia sourcing markets, bringing 
+                innovative blockchain solutions to regional commerce and supply chain management.
+              </p>
               <div className="flex justify-center items-center gap-2">
                 <Users className="h-6 w-6" />
-                <span className="font-semibold">Building for Humanity</span>
+                <span className="font-semibold">Building for Humanity & Commerce</span>
               </div>
             </div>
           </CardContent>
@@ -99,7 +104,7 @@ export default function About() {
             <CardContent>
               <p className="text-sm text-slate-700 text-center">
                 Oversees project development and ensures alignment with charitable mission objectives. 
-                Coordinates technical implementation with social impact goals.
+                Coordinates technical implementation with social impact goals and regional e-commerce initiatives.
               </p>
             </CardContent>
           </Card>
@@ -214,16 +219,26 @@ export default function About() {
         <Card className="bg-gradient-to-r from-slate-50 to-blue-50">
           <CardContent className="p-8 text-center">
             <h3 className="text-2xl font-bold text-slate-900 mb-4">
-              Building the Future of Charitable Technology
+              Building the Future of Charitable Technology & Regional Commerce
             </h3>
-            <p className="text-slate-600 mb-6 max-w-2xl mx-auto">
+            <p className="text-slate-600 mb-4 max-w-2xl mx-auto">
               The VPX Team is committed to demonstrating how blockchain technology can serve 
               humanity's greatest needs. Our fortress-class lottery engine represents the next 
               evolution in transparent, corruption-resistant charitable fundraising.
             </p>
-            <Badge className="bg-purple-100 text-purple-800 border-purple-300">
-              🚀 Powered by Qubic Blockchain
-            </Badge>
+            <p className="text-slate-600 mb-6 max-w-2xl mx-auto">
+              Alongside our charitable mission, we are developing innovative e-commerce solutions 
+              for Vietnam, Philippines, and Southeast Asia, creating an Alibaba-like platform 
+              that leverages blockchain technology for transparent sourcing and supply chain management.
+            </p>
+            <div className="flex justify-center gap-4">
+              <Badge className="bg-purple-100 text-purple-800 border-purple-300">
+                🚀 Powered by Qubic Blockchain
+              </Badge>
+              <Badge className="bg-green-100 text-green-800 border-green-300">
+                🌏 Southeast Asia Focus
+              </Badge>
+            </div>
           </CardContent>
         </Card>
       </div>
