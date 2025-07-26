@@ -189,6 +189,134 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Blockchain data endpoints (simulating blockchain queries)
+  app.get("/api/blockchain/transactions", async (req, res) => {
+    try {
+      // Simulate fetching transaction data from blockchain
+      const transactions = [
+        {
+          id: "tx_1",
+          transactionHash: "0xa1b2c3d4e5f6789012345678901234567890abcdef",
+          blockHeight: 1234567,
+          timestamp: new Date(Date.now() - 300000).toISOString(),
+          type: "bet",
+          walletAddress: "QUBIC1234567890ABCDEF",
+          amount: 10000,
+          numbers: [7, 15, 23, 31, 42],
+          status: "confirmed"
+        },
+        {
+          id: "tx_2", 
+          transactionHash: "0xb2c3d4e5f6789012345678901234567890abcdef12",
+          blockHeight: 1234566,
+          timestamp: new Date(Date.now() - 600000).toISOString(),
+          type: "payout",
+          walletAddress: "QUBIC9876543210FEDCBA",
+          amount: 500000,
+          status: "confirmed"
+        },
+        {
+          id: "tx_3",
+          transactionHash: "0xc3d4e5f6789012345678901234567890abcdef1234",
+          blockHeight: 1234565,
+          timestamp: new Date(Date.now() - 900000).toISOString(),
+          type: "draw",
+          walletAddress: "QUBIC_SYSTEM_CONTRACT",
+          status: "confirmed"
+        }
+      ];
+      res.json(transactions);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch blockchain transactions" });
+    }
+  });
+
+  app.get("/api/blockchain/draws", async (req, res) => {
+    try {
+      // Simulate fetching historical draw data from blockchain
+      const draws = [
+        {
+          id: "draw_1",
+          drawTick: 1234567,
+          winningNumbers: [7, 15, 23, 31, 42],
+          timestamp: new Date(Date.now() - 86400000).toISOString(),
+          totalBets: 1247,
+          totalPrize: 12470000,
+          winners: [
+            {
+              walletAddress: "QUBIC9876543210FEDCBA",
+              matchCount: 5,
+              prize: 6235000
+            },
+            {
+              walletAddress: "QUBIC1111222233334444",
+              matchCount: 4,
+              prize: 3117500
+            },
+            {
+              walletAddress: "QUBIC5555666677778888",
+              matchCount: 4,
+              prize: 3117500
+            }
+          ]
+        },
+        {
+          id: "draw_2",
+          drawTick: 1234456,
+          winningNumbers: [3, 12, 28, 35, 49],
+          timestamp: new Date(Date.now() - 172800000).toISOString(),
+          totalBets: 892,
+          totalPrize: 8920000,
+          winners: [
+            {
+              walletAddress: "QUBIC4444555566667777",
+              matchCount: 5,
+              prize: 4460000
+            },
+            {
+              walletAddress: "QUBIC8888999900001111",
+              matchCount: 4,
+              prize: 2230000
+            },
+            {
+              walletAddress: "QUBIC2222333344445555",
+              matchCount: 4,
+              prize: 2230000
+            }
+          ]
+        },
+        {
+          id: "draw_3",
+          drawTick: 1234345,
+          winningNumbers: [1, 9, 17, 25, 33],
+          timestamp: new Date(Date.now() - 259200000).toISOString(),
+          totalBets: 634,
+          totalPrize: 6340000,
+          winners: [
+            {
+              walletAddress: "QUBIC7777888899990000",
+              matchCount: 4,
+              prize: 3170000
+            },
+            {
+              walletAddress: "QUBIC3333444455556666",
+              matchCount: 3,
+              prize: 1585000
+            },
+            {
+              walletAddress: "QUBIC6666777788889999",
+              matchCount: 3,
+              prize: 1585000
+            }
+          ]
+        }
+      ];
+      res.json(draws);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch blockchain draws" });
+    }
+  });
+
   // Get current network stats
   app.get("/api/network/stats", async (req, res) => {
     try {

@@ -264,6 +264,8 @@ struct LotteryState {
               <li><strong>API Layer:</strong> Demo REST API will be replaced by direct blockchain interaction</li>
               <li><strong>Transaction Flow:</strong> Demo transactions simulate actual blockchain operations</li>
               <li><strong>Smart Contract Logic:</strong> Identical anti-exploit logic in both demo and production</li>
+              <li><strong>Historical Data Access:</strong> Blockchain queries fetch past draws, winners, and transaction history</li>
+              <li><strong>Real-time Updates:</strong> Live blockchain monitoring for new transactions and draws</li>
             </ul>
           </CardContent>
         </Card>

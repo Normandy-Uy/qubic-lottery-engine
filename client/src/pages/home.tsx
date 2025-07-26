@@ -2,6 +2,7 @@ import { JackpotDisplay } from "@/components/jackpot-display";
 import { LotterySimulator } from "@/components/lottery-simulator";
 import { SmartContractPreview } from "@/components/smart-contract-preview";
 import { RecentWinners } from "@/components/recent-winners";
+import { BlockchainHistory } from "@/components/blockchain-history";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
@@ -17,15 +18,15 @@ export default function Home() {
             </Badge>
             
             <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-              Anti-Exploit Lottery System
+              Anti-Exploit Lottery Engine
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-yellow-400">
                 on Qubic
               </span>
             </h1>
             
             <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Demonstrating innovative smart contract security through a 5/50 lottery system with 
-              wallet-based bet limitations and batch transaction optimization on the world's fastest blockchain.
+              Demonstrating innovative smart contract security through a 5/50 lottery engine with 
+              wallet-based bet limitations, Qubic Random Number Smart Contract integration, and single/batch transaction optimization on the world's fastest blockchain.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -130,6 +131,13 @@ export default function Home() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SmartContractPreview />
+        </div>
+      </section>
+
+      {/* Blockchain History */}
+      <section className="py-20 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <BlockchainHistory />
         </div>
       </section>
     </div>
