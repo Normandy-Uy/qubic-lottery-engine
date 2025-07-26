@@ -198,6 +198,12 @@ struct OracleRequest {
     unsigned int requestTick;                 // When request was made
     array<unsigned char, 32> nonce;           // Request nonce
     bit processed;                            // Whether processed
+} PACKED;
+
+// Bet combination tracking (for duplicate detection)
+struct BetCombination {
+    unsigned char numbers[5];                 // Sorted number combination
+    array<unsigned char, 32> betHash;         // Hash of the combination
 } PACKED;`}</pre>
             </div>
 
@@ -222,6 +228,10 @@ struct QUBIC_LOTTERY_CONTRACT_STATE : public ContractState {
     array<OracleRequest, 10> pendingRequests;      // Oracle request tracking
     unsigned int pendingRequestCount;               // Active oracle requests
     bit drawInProgress;                            // Prevents concurrent draws
+    array<DrawResult, 100> drawHistory;             // Past 100 draw results
+    unsigned int drawHistoryCount;                  // Number of recorded draws
+    array<BetCombination, 16380> uniqueBets;        // Track unique bet combinations
+    array<unsigned int, 16380> betWalletIndex;     // Maps bet to wallet for duplicate check
 } PACKED;
 
 struct QubicLotteryContract : public Contract<QUBIC_LOTTERY_CONTRACT_STATE> {
@@ -278,6 +288,50 @@ private:
         // Generate hash with full data
         KangarooTwelve(data, 57, bet.betHash.data(), 32);
     }
+    
+    // Check for duplicate bet combinations
+    bit isDuplicateBet(const m256i& walletId, const unsigned char* numbers) const {
+        unsigned int walletIdx = getWalletIndex(walletId);
+        
+        // Create sorted copy of numbers for comparison
+        unsigned char sortedNumbers[5];
+        copyMem(sortedNumbers, numbers, 5);
+        sortNumbers(sortedNumbers, 5);
+        
+        // Check existing bets for this draw
+        for (unsigned int i = 0; i < state.totalBetCount; i++) {
+            if (state.betWalletIndex[i] == walletIdx) {
+                // Check if numbers match
+                bit match = true;
+                unsigned char existingNumbers[5];
+                copyMem(existingNumbers, state.currentDrawBets[i].numbers, 5);
+                sortNumbers(existingNumbers, 5);
+                
+                for (int j = 0; j < 5; j++) {
+                    if (sortedNumbers[j] != existingNumbers[j]) {
+                        match = false;
+                        break;
+                    }
+                }
+                
+                if (match) return true; // Duplicate found
+            }
+        }
+        return false;
+    }
+    
+    // Simple sort for 5 numbers
+    void sortNumbers(unsigned char* nums, int count) const {
+        for (int i = 0; i < count - 1; i++) {
+            for (int j = 0; j < count - i - 1; j++) {
+                if (nums[j] > nums[j + 1]) {
+                    unsigned char temp = nums[j];
+                    nums[j] = nums[j + 1];
+                    nums[j + 1] = temp;
+                }
+            }
+        }
+    }
 
 public:
     // Contract initialization
@@ -313,7 +367,12 @@ public:
             return 0;
         }
         
-        // 4. Check wallet balance before any state changes
+        // 4. Check for duplicate bet combinations
+        if (isDuplicateBet(bettor, numbers)) {
+            return 0; // Duplicate bet not allowed
+        }
+        
+        // 5. Check wallet balance before any state changes
         if (getBalance(bettor) < BET_COST) {
             return 0; // Insufficient balance
         }
@@ -337,6 +396,7 @@ public:
         
         // Store bet with bounds checking already done
         state.currentDrawBets[state.totalBetCount] = newBet;
+        state.betWalletIndex[state.totalBetCount] = walletIndex; // Track for duplicate check
         state.totalBetCount++;
         state.walletStats[walletIndex].betCount++;
         state.walletStats[walletIndex].totalWagered += BET_COST;
@@ -355,9 +415,19 @@ public:
             <div className="bg-slate-900 text-slate-300 p-4 rounded-lg font-mono text-sm overflow-x-auto">
               <pre>{`    // PUBLIC: Execute lottery draw (called by anyone when tick expires)
     PUBLIC(ExecuteDraw)() {
-        // Check draw timing
-        if (qubicSystemTick < state.currentDrawTick || state.totalBetCount == 0) {
-            return 0; // Not time for draw or no bets
+        // Enhanced timing validation
+        if (qubicSystemTick < state.currentDrawTick) {
+            return 0; // Too early for draw
+        }
+        
+        // Prevent draws too far in the future (max 1000 ticks late)
+        if (qubicSystemTick > state.currentDrawTick + 1000) {
+            return 0; // Draw tick expired, too late
+        }
+        
+        // Must have bets to conduct draw
+        if (state.totalBetCount == 0) {
+            return 0; // No bets placed
         }
         
         // Prevent concurrent draw execution
@@ -483,12 +553,44 @@ public:
             state.rolloverAmount = totalPrizePool;
         }
         
+        // Store draw result in history
+        if (state.drawHistoryCount < 100) {
+            DrawResult result;
+            result.drawTick = state.currentDrawTick;
+            copyMem(result.winningNumbers, winningNumbers, 5);
+            result.prizePool = totalPrizePool;
+            result.totalBets = state.totalBetCount;
+            result.winnerWallet = winner;
+            result.randomSeed = randomSeed;
+            result.hasWinner = (winner != nullId);
+            result.isExecuted = true;
+            
+            state.drawHistory[state.drawHistoryCount % 100] = result;
+            state.drawHistoryCount++;
+        }
+        
         // Reset for next draw
         resetDrawState();
         state.currentDrawTick = qubicSystemTick + DRAW_INTERVAL;
         state.drawInProgress = false;
         
         return 1;
+    }
+    
+    // PUBLIC: Get draw result (public accessor for transparency)
+    PUBLIC(GetDrawResult)(
+        unsigned int drawTick
+    ) : drawTick(drawTick) {
+        
+        // Search through draw history
+        for (unsigned int i = 0; i < state.drawHistoryCount && i < 100; i++) {
+            if (state.drawHistory[i].drawTick == drawTick) {
+                // Return found result (would need output struct in production)
+                return 1; // Found
+            }
+        }
+        
+        return 0; // Not found
     }
 
 private:
@@ -567,6 +669,11 @@ private:
         // Clear bet counts for all wallets
         for (int i = 0; i < 65536; i++) {
             state.walletStats[i].betCount = 0;
+        }
+        
+        // Clear duplicate tracking arrays
+        for (unsigned int i = 0; i < MAX_TOTAL_BETS; i++) {
+            state.betWalletIndex[i] = 0;
         }
     }
 };`}</pre>
