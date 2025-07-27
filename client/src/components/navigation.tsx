@@ -33,7 +33,7 @@ export function Navigation() {
 
 
         {/* Three-Row Navigation Menu */}
-        <div className="py-3 space-y-2">
+        <div className="py-1 space-y-1">
           {/* Row 1: External Links */}
           <div className="flex items-center justify-center space-x-6">
             {externalLinks.map((link) => {
@@ -41,7 +41,7 @@ export function Navigation() {
               if (link.path) {
                 return (
                   <Link key={link.name} href={link.path}>
-                    <a className="flex items-center space-x-3 px-4 py-2 rounded-lg text-xl font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition-colors">
+                    <a className="flex items-center space-x-3 px-4 py-1 rounded-lg text-xl font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition-colors">
                       <span className="text-2xl">{link.icon}</span>
                       <span className="font-bold">{link.name}</span>
                     </a>
@@ -55,7 +55,7 @@ export function Navigation() {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center space-x-3 px-4 py-2 rounded-lg text-xl font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+                  className="flex items-center space-x-3 px-4 py-1 rounded-lg text-xl font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
                 >
                   <span className="text-2xl">{link.icon}</span>
                   <span>{link.name}</span>
@@ -70,7 +70,7 @@ export function Navigation() {
               <Link key={item.path} href={item.path}>
                 <a
                   className={cn(
-                    "flex items-center space-x-3 px-4 py-2 rounded-lg text-xl font-medium transition-colors",
+                    "flex items-center space-x-3 px-4 py-1 rounded-lg text-xl font-medium transition-colors",
                     location === item.path
                       ? "bg-blue-600 text-white"
                       : "text-slate-300 hover:text-white hover:bg-slate-800"
@@ -89,7 +89,7 @@ export function Navigation() {
               <Link key={item.path} href={item.path}>
                 <a
                   className={cn(
-                    "flex items-center space-x-3 px-4 py-2 rounded-lg text-xl font-medium transition-colors",
+                    "flex items-center space-x-3 px-4 py-1 rounded-lg text-xl font-medium transition-colors",
                     location === item.path
                       ? "bg-blue-600 text-white"
                       : "text-slate-300 hover:text-white hover:bg-slate-800"
