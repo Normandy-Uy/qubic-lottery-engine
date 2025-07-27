@@ -22,7 +22,7 @@ The Qubic Lottery Engine is a fortress-class charitable fundraising platform tha
 
 ## 🚀 Live Demo
 
-**[View Live Application](https://your-replit-url.replit.dev/)**
+**[View Live Application](https://lotteryengine.replit.app/)**
 
 Experience the interactive lottery engine with:
 - Qubic wallet address integration
