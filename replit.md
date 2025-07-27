@@ -142,5 +142,6 @@ The lottery engine is designed for deployment to Qubic blockchain:
 - **Founder Profile Updates**: Updated About page to include Sepulvida family names and detailed founder credentials - Norlito as Founder of VPX (Alibaba of SE Asia), inventor of Starshades™ Nose Therapy Glasses, Founder of Universal Chess Ratings, and President of Assessment and Research Center of the Philippines
 - **Timeline Enhancement**: Added GLI (Gaming Laboratories International) certification to Phase 2 testing requirements, ensuring comprehensive regulatory compliance alongside security audits
 - **Smart Contract Navigation**: Created dedicated Smart Contract page and moved C++ implementation section from Live Demo page, added new navigation menu item next to Mechanics as requested
+- **Full-Height Code Window**: Modified smart contract preview to display C++ code in full-height window (80vh) as requested, with features and metrics positioned below the code for better readability
 
 This architecture demonstrates advanced blockchain application development while maintaining compatibility with traditional web infrastructure during the development and demonstration phase.
