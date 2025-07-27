@@ -29,7 +29,8 @@ export default function Timeline() {
         "⏳ Comprehensive exploit testing with 5-bet wallet limitations",
         "⏳ Revenue distribution testing with multiple franchisees",
         "⏳ Minimum jackpot stress testing during low participation",
-        "⏳ Third-party security audit of fortress-class mechanisms"
+        "⏳ Third-party security audit of fortress-class mechanisms",
+        "⏳ GLI (Gaming Laboratories International) certification"
       ]
     },
     {
