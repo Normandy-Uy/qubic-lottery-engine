@@ -8,7 +8,7 @@ export default function Timeline() {
       phase: "Phase 1",
       title: "Foundation & Architecture",
       status: "completed",
-      date: "January 2025",
+      date: "January 2026",
       description: "Complete fortress-class lottery engine architecture with franchisee management system",
       tasks: [
         "✓ Core smart contract development",
@@ -22,7 +22,7 @@ export default function Timeline() {
       phase: "Phase 2",
       title: "Testing & Security Audit",
       status: "current",
-      date: "February 2025",
+      date: "February 2026",
       description: "Comprehensive testing on Qubic testnet and security auditing",
       tasks: [
         "⏳ Deploy smart contracts to Qubic testnet",
@@ -37,7 +37,7 @@ export default function Timeline() {
       phase: "Phase 3",
       title: "Mainnet Deployment",
       status: "upcoming",
-      date: "March 2025",
+      date: "March 2026",
       description: "Production deployment to Qubic mainnet with government charity partnerships",
       tasks: [
         "○ Deploy audited smart contracts to Qubic mainnet",
@@ -51,7 +51,7 @@ export default function Timeline() {
       phase: "Phase 4",
       title: "Global Expansion",
       status: "upcoming",
-      date: "April - June 2025",
+      date: "April - June 2026",
       description: "Scale to multiple countries and expand charitable impact worldwide",
       tasks: [
         "○ Onboard 5 government charity organizations",
@@ -65,7 +65,7 @@ export default function Timeline() {
       phase: "Phase 5",
       title: "Advanced Features",
       status: "upcoming",
-      date: "July - December 2025",
+      date: "July - December 2026",
       description: "Enhanced functionality and ecosystem expansion",
       tasks: [
         "○ Multi-lottery support for different charitable causes",

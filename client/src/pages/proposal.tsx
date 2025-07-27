@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { CheckCircle, Users, Code, Rocket, Target, Calendar, DollarSign } from "lucide-react";
+import { CheckCircle, Users, Code, Rocket, Target, Calendar, DollarSign, Circle } from "lucide-react";
 
 export default function Proposal() {
   return (
@@ -252,28 +252,44 @@ export default function Proposal() {
           <CardContent>
             <div className="space-y-4">
               <div className="grid gap-4">
-                <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
-                  <CheckCircle className="h-5 w-5 text-green-500" />
+                <div className="flex items-start gap-3 p-4 bg-green-50 rounded-lg border border-green-200">
+                  <CheckCircle className="h-5 w-5 text-green-500 mt-1" />
                   <div>
-                    <strong>Phase 1 (Jan 2025):</strong> Architecture & smart contract development - COMPLETED
+                    <div><strong>Phase 1 - Foundation & Architecture (Jan 2026):</strong></div>
+                    <div className="text-sm text-slate-700 mt-1">Complete fortress-class lottery engine architecture with franchisee management system</div>
+                    <div className="text-xs text-slate-600 mt-1">✓ Core smart contract development, revenue distribution system, fortress-class security, franchisee interface</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
-                  <Calendar className="h-5 w-5 text-blue-500" />
+                <div className="flex items-start gap-3 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <Calendar className="h-5 w-5 text-blue-500 mt-1" />
                   <div>
-                    <strong>Phase 2 (Feb 2025):</strong> Testnet deployment, security auditing, exploit testing
+                    <div><strong>Phase 2 - Testing & Security Audit (Feb 2026):</strong></div>
+                    <div className="text-sm text-slate-700 mt-1">Comprehensive testing on Qubic testnet and security auditing</div>
+                    <div className="text-xs text-slate-600 mt-1">Testnet deployment, exploit testing, third-party security audit, GLI certification</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-purple-50 rounded-lg">
-                  <Rocket className="h-5 w-5 text-purple-500" />
+                <div className="flex items-start gap-3 p-4 bg-purple-50 rounded-lg border border-purple-200">
+                  <Rocket className="h-5 w-5 text-purple-500 mt-1" />
                   <div>
-                    <strong>Phase 3 (Mar 2025):</strong> Mainnet deployment, government partnerships
+                    <div><strong>Phase 3 - Mainnet Deployment (Mar 2026):</strong></div>
+                    <div className="text-sm text-slate-700 mt-1">Production deployment to Qubic mainnet with government charity partnerships</div>
+                    <div className="text-xs text-slate-600 mt-1">Deploy audited contracts, government partnerships, franchisee onboarding, pilot lottery launch</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-orange-50 rounded-lg">
-                  <Target className="h-5 w-5 text-orange-500" />
+                <div className="flex items-start gap-3 p-4 bg-orange-50 rounded-lg border border-orange-200">
+                  <Target className="h-5 w-5 text-orange-500 mt-1" />
                   <div>
-                    <strong>Phase 4-5 (Apr-Dec 2025):</strong> Global expansion, advanced features
+                    <div><strong>Phase 4 - Global Expansion (Apr-Jun 2026):</strong></div>
+                    <div className="text-sm text-slate-700 mt-1">Scale to multiple countries and expand charitable impact worldwide</div>
+                    <div className="text-xs text-slate-600 mt-1">5+ government partnerships, multi-language support, analytics dashboard, impact reporting</div>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg border border-slate-200">
+                  <Circle className="h-5 w-5 text-slate-400 mt-1" />
+                  <div>
+                    <div><strong>Phase 5 - Advanced Features (Jul-Dec 2026):</strong></div>
+                    <div className="text-sm text-slate-700 mt-1">Enhanced functionality and ecosystem expansion</div>
+                    <div className="text-xs text-slate-600 mt-1">Multi-lottery support, AI forecasting, mobile app, automated impact verification</div>
                   </div>
                 </div>
               </div>
@@ -290,25 +306,54 @@ export default function Proposal() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <h4 className="font-semibold text-slate-900">Q1 2025 Deliverables</h4>
-                  <ul className="text-sm text-slate-700 space-y-1">
-                    <li>• Complete smart contract code</li>
-                    <li>• Security audit report</li>
-                    <li>• Testnet deployment</li>
-                    <li>• Franchisee interface prototype</li>
-                  </ul>
+            <div className="space-y-4">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-3">
+                  <h4 className="font-semibold text-slate-900">Q1 2026 Deliverables</h4>
+                  <div className="bg-slate-50 p-3 rounded-lg">
+                    <ul className="text-sm text-slate-700 space-y-1">
+                      <li>• Complete fortress-class smart contract code</li>
+                      <li>• Comprehensive security audit report</li>
+                      <li>• GLI (Gaming Laboratories International) certification</li>
+                      <li>• Qubic testnet deployment with full functionality</li>
+                      <li>• Franchisee management interface prototype</li>
+                    </ul>
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <h4 className="font-semibold text-slate-900">Q2-Q4 2025 Deliverables</h4>
-                  <ul className="text-sm text-slate-700 space-y-1">
-                    <li>• Mainnet production deployment</li>
-                    <li>• 5+ government partnerships</li>
-                    <li>• $1M+ charitable funds raised</li>
-                    <li>• Mobile application release</li>
-                  </ul>
+                <div className="space-y-3">
+                  <h4 className="font-semibold text-slate-900">Q2 2026 Deliverables</h4>
+                  <div className="bg-slate-50 p-3 rounded-lg">
+                    <ul className="text-sm text-slate-700 space-y-1">
+                      <li>• Mainnet production deployment (audited)</li>
+                      <li>• First government charity partnership launch</li>
+                      <li>• Minimum jackpot system operational</li>
+                      <li>• Real-time revenue distribution system</li>
+                      <li>• Impact tracking and transparency dashboard</li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <h4 className="font-semibold text-slate-900">Q3-Q4 2026 Deliverables</h4>
+                  <div className="bg-slate-50 p-3 rounded-lg">
+                    <ul className="text-sm text-slate-700 space-y-1">
+                      <li>• 5+ government partnerships operational</li>
+                      <li>• $1M+ charitable funds raised and distributed</li>
+                      <li>• Multi-language platform support</li>
+                      <li>• Mobile application release</li>
+                      <li>• Advanced analytics and AI forecasting features</li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <h4 className="font-semibold text-slate-900">Security & Compliance</h4>
+                  <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
+                    <ul className="text-sm text-slate-700 space-y-1">
+                      <li>• <strong>Security Audit:</strong> Third-party fortress-class security audit (Feb 2026)</li>
+                      <li>• <strong>GLI Certification:</strong> Gaming Laboratories International compliance (Feb 2026)</li>
+                      <li>• <strong>Regulatory Compliance:</strong> Government charity organization approvals</li>
+                      <li>• <strong>Ongoing Monitoring:</strong> Continuous security monitoring and updates</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
