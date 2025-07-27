@@ -52,13 +52,15 @@ export default function About() {
               <div className="w-20 h-20 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Code className="h-10 w-10 text-white" />
               </div>
-              <CardTitle className="text-blue-900">Norlito</CardTitle>
-              <p className="text-sm text-slate-600">Lead Blockchain Developer</p>
+              <CardTitle className="text-blue-900">Norlito Sepulvida</CardTitle>
+              <p className="text-sm text-slate-600">Founder & Lead Blockchain Developer</p>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-slate-700 text-center">
-                Architect of the fortress-class security system and Qubic smart contract integration. 
-                Specializes in exploit-resistant blockchain mechanisms.
+                Founder of VPX (The Alibaba of Southeast Asia), inventor of Starshades™ Nose Therapy Glasses 
+                (Starshades.ct.ws), Founder of Universal Chess Ratings (uniches.replit.app), and President 
+                of Assessment and Research Center of the Philippines (Arcphils.replit.app). Architect of the 
+                fortress-class security system and Qubic smart contract integration.
               </p>
             </CardContent>
           </Card>
@@ -68,7 +70,7 @@ export default function About() {
               <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Lightbulb className="h-10 w-10 text-white" />
               </div>
-              <CardTitle className="text-green-900">Shalom</CardTitle>
+              <CardTitle className="text-green-900">Shalom Sepulvida</CardTitle>
               <p className="text-sm text-slate-600">Systems Architect</p>
             </CardHeader>
             <CardContent>
@@ -84,7 +86,7 @@ export default function About() {
               <div className="w-20 h-20 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Target className="h-10 w-10 text-white" />
               </div>
-              <CardTitle className="text-purple-900">Elijohn</CardTitle>
+              <CardTitle className="text-purple-900">Elijohn Sepulvida</CardTitle>
               <p className="text-sm text-slate-600">Frontend Developer</p>
             </CardHeader>
             <CardContent>
