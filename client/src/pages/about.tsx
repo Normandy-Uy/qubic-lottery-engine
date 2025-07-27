@@ -1,7 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Users, Code, Lightbulb, Target, Download } from "lucide-react";
+import { Users, Code, Lightbulb, Target, Download, Phone, Mail, Twitter } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import norlitophoto from "@assets/my face (1)_1753601468402.jpg";
 
 export default function About() {
   return (
@@ -61,19 +62,46 @@ export default function About() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
           <Card className="border-2 border-blue-200 hover:border-blue-400 transition-colors">
             <CardHeader className="text-center">
-              <div className="w-20 h-20 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Code className="h-10 w-10 text-white" />
+              <div className="w-24 h-24 mx-auto mb-4 overflow-hidden rounded-full border-4 border-blue-200">
+                <img 
+                  src={norlitophoto} 
+                  alt="Norlito Sepulvida" 
+                  className="w-full h-full object-cover"
+                />
               </div>
               <CardTitle className="text-blue-900">Norlito Sepulvida</CardTitle>
               <p className="text-sm text-slate-600">Founder & Lead Blockchain Developer</p>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-slate-700 text-center">
+              <p className="text-sm text-slate-700 text-center mb-4">
                 Founder of VPX (The Alibaba of Southeast Asia), inventor of Starshades™ Nose Therapy Glasses 
                 (Starshades.ct.ws), Founder of Universal Chess Ratings (uniches.replit.app), and President 
                 of Assessment and Research Center of the Philippines (Arcphils.replit.app). Architect of the 
                 fortress-class security system and Qubic smart contract integration.
               </p>
+              
+              {/* Contact Information */}
+              <div className="space-y-2 text-xs text-slate-600">
+                <div className="flex items-center justify-center gap-2">
+                  <Phone className="h-3 w-3" />
+                  <span>+63 9397254120</span>
+                </div>
+                <div className="flex items-center justify-center gap-2">
+                  <Mail className="h-3 w-3" />
+                  <span>norlitouysepulvida@gmail.com</span>
+                </div>
+                <div className="flex items-center justify-center gap-2">
+                  <Twitter className="h-3 w-3" />
+                  <a 
+                    href="https://x.com/QubicEngine" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:text-blue-800"
+                  >
+                    Full Throttle @QubicEngine
+                  </a>
+                </div>
+              </div>
             </CardContent>
           </Card>
 
