@@ -10,6 +10,7 @@ export function Navigation() {
     { href: "/whitepaper", label: "White Paper", icon: "📄" },
     { href: "/overview", label: "Project Overview", icon: "🎯" },
     { href: "/mechanics", label: "Mechanics", icon: "⚙️" },
+    { href: "/smart-contract", label: "Smart Contract", icon: "🔧" },
     { href: "/about", label: "About", icon: "👥" },
     { href: "/timeline", label: "Timeline", icon: "📅" },
   ];

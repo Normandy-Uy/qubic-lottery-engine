@@ -1,6 +1,6 @@
 import { JackpotDisplay } from "@/components/jackpot-display";
 import { LotterySimulator } from "@/components/lottery-simulator";
-import { SmartContractPreview } from "@/components/smart-contract-preview";
+
 import { RecentWinners } from "@/components/recent-winners";
 import { BlockchainHistory } from "@/components/blockchain-history";
 import { Card, CardContent } from "@/components/ui/card";
@@ -166,12 +166,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Smart Contract Preview */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SmartContractPreview />
-        </div>
-      </section>
+
 
       {/* Blockchain History */}
       <section className="py-20 bg-slate-50">
