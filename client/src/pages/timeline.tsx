@@ -8,7 +8,7 @@ export default function Timeline() {
       phase: "Phase 1",
       title: "Foundation & Architecture",
       status: "completed",
-      date: "January 2026",
+      date: "January 1 - March 1, 2026",
       description: "Complete fortress-class lottery engine architecture with franchisee management system",
       tasks: [
         "✓ Core smart contract development",
@@ -22,22 +22,21 @@ export default function Timeline() {
       phase: "Phase 2",
       title: "Testing & Security Audit",
       status: "current",
-      date: "February 2026",
+      date: "March 1 - June 1, 2026",
       description: "Comprehensive testing on Qubic testnet and security auditing",
       tasks: [
         "⏳ Deploy smart contracts to Qubic testnet",
         "⏳ Comprehensive exploit testing with 5-bet wallet limitations",
         "⏳ Revenue distribution testing with multiple franchisees",
         "⏳ Minimum jackpot stress testing during low participation",
-        "⏳ Third-party security audit of fortress-class mechanisms",
-        "⏳ GLI (Gaming Laboratories International) certification"
+        "⏳ Third-party security audit of fortress-class mechanisms"
       ]
     },
     {
       phase: "Phase 3",
       title: "Mainnet Deployment",
       status: "upcoming",
-      date: "March 2026",
+      date: "June 1 - September 1, 2026",
       description: "Production deployment to Qubic mainnet with government charity partnerships",
       tasks: [
         "○ Deploy audited smart contracts to Qubic mainnet",
@@ -51,14 +50,15 @@ export default function Timeline() {
       phase: "Phase 4",
       title: "Global Expansion",
       status: "upcoming",
-      date: "April - June 2026",
+      date: "September 1 - December 30, 2026",
       description: "Scale to multiple countries and expand charitable impact worldwide",
       tasks: [
         "○ Onboard 5 government charity organizations",
         "○ Implement multi-language support",
         "○ Advanced analytics dashboard for franchisees",
         "○ Cross-border charitable fund distribution",
-        "○ Impact reporting and transparency metrics"
+        "○ Impact reporting and transparency metrics",
+        "○ GLI (Gaming Laboratories International) certification"
       ]
     },
     {

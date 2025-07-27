@@ -255,7 +255,7 @@ export default function Proposal() {
                 <div className="flex items-start gap-3 p-4 bg-green-50 rounded-lg border border-green-200">
                   <CheckCircle className="h-5 w-5 text-green-500 mt-1" />
                   <div>
-                    <div><strong>Phase 1 - Foundation & Architecture (Jan 2026):</strong></div>
+                    <div><strong>Phase 1 - Foundation & Architecture (Jan 1 - Mar 1, 2026):</strong></div>
                     <div className="text-sm text-slate-700 mt-1">Complete fortress-class lottery engine architecture with franchisee management system</div>
                     <div className="text-xs text-slate-600 mt-1">✓ Core smart contract development, revenue distribution system, fortress-class security, franchisee interface</div>
                   </div>
@@ -263,15 +263,15 @@ export default function Proposal() {
                 <div className="flex items-start gap-3 p-4 bg-blue-50 rounded-lg border border-blue-200">
                   <Calendar className="h-5 w-5 text-blue-500 mt-1" />
                   <div>
-                    <div><strong>Phase 2 - Testing & Security Audit (Feb 2026):</strong></div>
+                    <div><strong>Phase 2 - Testing & Security Audit (Mar 1 - Jun 1, 2026):</strong></div>
                     <div className="text-sm text-slate-700 mt-1">Comprehensive testing on Qubic testnet and security auditing</div>
-                    <div className="text-xs text-slate-600 mt-1">Testnet deployment, exploit testing, third-party security audit, GLI certification</div>
+                    <div className="text-xs text-slate-600 mt-1">Testnet deployment, exploit testing, third-party security audit</div>
                   </div>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-purple-50 rounded-lg border border-purple-200">
                   <Rocket className="h-5 w-5 text-purple-500 mt-1" />
                   <div>
-                    <div><strong>Phase 3 - Mainnet Deployment (Mar 2026):</strong></div>
+                    <div><strong>Phase 3 - Mainnet Deployment (Jun 1 - Sep 1, 2026):</strong></div>
                     <div className="text-sm text-slate-700 mt-1">Production deployment to Qubic mainnet with government charity partnerships</div>
                     <div className="text-xs text-slate-600 mt-1">Deploy audited contracts, government partnerships, franchisee onboarding, pilot lottery launch</div>
                   </div>
@@ -279,9 +279,9 @@ export default function Proposal() {
                 <div className="flex items-start gap-3 p-4 bg-orange-50 rounded-lg border border-orange-200">
                   <Target className="h-5 w-5 text-orange-500 mt-1" />
                   <div>
-                    <div><strong>Phase 4 - Global Expansion (Apr-Jun 2026):</strong></div>
+                    <div><strong>Phase 4 - Global Expansion (Sep 1 - Dec 30, 2026):</strong></div>
                     <div className="text-sm text-slate-700 mt-1">Scale to multiple countries and expand charitable impact worldwide</div>
-                    <div className="text-xs text-slate-600 mt-1">5+ government partnerships, multi-language support, analytics dashboard, impact reporting</div>
+                    <div className="text-xs text-slate-600 mt-1">5+ government partnerships, multi-language support, analytics dashboard, impact reporting, GLI certification</div>
                   </div>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg border border-slate-200">
@@ -309,19 +309,18 @@ export default function Proposal() {
             <div className="space-y-4">
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-3">
-                  <h4 className="font-semibold text-slate-900">Q1 2026 Deliverables</h4>
+                  <h4 className="font-semibold text-slate-900">Q1 2026 Deliverables (Jan-Mar)</h4>
                   <div className="bg-slate-50 p-3 rounded-lg">
                     <ul className="text-sm text-slate-700 space-y-1">
                       <li>• Complete fortress-class smart contract code</li>
                       <li>• Comprehensive security audit report</li>
-                      <li>• GLI (Gaming Laboratories International) certification</li>
                       <li>• Qubic testnet deployment with full functionality</li>
                       <li>• Franchisee management interface prototype</li>
                     </ul>
                   </div>
                 </div>
                 <div className="space-y-3">
-                  <h4 className="font-semibold text-slate-900">Q2 2026 Deliverables</h4>
+                  <h4 className="font-semibold text-slate-900">Q2 2026 Deliverables (Mar-Jun)</h4>
                   <div className="bg-slate-50 p-3 rounded-lg">
                     <ul className="text-sm text-slate-700 space-y-1">
                       <li>• Mainnet production deployment (audited)</li>
@@ -333,7 +332,7 @@ export default function Proposal() {
                   </div>
                 </div>
                 <div className="space-y-3">
-                  <h4 className="font-semibold text-slate-900">Q3-Q4 2026 Deliverables</h4>
+                  <h4 className="font-semibold text-slate-900">Q3-Q4 2026 Deliverables (Jun-Dec)</h4>
                   <div className="bg-slate-50 p-3 rounded-lg">
                     <ul className="text-sm text-slate-700 space-y-1">
                       <li>• 5+ government partnerships operational</li>
@@ -341,6 +340,7 @@ export default function Proposal() {
                       <li>• Multi-language platform support</li>
                       <li>• Mobile application release</li>
                       <li>• Advanced analytics and AI forecasting features</li>
+                      <li>• GLI (Gaming Laboratories International) certification</li>
                     </ul>
                   </div>
                 </div>
@@ -348,8 +348,8 @@ export default function Proposal() {
                   <h4 className="font-semibold text-slate-900">Security & Compliance</h4>
                   <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
                     <ul className="text-sm text-slate-700 space-y-1">
-                      <li>• <strong>Security Audit:</strong> Third-party fortress-class security audit (Feb 2026)</li>
-                      <li>• <strong>GLI Certification:</strong> Gaming Laboratories International compliance (Feb 2026)</li>
+                      <li>• <strong>Security Audit:</strong> Third-party fortress-class security audit (Mar-Jun 2026)</li>
+                      <li>• <strong>GLI Certification:</strong> Gaming Laboratories International compliance (Sep-Dec 2026)</li>
                       <li>• <strong>Regulatory Compliance:</strong> Government charity organization approvals</li>
                       <li>• <strong>Ongoing Monitoring:</strong> Continuous security monitoring and updates</li>
                     </ul>
