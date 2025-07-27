@@ -67,7 +67,7 @@ export default function Proposal() {
                 <h4 className="font-semibold text-slate-900 mb-2">Our Solution</h4>
                 <ul className="text-sm text-slate-700 space-y-1">
                   <li>• Blockchain-based transparent fund tracking</li>
-                  <li>• Automated revenue distribution (91% charity)</li>
+                  <li>• Automated revenue distribution (91% franchisee)</li>
                   <li>• Fortress-class security preventing exploitation</li>
                   <li>• Government partnership framework</li>
                   <li>• Real-time impact reporting</li>
@@ -97,7 +97,7 @@ export default function Proposal() {
               </div>
               <div className="text-center p-4 bg-green-50 rounded-lg">
                 <div className="text-2xl font-bold text-green-600">91%</div>
-                <div className="text-sm text-slate-600">Charitable Causes</div>
+                <div className="text-sm text-slate-600">Charitable Causes / Franchisee Share</div>
               </div>
             </div>
             <p className="text-slate-700">
@@ -411,10 +411,157 @@ export default function Proposal() {
           </CardContent>
         </Card>
 
+        {/* Grants & Incubation Requirements Compliance */}
+        <Card className="mb-8 border-2 border-green-200 bg-green-50">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-green-800">
+              <CheckCircle className="h-5 w-5 text-green-600" />
+              Grants & Incubation Requirements Compliance
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {/* Structure Requirements */}
+            <div>
+              <h4 className="font-semibold text-slate-900 mb-3">Structure Requirements ✓</h4>
+              <div className="grid md:grid-cols-2 gap-4 text-sm">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    <span>Under 2500 words (current: ~2,350)</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    <span>Introductory chapter included</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    <span>Business need clearly defined</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    <span>Business model with revenue splits</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    <span>Functional features detailed</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    <span>Components to be developed (high level)</span>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    <span>Technical architecture (high level)</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    <span>User journey/examples provided</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    <span>Detailed scope and timeline</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    <span>Milestones and deliverables</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    <span>Payment terms specified</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    <span>Team composition outlined</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Deliverables Requirements */}
+            <Separator />
+            <div>
+              <h4 className="font-semibold text-slate-900 mb-3">Deliverables Compliance (SAFe Principles) ✓</h4>
+              <div className="bg-white p-4 rounded-lg border border-green-200">
+                <ul className="text-sm text-slate-700 space-y-2">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500 mt-0.5" />
+                    <span><strong>User-Value Prototypes:</strong> All milestones deliver working prototypes that demonstrate user value and can be deployed in production environments</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500 mt-0.5" />
+                    <span><strong>Production Deployment:</strong> Each deliverable will be deployed in PROD or PROD-like environments for live demonstration</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500 mt-0.5" />
+                    <span><strong>Demoable Features:</strong> All deliverables can be demonstrated live, showing actual functionality rather than mockups</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500 mt-0.5" />
+                    <span><strong>QA Process:</strong> All deliverables will undergo minimum 1-week QA process by Ecosystem Services</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500 mt-0.5" />
+                    <span><strong>Smart Contract Audit:</strong> External security audit requested for smart contract components</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Payment Terms Compliance */}
+            <Separator />
+            <div>
+              <h4 className="font-semibold text-slate-900 mb-3">Payment Terms Compliance ✓</h4>
+              <div className="grid md:grid-cols-3 gap-4">
+                <div className="bg-white p-4 rounded-lg border border-green-200 text-center">
+                  <div className="text-2xl font-bold text-red-600 mb-1">0%</div>
+                  <div className="text-sm text-slate-600">Upfront Payment</div>
+                  <div className="text-xs text-slate-500 mt-1">No upfront payment required</div>
+                </div>
+                <div className="bg-white p-4 rounded-lg border border-green-200 text-center">
+                  <div className="text-2xl font-bold text-blue-600 mb-1">≤20%</div>
+                  <div className="text-sm text-slate-600">First Payment</div>
+                  <div className="text-xs text-slate-500 mt-1">Maximum 20% of total amount</div>
+                </div>
+                <div className="bg-white p-4 rounded-lg border border-green-200 text-center">
+                  <div className="text-2xl font-bold text-green-600 mb-1">≥30%</div>
+                  <div className="text-sm text-slate-600">Final Payment</div>
+                  <div className="text-xs text-slate-500 mt-1">Minimum 30% of total amount</div>
+                </div>
+              </div>
+              <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+                <p className="text-sm text-slate-700">
+                  <strong>Payment Structure:</strong> All payments denominated in USD and made in Qus (Qubic units). 
+                  Currency conversion performed at moment of payment. Payments triggered upon milestone delivery and successful QA completion.
+                </p>
+              </div>
+            </div>
+
+            {/* Revenue Model vs Payment Terms */}
+            <Separator />
+            <div>
+              <h4 className="font-semibold text-slate-900 mb-3">Sustainable Revenue Model</h4>
+              <div className="bg-blue-50 p-4 rounded-lg">
+                <p className="text-sm text-slate-700 mb-2">
+                  <strong>Long-term Sustainability:</strong> Beyond initial development grant, the platform operates through 
+                  automated revenue sharing from lottery ticket sales:
+                </p>
+                <div className="text-sm text-slate-600">
+                  • <strong>4% Developer Share:</strong> Continuous revenue stream from platform operations<br/>
+                  • <strong>91% Franchisee Share:</strong> Enables government charity organizations to fund programs<br/>
+                  • <strong>5% Foundation Share:</strong> Supports Qubic ecosystem development<br/>
+                  • <strong>Self-Sustaining:</strong> No ongoing maintenance costs to Qubic Foundation
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Word Count */}
         <div className="text-center">
           <Badge className="bg-slate-100 text-slate-600 border-slate-300">
-            📊 Proposal Length: ~2,350 words
+            📊 Proposal Length: Under 2,500 words (Grants&Incubation Compliant)
           </Badge>
         </div>
       </div>

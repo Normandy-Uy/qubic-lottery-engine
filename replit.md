@@ -143,5 +143,7 @@ The lottery engine is designed for deployment to Qubic blockchain:
 - **Timeline Enhancement**: Added GLI (Gaming Laboratories International) certification to Phase 2 testing requirements, ensuring comprehensive regulatory compliance alongside security audits
 - **Smart Contract Navigation**: Created dedicated Smart Contract page and moved C++ implementation section from Live Demo page, added new navigation menu item next to Mechanics as requested
 - **Full-Height Code Window**: Modified smart contract preview to display C++ code in full-height window (80vh) as requested, with features and metrics positioned below the code for better readability
+- **Project Proposal Corrections**: Fixed business model section to clarify 91% is Franchisee share not charitable causes directly, updated "Charitable Causes / Franchisee Share" label for accuracy
+- **Grants&Incubation Requirements Integration**: Added comprehensive compliance section covering all minimum requirements including 2500-word limit, SAFe principles for deliverables, QA process requirements, payment terms (no upfront, 20% max first payment, 30% min last payment), and USD/Qus conversion structure
 
 This architecture demonstrates advanced blockchain application development while maintaining compatibility with traditional web infrastructure during the development and demonstration phase.
