@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MissionVision } from "@/components/mission-vision";
 import { FranchiseeInterface } from "@/components/franchisee-interface";
+import { Download } from "lucide-react";
 
 export default function Overview() {
   return (
@@ -19,6 +20,17 @@ export default function Overview() {
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
             A revolutionary blockchain lottery engine designed for government charity initiatives, featuring fortress-class security architecture, Qubic Random Number Smart Contract integration, and franchisee management system aligned with the ethical vision of Sergey Ivancheglo and the Qubic Foundation. Built on Qubic's unprecedented 15.5M TPS blockchain to demonstrate to the world why high-speed infrastructure is essential for real-time lottery operations and instant charitable fund distribution.
           </p>
+          
+          {/* PDF Download Button */}
+          <div className="mt-8">
+            <Button 
+              onClick={() => window.print()}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium flex items-center gap-2 mx-auto print:hidden"
+            >
+              <Download className="h-5 w-5" />
+              Download as PDF
+            </Button>
+          </div>
         </div>
 
         {/* Problem-Solution-Impact Grid */}

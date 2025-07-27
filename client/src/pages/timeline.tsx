@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Circle, Clock, Rocket } from "lucide-react";
+import { CheckCircle, Circle, Clock, Rocket, Download } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function Timeline() {
   const milestones = [
@@ -115,6 +116,17 @@ export default function Timeline() {
             Fortress-Class Charitable Lottery Engine on Qubic's revolutionary 15.5M TPS blockchain, 
             designed to demonstrate to the world why Qubic is the ideal platform for real-time lottery operations.
           </p>
+          
+          {/* PDF Download Button */}
+          <div className="mt-8">
+            <Button 
+              onClick={() => window.print()}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium flex items-center gap-2 mx-auto print:hidden"
+            >
+              <Download className="h-5 w-5" />
+              Download as PDF
+            </Button>
+          </div>
         </div>
 
         {/* Project Overview */}

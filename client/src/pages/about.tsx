@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Users, Code, Lightbulb, Target } from "lucide-react";
+import { Users, Code, Lightbulb, Target, Download } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function About() {
   return (
@@ -18,6 +19,17 @@ export default function About() {
             The innovative developers behind the Fortress-Class Charitable Lottery Engine, 
             dedicated to creating blockchain solutions for global social impact.
           </p>
+          
+          {/* PDF Download Button */}
+          <div className="mt-8">
+            <Button 
+              onClick={() => window.print()}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium flex items-center gap-2 mx-auto print:hidden"
+            >
+              <Download className="h-5 w-5" />
+              Download as PDF
+            </Button>
+          </div>
         </div>
 
         {/* Team Introduction */}

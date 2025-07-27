@@ -1,6 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
+import { Download } from "lucide-react";
 
 export default function Mechanics() {
   return (
@@ -17,6 +19,17 @@ export default function Mechanics() {
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
             Detailed explanation of how our fortress-class lottery engine prevents exploitation while maintaining fairness and efficiency through advanced blockchain mechanics, franchisee management, and Qubic Random Number Smart Contract integration. Built on Qubic's revolutionary 15.5M TPS blockchain to showcase unprecedented speed capabilities for real-time lottery operations worldwide.
           </p>
+          
+          {/* PDF Download Button */}
+          <div className="mt-8">
+            <Button 
+              onClick={() => window.print()}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium flex items-center gap-2 mx-auto print:hidden"
+            >
+              <Download className="h-5 w-5" />
+              Download as PDF
+            </Button>
+          </div>
         </div>
 
         {/* Core Mechanics Overview */}
