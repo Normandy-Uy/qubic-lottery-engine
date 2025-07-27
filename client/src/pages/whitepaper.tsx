@@ -122,16 +122,238 @@ export default function WhitePaper() {
               millions of simultaneous participants, demonstrating blockchain technology's true potential for 
               global charitable fundraising at unprecedented scale.
             </p>
+
+            <h3>2.3 Qubic Random Number Smart Contract Integration</h3>
+            <p>
+              The engine leverages Qubic's native Random Number Smart Contract for provably fair draws:
+            </p>
+            <ul>
+              <li><strong>Hardware-Based Entropy:</strong> Uses Qubic's hardware random number generators for true randomness</li>
+              <li><strong>Quantum-Resistant Security:</strong> Cryptographically secure random number generation</li>
+              <li><strong>On-Chain Verification:</strong> All draws are publicly verifiable on the blockchain</li>
+              <li><strong>Oracle Integration:</strong> Smart contract validation with nonce tracking and atomic operations</li>
+            </ul>
           </CardContent>
         </Card>
 
-        {/* Implementation Details */}
+        {/* Business Model & Revenue Distribution */}
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>3. Implementation Specification</CardTitle>
+            <CardTitle>3. Business Model & Revenue Distribution</CardTitle>
           </CardHeader>
           <CardContent className="prose prose-slate max-w-none">
-            <h3>3.1 Frontend Technology Stack</h3>
+            <h3>3.1 Revenue Sharing Architecture</h3>
+            <p>
+              The lottery engine implements an automated, transparent revenue distribution system:
+            </p>
+            <div className="grid md:grid-cols-3 gap-4 my-6">
+              <div className="text-center p-4 bg-blue-50 rounded-lg">
+                <div className="text-2xl font-bold text-blue-600">5%</div>
+                <div className="text-sm text-slate-600">Qubic Foundation Development Fund</div>
+              </div>
+              <div className="text-center p-4 bg-purple-50 rounded-lg">
+                <div className="text-2xl font-bold text-purple-600">4%</div>
+                <div className="text-sm text-slate-600">VPX Team Development</div>
+              </div>
+              <div className="text-center p-4 bg-green-50 rounded-lg">
+                <div className="text-2xl font-bold text-green-600">91%</div>
+                <div className="text-sm text-slate-600">Charitable Causes / Franchisee</div>
+              </div>
+            </div>
+
+            <h3>3.2 Franchisee Management System</h3>
+            <p>
+              Government charity organizations can partner as franchisees with comprehensive management tools:
+            </p>
+            <ul>
+              <li><strong>Guaranteed Minimum Jackpots:</strong> Franchisees can set minimum jackpot amounts to ensure lottery attractiveness</li>
+              <li><strong>Financial Risk Model:</strong> Franchisees bear responsibility for minimum jackpot shortfalls during low-participation periods</li>
+              <li><strong>Revenue Transparency:</strong> Real-time tracking of funds raised and distributed to charitable causes</li>
+              <li><strong>Impact Reporting:</strong> Detailed analytics showing charitable impact metrics and fund utilization</li>
+            </ul>
+
+            <h3>3.3 Game Mechanics</h3>
+            <p>
+              The engine implements a 5/50 lottery format with the following specifications:
+            </p>
+            <ul>
+              <li><strong>Number Selection:</strong> Players choose 5 unique numbers from 1-50</li>
+              <li><strong>Fixed Bet Amount:</strong> 10,000 QUBIC per ticket</li>
+              <li><strong>Betting Limits:</strong> Maximum 5 bets per wallet per draw cycle</li>
+              <li><strong>Prize Pool:</strong> 60% of total bets goes to jackpot, 40% to revenue distribution</li>
+              <li><strong>Draw Schedule:</strong> Daily draws with immediate result distribution</li>
+            </ul>
+          </CardContent>
+        </Card>
+
+        {/* Technical Architecture */}
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>4. Technical Architecture</CardTitle>
+          </CardHeader>
+          <CardContent className="prose prose-slate max-w-none">
+            <h3>4.1 Smart Contract Implementation</h3>
+            <p>
+              The lottery engine is implemented as a native C++ smart contract on Qubic blockchain with the following features:
+            </p>
+            <ul>
+              <li><strong>Atomic Transfer Operations:</strong> Ensures all fund transfers complete successfully or revert entirely</li>
+              <li><strong>Bounds Checking:</strong> Comprehensive validation of all inputs and array accesses</li>
+              <li><strong>XOR-Folded Wallet Indexing:</strong> Efficient wallet tracking for bet limitations</li>
+              <li><strong>Draw Execution Locks:</strong> Prevents concurrent draw executions and state corruption</li>
+              <li><strong>Circular Buffer History:</strong> Stores last 100 draw results for transparency</li>
+            </ul>
+
+            <h3>4.2 Data Storage Architecture</h3>
+            <p>
+              In production, all data is stored directly on the Qubic blockchain:
+            </p>
+            <ul>
+              <li><strong>Smart Contract State:</strong> Stores all bet data, wallet counts, and draw results on-chain</li>
+              <li><strong>Blockchain Transactions:</strong> Each bet is a permanent blockchain transaction</li>
+              <li><strong>No External Database:</strong> All persistence handled by Qubic's native storage</li>
+              <li><strong>Real-time Synchronization:</strong> Instant state updates across all network participants</li>
+            </ul>
+
+            <h3>4.3 Frontend Architecture</h3>
+            <p>
+              The user interface is built with modern web technologies optimized for blockchain interaction:
+            </p>
+            <ul>
+              <li><strong>React 18 with TypeScript:</strong> Type-safe component architecture</li>
+              <li><strong>Shadcn/ui Components:</strong> Accessible UI components built on Radix primitives</li>
+              <li><strong>TanStack Query:</strong> Efficient blockchain state management and caching</li>
+              <li><strong>Tailwind CSS:</strong> Responsive design with Qubic-themed color palette</li>
+            </ul>
+          </CardContent>
+        </Card>
+
+        {/* Mission & Social Impact */}
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>5. Mission & Social Impact</CardTitle>
+          </CardHeader>
+          <CardContent className="prose prose-slate max-w-none">
+            <h3>5.1 Alignment with Qubic Foundation Values</h3>
+            <p>
+              This project aligns with Sergey Ivancheglo's (Come-from-Beyond) philosophy of channeling technological advancement toward meaningful human progress:
+            </p>
+            <ul>
+              <li><strong>Technology for Social Good:</strong> Leveraging blockchain to solve real-world charitable funding challenges</li>
+              <li><strong>Transparency & Trust:</strong> Eliminating corruption through immutable blockchain records</li>
+              <li><strong>Global Accessibility:</strong> Zero-fee transactions enable worldwide participation</li>
+              <li><strong>Energy Efficiency:</strong> Demonstrating sustainable blockchain technology for social applications</li>
+            </ul>
+
+            <h3>5.2 Charitable Impact Areas</h3>
+            <p>
+              The lottery engine specifically targets critical social needs:
+            </p>
+            <ul>
+              <li><strong>Poverty Alleviation:</strong> Direct funding for income support and economic development programs</li>
+              <li><strong>Education Funding:</strong> School infrastructure, scholarships, and educational technology initiatives</li>
+              <li><strong>Healthcare Access:</strong> Medical equipment, treatment programs, and healthcare infrastructure</li>
+              <li><strong>Social Welfare:</strong> Emergency assistance, housing support, and community development</li>
+            </ul>
+
+            <h3>5.3 Government Partnership Framework</h3>
+            <p>
+              The system is designed for seamless integration with government charity initiatives:
+            </p>
+            <ul>
+              <li><strong>Regulatory Compliance:</strong> Built-in compliance features for government oversight</li>
+              <li><strong>Audit Trails:</strong> Complete transparency for public accountability</li>
+              <li><strong>Impact Tracking:</strong> Real-time metrics showing charitable fund utilization</li>
+              <li><strong>Multi-jurisdiction Support:</strong> Flexible framework adaptable to different regulatory environments</li>
+            </ul>
+          </CardContent>
+        </Card>
+
+        {/* Implementation Timeline */}
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>6. Implementation Timeline</CardTitle>
+          </CardHeader>
+          <CardContent className="prose prose-slate max-w-none">
+            <h3>6.1 Development Phases</h3>
+            <p>
+              The lottery engine development follows a structured four-phase approach throughout 2026:
+            </p>
+            
+            <h4>Phase 1 - Foundation & Architecture (Jan 1 - Mar 1, 2026)</h4>
+            <ul>
+              <li>Complete fortress-class smart contract development</li>
+              <li>Revenue distribution system implementation (5% Foundation, 4% Developer, 91% Franchisee)</li>
+              <li>Franchisee management interface development</li>
+              <li>Core security mechanisms and wallet bet limitations</li>
+            </ul>
+
+            <h4>Phase 2 - Testing & Security Audit (Mar 1 - Jun 1, 2026)</h4>
+            <ul>
+              <li>Deploy smart contracts to Qubic testnet</li>
+              <li>Comprehensive exploit testing with 5-bet wallet limitations</li>
+              <li>Revenue distribution testing with multiple franchisees</li>
+              <li>Third-party security audit of fortress-class mechanisms</li>
+            </ul>
+
+            <h4>Phase 3 - Mainnet Deployment (Jun 1 - Sep 1, 2026)</h4>
+            <ul>
+              <li>Deploy audited smart contracts to Qubic mainnet</li>
+              <li>Establish partnerships with government charity organizations</li>
+              <li>Launch pilot lottery with first franchisee</li>
+              <li>Monitor system performance and user adoption</li>
+            </ul>
+
+            <h4>Phase 4 - Global Expansion (Sep 1 - Dec 30, 2026)</h4>
+            <ul>
+              <li>Onboard 5+ government charity organizations</li>
+              <li>Implement multi-language platform support</li>
+              <li>Advanced analytics dashboard for franchisees</li>
+              <li>GLI (Gaming Laboratories International) certification</li>
+              <li>Cross-border charitable fund distribution</li>
+            </ul>
+          </CardContent>
+        </Card>
+
+        {/* Team & Development */}
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>7. Development Team & Expertise</CardTitle>
+          </CardHeader>
+          <CardContent className="prose prose-slate max-w-none">
+            <h3>7.1 VPX Team Composition</h3>
+            <p>
+              The lottery engine is developed by VPX, a Southeast Asian technology company with extensive experience in blockchain applications and e-commerce platforms:
+            </p>
+            
+            <h4>Core Development Team</h4>
+            <ul>
+              <li><strong>Norlito Sepulvida:</strong> Founder of VPX (Alibaba of SE Asia), Lead Blockchain Developer specializing in smart contract architecture, inventor of Starshades™ Nose Therapy Glasses, and President of Assessment and Research Center of the Philippines</li>
+              <li><strong>Shalom Sepulvida:</strong> Systems Architect focused on revenue distribution systems and blockchain integration</li>
+              <li><strong>Elijohn Sepulvida:</strong> Frontend Developer specializing in user experience design and React applications</li>
+              <li><strong>Jeson Sepulvida:</strong> Backend Developer handling API development and blockchain connectivity</li>
+            </ul>
+
+            <h3>7.2 Technology Stack Expertise</h3>
+            <p>
+              The team leverages modern web technologies and blockchain infrastructure:
+            </p>
+            <ul>
+              <li><strong>Blockchain Development:</strong> Native C++ smart contracts for Qubic, Ethereum Solidity experience</li>
+              <li><strong>Frontend Technologies:</strong> React 18, TypeScript, Tailwind CSS, modern build tools</li>
+              <li><strong>Backend Systems:</strong> Node.js, Express, PostgreSQL, real-time APIs</li>
+              <li><strong>E-commerce Platform:</strong> Alibaba-like marketplace for Vietnam, Philippines, and Southeast Asia sourcing</li>
+            </ul>
+          </CardContent>
+        </Card>
+
+        {/* Technical Implementation */}
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>8. Technical Implementation Specification</CardTitle>
+          </CardHeader>
+          <CardContent className="prose prose-slate max-w-none">
+            <h3>8.1 Frontend Technology Stack</h3>
             <p>
               The lottery engine frontend implements a modern, type-safe architecture optimized for financial applications:
             </p>
@@ -152,9 +374,9 @@ export default function WhitePaper() {
               required for real-time lottery operations on Qubic's high-speed blockchain.
             </p>
 
-            <h3>3.2 Smart Contract Architecture</h3>
+            <h3>8.2 Smart Contract Architecture</h3>
             
-            <h4>3.2.1 Core Data Structures</h4>
+            <h4>8.2.1 Core Data Structures</h4>
             <div className="bg-slate-900 text-slate-300 p-4 rounded-lg font-mono text-sm overflow-x-auto">
               <pre>{`#pragma once
 #include "qubic_core.h"
@@ -254,7 +476,7 @@ struct ValidatorSignature {
 } PACKED;`}</pre>
             </div>
 
-            <h4>3.2.2 Fortress-Class Validation Logic</h4>
+            <h4>8.2.2 Fortress-Class Validation Logic</h4>
             <div className="bg-slate-900 text-slate-300 p-4 rounded-lg font-mono text-sm overflow-x-auto">
               <pre>{`// Qubic Lottery Smart Contract
 struct QUBIC_LOTTERY_CONTRACT_STATE : public ContractState {
@@ -1199,30 +1421,57 @@ struct LotteryState {
         {/* Conclusion */}
         <Card>
           <CardHeader>
-            <CardTitle>5. Conclusion</CardTitle>
+            <CardTitle>9. Conclusion & Future Impact</CardTitle>
           </CardHeader>
           <CardContent className="prose prose-slate max-w-none">
+            <h3>9.1 Revolutionary Charitable Fundraising</h3>
             <p>
-              This anti-exploit lottery system demonstrates the superior capabilities of the Qubic blockchain platform 
-              while addressing critical vulnerabilities in existing lottery implementations. By combining advanced 
-              anti-exploit mechanisms with batch transaction optimization and native C++ smart contract execution, 
-              we create a lottery system that is both secure and user-friendly.
-            </p>
-            
-            <p>
-              The implementation serves as a proof-of-concept for the type of innovative applications that can be 
-              built on Qubic's infrastructure, showcasing the platform's potential to solve real-world problems 
-              in the decentralized application space.
+              The Qubic Fortress-Class Charitable Lottery Engine represents a paradigm shift in transparent fundraising for social good. By eliminating traditional bottlenecks of corruption, high fees, and scalability limitations, this platform enables government charity organizations to raise funds efficiently while maintaining complete transparency and accountability.
             </p>
 
-            <h3>5.1 Future Enhancements</h3>
+            <h3>9.2 Demonstrating Qubic's Technical Superiority</h3>
+            <p>
+              This project serves as a powerful demonstration of Qubic's revolutionary blockchain capabilities:
+            </p>
             <ul>
-              <li>Integration with external randomness beacons</li>
-              <li>Multi-currency prize payouts</li>
-              <li>Advanced statistical analysis tools</li>
-              <li>Cross-chain lottery integration</li>
-              <li>Mobile application development</li>
+              <li><strong>Speed Demonstration:</strong> 15.5M TPS capability showcased through real-time lottery operations</li>
+              <li><strong>Cost Efficiency:</strong> Zero-fee transactions enable global participation regardless of economic status</li>
+              <li><strong>Technical Innovation:</strong> Native C++ smart contracts with hardware-based randomness</li>
+              <li><strong>Scalability Proof:</strong> Handling millions of simultaneous participants without network congestion</li>
             </ul>
+
+            <h3>9.3 Alignment with Ethical Technology Vision</h3>
+            <p>
+              Following Sergey Ivancheglo's philosophy of channeling technological advancement toward meaningful human progress, this lottery engine transforms how charitable funding operates globally. By removing corruption, ensuring transparency, and enabling efficient fund distribution, the platform creates sustainable financing mechanisms for poverty alleviation, education, healthcare, and social welfare programs worldwide.
+            </p>
+
+            <h3>9.4 Long-term Social Impact</h3>
+            <p>
+              The successful implementation of this lottery engine will:
+            </p>
+            <ul>
+              <li>Enable transparent charitable fundraising for government organizations globally</li>
+              <li>Provide sustainable funding mechanisms for critical social programs</li>
+              <li>Demonstrate blockchain technology's potential for social good</li>
+              <li>Establish Qubic as the preferred platform for high-volume financial applications</li>
+              <li>Create a replicable model for corruption-resistant charity initiatives</li>
+            </ul>
+
+            <h3>9.5 Technical Achievement Summary</h3>
+            <p>
+              This white paper has outlined a comprehensive fortress-class lottery engine that addresses every major challenge in blockchain-based charitable fundraising:
+            </p>
+            <ul>
+              <li><strong>Security:</strong> Multi-layered fortress-class architecture preventing all known exploitation vectors</li>
+              <li><strong>Performance:</strong> Leveraging Qubic's 15.5M TPS for global-scale operations</li>
+              <li><strong>Fairness:</strong> Hardware-based random number generation ensuring provably fair draws</li>
+              <li><strong>Transparency:</strong> Complete on-chain audit trails for government accountability</li>
+              <li><strong>Accessibility:</strong> Zero-fee transactions enabling worldwide participation</li>
+            </ul>
+
+            <p>
+              This lottery engine represents not just a technical achievement, but a meaningful step toward leveraging advanced blockchain technology for global social impact and human advancement. By combining cutting-edge technology with ethical purpose, the platform demonstrates how innovative blockchain applications can create lasting positive change in the world.
+            </p>
           </CardContent>
         </Card>
       </div>
