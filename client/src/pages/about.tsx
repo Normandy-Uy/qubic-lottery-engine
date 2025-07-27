@@ -69,12 +69,12 @@ export default function About() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <CardTitle className="text-blue-900">Norlito Sepulvida</CardTitle>
+              <CardTitle className="text-blue-900">Full Throttle</CardTitle>
               <p className="text-sm text-slate-600">Founder & Lead Blockchain Developer</p>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-slate-700 text-center mb-4">
-                Founder of VPX (The Alibaba of Southeast Asia), inventor of Starshades™ Nose Therapy Glasses 
+                Norlito Uy Sepulvida, founder of VPX (The Alibaba of Southeast Asia), inventor of Starshades™ Nose Therapy Glasses 
                 (Starshades.ct.ws), Founder of Universal Chess Ratings (uniches.replit.app), and President 
                 of Assessment and Research Center of the Philippines (Arcphils.replit.app). Architect of the 
                 fortress-class security system and Qubic smart contract integration.
