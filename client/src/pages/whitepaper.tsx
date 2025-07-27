@@ -90,29 +90,37 @@ export default function WhitePaper() {
               This eliminates single points of failure and ensures fair play.
             </p>
 
-            <h3>2.2 Qubic Platform Advantages</h3>
+            <h3>2.2 Competitive Blockchain Analysis</h3>
             
-            <h4>2.2.1 Native C++ Smart Contracts</h4>
+            <h4>2.2.1 Existing Market: Ethereum-Based Solutions</h4>
             <p>
-              Unlike interpreted languages, Qubic's C++ smart contracts execute directly on bare metal, providing:
+              The current market leader, Quanta, launched in 2015 as the world's first fully licensed blockchain lottery 
+              on Ethereum. While pioneering and regulatory compliant, Ethereum-based solutions face significant limitations:
             </p>
             <ul>
-              <li>Sub-millisecond execution times</li>
-              <li>Predictable performance characteristics</li>
-              <li>Advanced memory management capabilities</li>
-              <li>Direct hardware access for cryptographic operations</li>
+              <li><strong>TPS Bottleneck:</strong> Ethereum's ~15 TPS maximum severely limits scalability and real-time operations</li>
+              <li><strong>High Gas Fees:</strong> Transaction costs can exceed $20-100 during network congestion, making micro-bets uneconomical</li>
+              <li><strong>Slow Settlement:</strong> 12-15 second block times create user experience friction</li>
+              <li><strong>Energy Consumption:</strong> Proof-of-Stake still requires significant computational overhead</li>
             </ul>
 
-            <h4>2.2.2 Feeless Transactions</h4>
+            <h4>2.2.2 Qubic's Revolutionary Advantages</h4>
             <p>
-              Qubic's energy-based model eliminates transaction fees, making micro-transactions economically viable 
-              and enabling fair access regardless of economic status.
+              Qubic's architecture addresses every limitation of existing blockchain lottery platforms:
             </p>
+            <ul>
+              <li><strong>Unmatched Speed:</strong> 15.5M TPS capability enables real-time lottery operations at global scale</li>
+              <li><strong>Native C++ Execution:</strong> Sub-millisecond smart contract execution vs Ethereum's interpreted EVM</li>
+              <li><strong>Zero Fees:</strong> Energy-based model eliminates all transaction costs, enabling fair global access</li>
+              <li><strong>Instant Finality:</strong> Immediate confirmation without block wait times</li>
+              <li><strong>Superior Randomness:</strong> Hardware-based entropy generation vs software-based solutions</li>
+            </ul>
 
-            <h4>2.2.3 Instant Finality</h4>
+            <h4>2.2.3 Market Opportunity</h4>
             <p>
-              With 15.5M TPS capability and instant finality, users receive immediate confirmation of their lottery 
-              participation without waiting for block confirmations.
+              While Quanta processes ~1,000 transactions weekly on Ethereum, Qubic's lottery engine can handle 
+              millions of simultaneous participants, demonstrating blockchain technology's true potential for 
+              global charitable fundraising at unprecedented scale.
             </p>
           </CardContent>
         </Card>
