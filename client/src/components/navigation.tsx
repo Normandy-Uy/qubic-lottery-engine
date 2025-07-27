@@ -45,14 +45,14 @@ export function Navigation() {
         {/* Three-Row Navigation Menu */}
         <div className="py-3 space-y-2">
           {/* Row 1: External Links */}
-          <div className="flex items-center justify-center space-x-8">
+          <div className="flex items-center justify-center space-x-6">
             {externalLinks.map((link) => (
               <a
                 key={link.url}
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+                className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
               >
                 <span>{link.icon}</span>
                 <span>{link.name}</span>
@@ -61,7 +61,7 @@ export function Navigation() {
           </div>
 
           {/* Row 2: Main Project Pages */}
-          <div className="flex items-center justify-center space-x-4">
+          <div className="flex items-center justify-center space-x-6">
             {mainPages.map((item) => (
               <Link key={item.path} href={item.path}>
                 <a
@@ -80,7 +80,7 @@ export function Navigation() {
           </div>
 
           {/* Row 3: Technical & Demo Pages */}
-          <div className="flex items-center justify-center space-x-4">
+          <div className="flex items-center justify-center space-x-6">
             {technicalPages.map((item) => (
               <Link key={item.path} href={item.path}>
                 <a
