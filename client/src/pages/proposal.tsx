@@ -418,54 +418,99 @@ export default function Proposal() {
               10. Team Composition
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-6">
+            <div>
+              <h4 className="font-semibold text-slate-900 mb-3">VPX Development Team</h4>
+              <p className="text-sm text-slate-700 mb-4">
+                The VPX Team is actively developing both the Qubic Fortress-Class Charitable Lottery Engine and an 
+                Alibaba-like e-commerce platform serving Vietnam, Philippines, and Southeast Asia sourcing markets. 
+                Both projects leverage Qubic's 15.5M TPS capability to demonstrate the platform's unmatched speed 
+                for real-world applications.
+              </p>
+            </div>
+
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
-                    <span className="text-white text-sm font-bold">N</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-slate-900">Norlito</h4>
-                    <p className="text-sm text-slate-600">Lead Blockchain Developer - Smart contract architecture</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
-                    <span className="text-white text-sm font-bold">S</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-slate-900">Shalom</h4>
-                    <p className="text-sm text-slate-600">Systems Architect - Revenue distribution systems</p>
-                  </div>
+              <div>
+                <h5 className="font-medium text-slate-900 mb-3">Founder & Lead Developer</h5>
+                <div className="bg-blue-50 p-4 rounded-lg">
+                  <h6 className="font-semibold text-blue-900 mb-2">Norlito Sepulvida</h6>
+                  <p className="text-sm text-slate-700 mb-2"><strong>Role:</strong> Founder & Lead Blockchain Developer</p>
+                  <p className="text-sm text-slate-700">
+                    Founder of VPX (The Alibaba of Southeast Asia), inventor of Starshades™ Nose Therapy Glasses 
+                    (Starshades.ct.ws), Founder of Universal Chess Ratings (uniches.replit.app), and President 
+                    of Assessment and Research Center of the Philippines (Arcphils.replit.app). Architect of the 
+                    fortress-class security system and Qubic smart contract integration.
+                  </p>
                 </div>
               </div>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center">
-                    <span className="text-white text-sm font-bold">E</span>
+              <div>
+                <h5 className="font-medium text-slate-900 mb-3">Core Development Team</h5>
+                <div className="space-y-3">
+                  <div className="bg-green-50 p-3 rounded-lg">
+                    <h6 className="font-semibold text-green-900">Shalom Sepulvida</h6>
+                    <p className="text-xs text-slate-600 mb-1">Systems Architect</p>
+                    <p className="text-sm text-slate-700">
+                      Designer of the franchisee management system and revenue distribution architecture. 
+                      Expert in scalable blockchain applications.
+                    </p>
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-slate-900">Elijohn</h4>
-                    <p className="text-sm text-slate-600">Frontend Developer - User experience design</p>
+                  <div className="bg-purple-50 p-3 rounded-lg">
+                    <h6 className="font-semibold text-purple-900">Elijohn Sepulvida</h6>
+                    <p className="text-xs text-slate-600 mb-1">Frontend Developer</p>
+                    <p className="text-sm text-slate-700">
+                      Creator of the intuitive user interface and lottery simulation experience. 
+                      Focuses on accessibility and user experience design.
+                    </p>
                   </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
-                    <span className="text-white text-sm font-bold">J</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-slate-900">Jeson Sepulvida</h4>
-                    <p className="text-sm text-slate-600">Project Coordinator - Government partnerships</p>
+                  <div className="bg-orange-50 p-3 rounded-lg">
+                    <h6 className="font-semibold text-orange-900">Jeson Sepulvida</h6>
+                    <p className="text-xs text-slate-600 mb-1">Project Coordinator</p>
+                    <p className="text-sm text-slate-700">
+                      Oversees project development and ensures alignment with charitable mission objectives. 
+                      Coordinates technical implementation with social impact goals.
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
+            
             <Separator className="my-4" />
-            <p className="text-sm text-slate-700">
-              The VPX Team brings proven expertise in blockchain development and regional e-commerce platforms, 
-              currently developing Alibaba-like solutions for Vietnam, Philippines, and Southeast Asia markets.
-            </p>
+            
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <h5 className="font-medium text-slate-900 mb-2">Technical Expertise</h5>
+                <ul className="text-sm text-slate-700 space-y-1">
+                  <li>• Native C++ smart contract development for Qubic</li>
+                  <li>• React 18/TypeScript frontend applications</li>
+                  <li>• Fortress-class blockchain security architecture</li>
+                  <li>• Government compliance and audit systems</li>
+                  <li>• E-commerce platform development (Southeast Asia)</li>
+                  <li>• Charitable fundraising system design</li>
+                </ul>
+              </div>
+              <div>
+                <h5 className="font-medium text-slate-900 mb-2">Project Experience</h5>
+                <ul className="text-sm text-slate-700 space-y-1">
+                  <li>• VPX E-commerce Platform (Alibaba of SE Asia)</li>
+                  <li>• Starshades™ Nose Therapy Glasses</li>
+                  <li>• Universal Chess Ratings System</li>
+                  <li>• Assessment and Research Center Philippines</li>
+                  <li>• Qubic blockchain integration projects</li>
+                  <li>• Social impact technology initiatives</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="bg-slate-50 p-4 rounded-lg">
+              <h5 className="font-medium text-slate-900 mb-2">Mission Alignment</h5>
+              <p className="text-sm text-slate-700">
+                The VPX team combines extensive blockchain development experience with deep understanding 
+                of charitable fundraising requirements and Southeast Asian market dynamics. Our founders have 
+                successfully developed multiple technology platforms and understand the unique challenges of 
+                creating transparent, secure systems for both social impact initiatives and commercial applications, 
+                positioning us uniquely to deliver the fortress-class lottery engine for global charitable funding.
+              </p>
+            </div>
           </CardContent>
         </Card>
 
