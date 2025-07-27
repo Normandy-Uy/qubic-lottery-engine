@@ -5,9 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { apiRequest } from "@/lib/queryClient";
 import { cn } from "@/lib/utils";
-import { ShieldAlert, Plus, Send, RotateCcw } from "lucide-react";
+import { ShieldAlert, Plus, Send, RotateCcw, Wallet, HelpCircle, CheckCircle, ExternalLink } from "lucide-react";
 
 interface WalletBetInfo {
   betCount: number;
@@ -20,23 +23,51 @@ interface BetData {
   amount: number;
 }
 
-const MOCK_WALLET_ADDRESS = "DEMO...WALLET";
-
 export function LotterySimulator() {
   const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
   const [pendingBets, setPendingBets] = useState<BetData[]>([]);
+  const [walletAddress, setWalletAddress] = useState<string>("");
+  const [isWalletValid, setIsWalletValid] = useState<boolean>(false);
+  const [walletError, setWalletError] = useState<string>("");
   const queryClient = useQueryClient();
 
-  // Get wallet bet count
+  // Validate Qubic wallet address (56 uppercase letters)
+  const validateWalletAddress = (address: string) => {
+    const qubicWalletRegex = /^[A-Z]{56}$/;
+    return qubicWalletRegex.test(address);
+  };
+
+  // Handle wallet address input
+  const handleWalletChange = (value: string) => {
+    const upperCaseValue = value.toUpperCase();
+    setWalletAddress(upperCaseValue);
+    
+    if (upperCaseValue.length === 0) {
+      setIsWalletValid(false);
+      setWalletError("");
+    } else if (upperCaseValue.length !== 56) {
+      setIsWalletValid(false);
+      setWalletError("Qubic wallet address must be exactly 56 characters");
+    } else if (!validateWalletAddress(upperCaseValue)) {
+      setIsWalletValid(false);
+      setWalletError("Invalid format. Only uppercase letters A-Z allowed");
+    } else {
+      setIsWalletValid(true);
+      setWalletError("");
+    }
+  };
+
+  // Get wallet bet count (only when wallet is valid)
   const { data: walletInfo, isLoading: isLoadingWallet } = useQuery<WalletBetInfo>({
-    queryKey: ["/api/lottery/wallet-bets", MOCK_WALLET_ADDRESS],
+    queryKey: ["/api/lottery/wallet-bets", walletAddress],
+    enabled: isWalletValid,
   });
 
   // Place single bet mutation
   const placeBetMutation = useMutation({
     mutationFn: async (betData: BetData) => {
       const response = await apiRequest("POST", "/api/lottery/place-bet", {
-        walletAddress: MOCK_WALLET_ADDRESS,
+        walletAddress,
         selectedNumbers: betData.selectedNumbers,
         amount: betData.amount,
       });
@@ -52,7 +83,7 @@ export function LotterySimulator() {
   const batchBetsMutation = useMutation({
     mutationFn: async (bets: BetData[]) => {
       const response = await apiRequest("POST", "/api/lottery/batch-bets", {
-        walletAddress: MOCK_WALLET_ADDRESS,
+        walletAddress,
         bets,
       });
       return response.json();
@@ -122,7 +153,93 @@ export function LotterySimulator() {
 
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Main Lottery Interface */}
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 space-y-6">
+          {/* Wallet Address Input */}
+          <Card>
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <Wallet className="h-5 w-5 text-blue-600" />
+                <CardTitle>Qubic Wallet Address</CardTitle>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <HelpCircle className="h-4 w-4 text-slate-400" />
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-xs">
+                      <p>Enter your 56-character Qubic wallet address (Receive-ID). This address will be used to track your bet limit and receive winnings.</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="wallet-address">Enter your Qubic Wallet Address (Receive-ID)</Label>
+                <div className="relative">
+                  <Input
+                    id="wallet-address"
+                    type="text"
+                    placeholder="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    value={walletAddress}
+                    onChange={(e) => handleWalletChange(e.target.value)}
+                    maxLength={56}
+                    className={cn(
+                      "font-mono text-sm",
+                      isWalletValid && "border-green-300 bg-green-50",
+                      walletError && "border-red-300 bg-red-50"
+                    )}
+                  />
+                  {isWalletValid && (
+                    <CheckCircle className="absolute right-3 top-3 h-4 w-4 text-green-600" />
+                  )}
+                </div>
+                {walletError && (
+                  <p className="text-sm text-red-600">{walletError}</p>
+                )}
+                {walletAddress.length > 0 && (
+                  <p className="text-xs text-slate-500">
+                    {walletAddress.length}/56 characters
+                  </p>
+                )}
+              </div>
+              
+              {/* Wallet Creation Links */}
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <h4 className="font-medium text-blue-900 mb-2">Don't have a Qubic wallet?</h4>
+                <div className="space-y-2 text-sm">
+                  <a
+                    href="https://www.qubics.live/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-blue-600 hover:text-blue-800"
+                  >
+                    <ExternalLink className="h-3 w-3" />
+                    Create wallet at Qubics.live
+                  </a>
+                  <a
+                    href="https://play.google.com/store/apps/details?id=org.qubic.wallet&hl=en-US"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-blue-600 hover:text-blue-800"
+                  >
+                    <ExternalLink className="h-3 w-3" />
+                    Download Android App
+                  </a>
+                  <a
+                    href="https://apps.apple.com/us/app/qubic-wallet/id6502265811"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-blue-600 hover:text-blue-800"
+                  >
+                    <ExternalLink className="h-3 w-3" />
+                    Download iOS App
+                  </a>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Number Selection Card */}
           <Card>
             <CardHeader>
               <div className="flex items-center justify-between">
@@ -137,7 +254,7 @@ export function LotterySimulator() {
               <Alert className="border-amber-200 bg-amber-50">
                 <ShieldAlert className="h-4 w-4 text-amber-600" />
                 <AlertDescription className="text-amber-800">
-                  <strong>Anti-Exploit Protection Active:</strong> Maximum 5 bets per wallet per draw to ensure fair play
+                  <strong>Fortress-Class Protection Active:</strong> Maximum 5 bets per wallet per draw to ensure fair play
                 </AlertDescription>
               </Alert>
 
@@ -163,12 +280,13 @@ export function LotterySimulator() {
                         "aspect-square p-0 text-sm font-semibold",
                         selectedNumbers.includes(number)
                           ? "bg-blue-600 hover:bg-blue-700 text-white"
-                          : "hover:bg-blue-50 hover:border-blue-300"
+                          : "hover:bg-blue-50 hover:border-blue-300",
+                        !isWalletValid && "opacity-50"
                       )}
                       onClick={() => handleNumberClick(number)}
                       disabled={
-                        !selectedNumbers.includes(number) && 
-                        selectedNumbers.length >= 5
+                        !isWalletValid ||
+                        (!selectedNumbers.includes(number) && selectedNumbers.length >= 5)
                       }
                     >
                       {number}
@@ -215,11 +333,22 @@ export function LotterySimulator() {
                 </div>
               )}
 
+              {/* Wallet Required Alert */}
+              {!isWalletValid && (
+                <Alert className="border-red-200 bg-red-50">
+                  <Wallet className="h-4 w-4 text-red-600" />
+                  <AlertDescription className="text-red-800">
+                    <strong>Wallet Required:</strong> Please enter a valid Qubic wallet address above to place bets
+                  </AlertDescription>
+                </Alert>
+              )}
+
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-3 pt-4 border-t">
                 <Button
                   onClick={handleSendSingleBet}
                   disabled={
+                    !isWalletValid ||
                     selectedNumbers.length !== 5 || 
                     !canAddMoreBets ||
                     placeBetMutation.isPending
@@ -233,6 +362,7 @@ export function LotterySimulator() {
                 <Button
                   onClick={handleAddBet}
                   disabled={
+                    !isWalletValid ||
                     selectedNumbers.length !== 5 || 
                     !canAddMoreBets ||
                     placeBetMutation.isPending
@@ -246,6 +376,7 @@ export function LotterySimulator() {
                 <Button
                   onClick={handleSendAllBets}
                   disabled={
+                    !isWalletValid ||
                     pendingBets.length === 0 || 
                     batchBetsMutation.isPending
                   }

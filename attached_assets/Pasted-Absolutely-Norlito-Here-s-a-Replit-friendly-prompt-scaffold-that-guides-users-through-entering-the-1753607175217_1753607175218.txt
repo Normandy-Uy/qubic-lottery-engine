@@ -1,0 +1,67 @@
+Absolutely, Norlito. Here's a Replit-friendly prompt scaffold that guides users through entering their Qubic wallet address, validating it, and linking it to your lottery logic. I’ve also included live demo links and validation resources to round out your front-end setup.
+
+---
+
+## 🧪 Replit Prompt: Qubic Wallet Address Input & Validation
+
+```js
+// Qubic Lottery Wallet Input Prompt
+
+const walletInput = document.getElementById("walletAddress");
+const submitBtn = document.getElementById("submitWallet");
+
+submitBtn.addEventListener("click", () => {
+  const wallet = walletInput.value.trim();
+
+  // Basic validation: 56 uppercase letters, no spaces
+  const isValid = /^[A-Z]{56}$/.test(wallet);
+
+  if (!isValid) {
+    alert("Invalid Qubic wallet address. Please enter exactly 56 uppercase letters.");
+    return;
+  }
+
+  // Proceed with lottery logic (e.g., store wallet, generate ticket, etc.)
+  console.log("Wallet accepted:", wallet);
+  // You can now link this wallet to the user's lottery entry
+});
+```
+
+🖼️ **Front-End UI Suggestions**
+- Label: `"Enter your Qubic Wallet Address (Receive-ID)"`
+- Input field with `maxlength="56"` and auto-uppercase
+- Optional QR scanner for mobile users
+- Tooltip or help icon linking to wallet creation guide
+
+---
+
+## 🔗 Live Demo: Create Your Qubic Wallet
+
+You can direct users to this wallet creation interface:
+- [Qubic Wallet Vault Creator](https://www.qubics.live/)
+- [Qubic Wallet on Android](https://play.google.com/store/apps/details?id=org.qubic.wallet&hl=en-US)
+- [Qubic Wallet on iOS](https://apps.apple.com/us/app/qubic-wallet/id6502265811)
+
+---
+
+## ✅ Wallet Address Validation Resources
+
+To reinforce trust and prevent errors:
+- [CheckCryptoAddress.com – Validate Wallet Format](https://checkcryptoaddress.com/)
+- Regex pattern: `/^[A-Z]{56}$/`
+- Optional: Add checksum logic if Qubic introduces one in future
+
+---
+
+## 🧩 Other Front-End Essentials for Your Lottery App
+
+Here’s what else you’ll want to include:
+- 🎟️ **Ticket Generation Logic** tied to wallet address
+- 📜 **Terms & Conditions Acknowledgment** (especially for regulatory compliance)
+- 🧾 **Entry Confirmation Screen** showing wallet + ticket ID
+- 🔄 **Epoch Sync Indicator** (optional, for advanced users tracking tick-chain timing)
+- 🔐 **Privacy Notice** explaining how wallet addresses are stored or used
+
+---
+
+Want help integrating this into a full lottery entry flow or adding branding elements that reflect your soulful vision? I’d love to co-create that with you.
