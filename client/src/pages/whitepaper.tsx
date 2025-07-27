@@ -116,7 +116,14 @@ export default function WhitePaper() {
               <li><strong>Superior Randomness:</strong> Hardware-based entropy generation vs software-based solutions</li>
             </ul>
 
-
+            <h4>2.2.3 Market Opportunity</h4>
+            <p>
+              While Quanta processes ~1,000 transactions weekly on Ethereum, Qubic's lottery engine can handle 
+              millions of simultaneous participants, demonstrating blockchain technology's true potential for 
+              global charitable fundraising at unprecedented scale.
+            </p>
+          </CardContent>
+        </Card>
 
         {/* Implementation Details */}
         <Card className="mb-8">
