@@ -3,6 +3,9 @@ import { Badge } from "@/components/ui/badge";
 import { Users, Code, Lightbulb, Target, Download, Phone, Mail, Twitter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import norlitophoto from "@assets/my face (1)_1753601468402.jpg";
+import shalomphoto from "@assets/Founder1_1753603553138.jpeg";
+import elijohnphoto from "@assets/Founder2_1753603553139.jpeg";
+import jesonphoto from "@assets/Founder3_1753603553140.jpeg";
 
 export default function About() {
   return (
@@ -107,8 +110,12 @@ export default function About() {
 
           <Card className="border-2 border-green-200 hover:border-green-400 transition-colors">
             <CardHeader className="text-center">
-              <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Lightbulb className="h-10 w-10 text-white" />
+              <div className="w-24 h-24 mx-auto mb-4 overflow-hidden rounded-full border-4 border-green-200">
+                <img 
+                  src={shalomphoto} 
+                  alt="Shalom Sepulvida" 
+                  className="w-full h-full object-cover"
+                />
               </div>
               <CardTitle className="text-green-900">Shalom Sepulvida</CardTitle>
               <p className="text-sm text-slate-600">Systems Architect</p>
@@ -123,8 +130,12 @@ export default function About() {
 
           <Card className="border-2 border-purple-200 hover:border-purple-400 transition-colors">
             <CardHeader className="text-center">
-              <div className="w-20 h-20 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Target className="h-10 w-10 text-white" />
+              <div className="w-24 h-24 mx-auto mb-4 overflow-hidden rounded-full border-4 border-purple-200">
+                <img 
+                  src={elijohnphoto} 
+                  alt="Elijohn Sepulvida" 
+                  className="w-full h-full object-cover"
+                />
               </div>
               <CardTitle className="text-purple-900">Elijohn Sepulvida</CardTitle>
               <p className="text-sm text-slate-600">Frontend Developer</p>
@@ -139,8 +150,12 @@ export default function About() {
 
           <Card className="border-2 border-orange-200 hover:border-orange-400 transition-colors">
             <CardHeader className="text-center">
-              <div className="w-20 h-20 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="h-10 w-10 text-white" />
+              <div className="w-24 h-24 mx-auto mb-4 overflow-hidden rounded-full border-4 border-orange-200">
+                <img 
+                  src={jesonphoto} 
+                  alt="Jeson Sepulvida" 
+                  className="w-full h-full object-cover"
+                />
               </div>
               <CardTitle className="text-orange-900">Jeson Sepulvida</CardTitle>
               <p className="text-sm text-slate-600">Project Coordinator</p>
