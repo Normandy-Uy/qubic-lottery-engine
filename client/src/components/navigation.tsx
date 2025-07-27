@@ -52,7 +52,7 @@ export function Navigation() {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+                className="flex items-center space-x-2 px-3 py-2 rounded-lg text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
               >
                 <span>{link.icon}</span>
                 <span>{link.name}</span>
@@ -66,7 +66,7 @@ export function Navigation() {
               <Link key={item.path} href={item.path}>
                 <a
                   className={cn(
-                    "flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                    "flex items-center space-x-2 px-3 py-2 rounded-lg text-base font-medium transition-colors",
                     location === item.path
                       ? "bg-blue-600 text-white"
                       : "text-slate-300 hover:text-white hover:bg-slate-800"
@@ -85,7 +85,7 @@ export function Navigation() {
               <Link key={item.path} href={item.path}>
                 <a
                   className={cn(
-                    "flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                    "flex items-center space-x-2 px-3 py-2 rounded-lg text-base font-medium transition-colors",
                     location === item.path
                       ? "bg-blue-600 text-white"
                       : "text-slate-300 hover:text-white hover:bg-slate-800"
