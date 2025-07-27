@@ -52,9 +52,9 @@ export function Navigation() {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center space-x-2 px-3 py-2 rounded-lg text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+                className="flex items-center space-x-3 px-4 py-2 rounded-lg text-xl font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
               >
-                <span>{link.icon}</span>
+                <span className="text-2xl">{link.icon}</span>
                 <span>{link.name}</span>
               </a>
             ))}
@@ -66,13 +66,13 @@ export function Navigation() {
               <Link key={item.path} href={item.path}>
                 <a
                   className={cn(
-                    "flex items-center space-x-2 px-3 py-2 rounded-lg text-base font-medium transition-colors",
+                    "flex items-center space-x-3 px-4 py-2 rounded-lg text-xl font-medium transition-colors",
                     location === item.path
                       ? "bg-blue-600 text-white"
                       : "text-slate-300 hover:text-white hover:bg-slate-800"
                   )}
                 >
-                  <span>{item.icon}</span>
+                  <span className="text-2xl">{item.icon}</span>
                   <span>{item.name}</span>
                 </a>
               </Link>
@@ -85,13 +85,13 @@ export function Navigation() {
               <Link key={item.path} href={item.path}>
                 <a
                   className={cn(
-                    "flex items-center space-x-2 px-3 py-2 rounded-lg text-base font-medium transition-colors",
+                    "flex items-center space-x-3 px-4 py-2 rounded-lg text-xl font-medium transition-colors",
                     location === item.path
                       ? "bg-blue-600 text-white"
                       : "text-slate-300 hover:text-white hover:bg-slate-800"
                   )}
                 >
-                  <span>{item.icon}</span>
+                  <span className="text-2xl">{item.icon}</span>
                   <span>{item.name}</span>
                 </a>
               </Link>
