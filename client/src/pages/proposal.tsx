@@ -1,9 +1,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { CheckCircle, Users, Code, Rocket, Target, Calendar, DollarSign, Circle } from "lucide-react";
+import { CheckCircle, Users, Code, Rocket, Target, Calendar, DollarSign, Circle, Download } from "lucide-react";
 
 export default function Proposal() {
+  const handleDownloadPDF = () => {
+    window.print();
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -15,9 +20,20 @@ export default function Proposal() {
           <h1 className="text-4xl font-bold text-slate-900 mb-4">
             Qubic Fortress-Class Charitable Lottery Engine
           </h1>
-          <p className="text-lg text-slate-600 max-w-3xl mx-auto">
+          <p className="text-lg text-slate-600 max-w-3xl mx-auto mb-6">
             Comprehensive project proposal for blockchain-powered charitable fundraising platform
           </p>
+          
+          {/* Download PDF Button */}
+          <div className="print:hidden">
+            <Button 
+              onClick={handleDownloadPDF}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+            >
+              <Download className="w-5 h-5 mr-2" />
+              Download as PDF
+            </Button>
+          </div>
         </div>
 
         {/* 1. Introductory Chapter */}

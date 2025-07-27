@@ -163,3 +163,57 @@
 .code-highlight .function {
   @apply text-cyan-400;
 }
+
+/* Print styles for PDF generation */
+@media print {
+  @page {
+    size: A4;
+    margin: 0.5in;
+  }
+  
+  body {
+    font-size: 12pt;
+    line-height: 1.4;
+    color: black !important;
+    background: white !important;
+  }
+  
+  .print\\:hidden {
+    display: none !important;
+  }
+  
+  /* Remove backgrounds and shadows for print */
+  * {
+    background: white !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  /* Ensure text is black for print */
+  h1, h2, h3, h4, h5, h6, p, li, span, div {
+    color: black !important;
+  }
+  
+  /* Page breaks */
+  .page-break {
+    page-break-before: always;
+  }
+  
+  /* Avoid page breaks inside cards */
+  .card {
+    page-break-inside: avoid;
+    margin-bottom: 20pt;
+  }
+  
+  /* Navigation should not print */
+  nav {
+    display: none !important;
+  }
+  
+  /* Optimize spacing for print */
+  .max-w-5xl {
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
